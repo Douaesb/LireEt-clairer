@@ -59,10 +59,10 @@
         </div>
 
         <div class="hidden lg:flex gap-4">
-            <div
-                class="px-6 py-1.5 bg-yellow-900 rounded-full border-2 border-amber-300 text-white text-center text-lg font-bold font-['Cardo'] leading-normal tracking-tight">
+                 <a                 class="px-6 py-1.5 bg-yellow-900 rounded-full border-2 border-amber-300 text-white text-center text-lg font-bold font-['Cardo'] leading-normal tracking-tight"
+                    href="{{route('login')}}">
                 Login
-            </div>
+                </a>
             <div
                 class="px-6 py-1.5 bg-amber-400 rounded-full text-yellow-900 text-center text-lg font-bold font-['Cardo'] leading-normal tracking-tight">
                 Register

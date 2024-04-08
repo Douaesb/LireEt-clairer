@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +37,13 @@ Route::get('/oneBook', function () {
 Route::get('/oneAccessoire', function () {
     return view('oneAccessoire');
 });
+
+// Route::get('/login', function () {
+//     return view('auth/login')->name('login');
+// });
+
+Route::get('/login',[UserController::class, 'loginV'])->name('login');
+Route::get('/register',[UserController::class, 'registerV'])->name('register');
+
+Route::post('/login',[UserController::class, 'login'])->name('loginP');
+Route::post('/register',[UserController::class, 'register'])->name('registerP');

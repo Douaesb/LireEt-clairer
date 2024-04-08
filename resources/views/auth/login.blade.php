@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{{ asset('css/font.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    <title>Books</title>
+</head>
+
+<body>
+    <div class="flex m-auto bg-yellow-900 justify-center items-center h-[100vh]">
+        <div class="grid md:grid-cols-2 grid-cols-1 p-16 bg-amber-400 w-3/5 h-3/5">
+            <div class="flex justify-center bg-white">
+                <img src="img/booksyellow.png" alt="book image">
+            </div>
+            <div class="w-full flex flex-col justify-center items-center gap-4 ">
+
+                <div class="flex flex-col gap-4 h-full justify-center">
+                    <div class="flex justfiy-center flex-col">
+                        <h1 class="font-[Inter] text-4xl font-semibold flex w-full justify-center "> Login to your account
+                        </h1>
+                    </div>
+                    <form action="{{route('loginP')}}" method="POST">
+                        @csrf
+                        <div>
+                            <label class="font-semibold text-xl p-2" for="">Email : </label>
+                            <input class="mt-2 mb-2 w-full px-6 py-2 rounded-xl" type="email" name="email"
+                                placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label class="font-semibold text-xl p-2" for="">Password : </label>
+                            <input class="mt-2 w-full px-6 py-2 rounded-xl" type="password" name="password"
+                                placeholder="Enter your password">
+                        </div>
+                        <div class="flex mt-4 justify-center w-full ">
+
+                            <button class="mb-2 bg-yellow-900 text-white w-full py-2 rounded-xl font-[Inter] text-xl">
+                                Login
+                            </button>
+                        </div>
+                        <span class="font-semibold">Forgot your password ?</span>
+                        <hr class="border-yellow-900 mt-4 mb-4">
+                        Don't have an Account ? <a class="text-gray-700 underline" href="{{route('register')}}">Create account here</a>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</body>
+
+</html>
