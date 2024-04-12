@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\CategorieController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -51,4 +52,12 @@ Route::post('/logout',[UserController::class, 'logout'])->name('logout');
 
 
 Route::get('/dashboard',[UserController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/categories',[CategorieController::class, 'categories'])->name('admin.categories');
+Route::get('/users',[UserController::class, 'users'])->name('admin.users');
+
 Route::get('/home',[UserController::class, 'home'])->name('client.home');
+
+
+Route::post('/categorie',[CategorieController::class, 'store'])->name('categorie.store');
+Route::put('/categorie/update',[CategorieController::class, 'update'])->name('categorie.update');
+Route::delete('/categorie/{id}',[CategorieController::class, 'destroy'])->name('categorie.destroy');

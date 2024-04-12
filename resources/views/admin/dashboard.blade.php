@@ -34,12 +34,12 @@
         <!-- End of Burger menu -->
         <div id="nav-links" class="hidden lg:flex md:bg-yellow-900 bg-black p-3 md:mt-0 mt-36 ">
             <ul class="lg:flex gap-6 text-white list-none ">
-                <a href="">Dashboard</a>
-                <a href="">Utilisateurs</a>
-                <a href="">Categories</a>
-                <a href="">Livres</a>
-                <a href="">Accessoires</a>
-                <a href="">Communauté</a>
+                <a href="{{route('admin.dashboard')}}">Dashboard</a>
+                <a href="{{route('admin.users')}}">Utilisateurs</a>
+                <a href="{{route('admin.categories')}}">Categories</a>
+                {{-- <a href="{{route('dashboard')}}">Livres</a>
+                <a href="{{route('dashboard')}}">Accessoires</a>
+                <a href="{{route('dashboard')}}">Communauté</a> --}}
 
             </ul>
             {{-- </div> --}}
@@ -68,7 +68,7 @@
         </div>
     </nav>
 
-    <section class=" px-4 lg:px-20 py-9 m-auto h-[90vh] w-3/5">
+    <section class=" px-4 lg:px-20 py-9 m-auto h-[80vh] w-3/5">
         <div class="border-2 border-amber-400 h-full flex rounded-3xl flex-col">
             <div class="flex justify-center w-full pt-4 pb-4 ">
                 <h2 class="font-semibold font-[inter] text-4xl text-amber-400">

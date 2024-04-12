@@ -85,6 +85,10 @@ class UserController extends Controller
     public function dashboard(){
         return view('admin.dashboard');
     }
+   
+    public function users(){
+        return view('admin.users');
+    }
 
     public function home(){
         return view('client.home');
