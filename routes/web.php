@@ -47,3 +47,8 @@ Route::get('/register',[UserController::class, 'registerV'])->name('register');
 
 Route::post('/login',[UserController::class, 'login'])->name('loginP');
 Route::post('/register',[UserController::class, 'register'])->name('registerP');
+Route::post('/logout',[UserController::class, 'logout'])->name('logout');
+
+
+Route::get('/dashboard',[UserController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/home',[UserController::class, 'home'])->name('client.home');

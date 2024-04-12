@@ -12,14 +12,16 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
 
-    public function loginV(){
+    public function loginV()
+    {
         return view('auth/login');
     }
 
-    public function registerV(){
+    public function registerV()
+    {
         return view('auth/register');
     }
-    
+
     public function register(Request $request)
     {
         $request->validate([
@@ -30,7 +32,7 @@ class UserController extends Controller
         ]);
         $data = $request->all();
         $this->create($data);
-        return redirect('login')->withSuccess('registered successfully');
+        return $this->redirectBasedOnRole();
     }
 
 
@@ -41,12 +43,11 @@ class UserController extends Controller
             'password' => 'required'
 
         ]);
-        $check = $request->only('email','password');
-        if(Auth::attempt($check)){
-            return ('logged in successfully');
+        $check = $request->only('email', 'password');
+        if (Auth::attempt($check)) {
+            return $this->redirectBasedOnRole();
         }
         return redirect('login')->withSuccess('incorrect credentials');
-
     }
 
     public function create(array $data)
@@ -69,5 +70,23 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/');
+    }
+
+    protected function redirectBasedOnRole()
+    {
+        $user = auth()->user();
+        if ($user->role == 'admin') {
+            return redirect()->route('admin.dashboard');
+        } else {
+            return redirect()->route('client.home');
+        }
+    }
+
+    public function dashboard(){
+        return view('admin.dashboard');
+    }
+
+    public function home(){
+        return view('client.home');
     }
 }
