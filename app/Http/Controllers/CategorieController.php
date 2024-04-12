@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class CategorieController extends Controller
 {
     public function categories(){
-        $categories = Categorie::all();
+        $categories = Categorie::orderBy('created_at','desc')->get();
         return view('admin.categories', compact('categories'));
     }
 

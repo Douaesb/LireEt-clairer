@@ -82,15 +82,47 @@ class UserController extends Controller
         }
     }
 
-    public function dashboard(){
+    public function dashboard()
+    {
         return view('admin.dashboard');
     }
-   
-    public function users(){
-        return view('admin.users');
+
+    public function users()
+    {
+        $users = User::orderBy('created_at', 'desc')->get();
+        return view('admin.users', compact('users'));
     }
 
-    public function home(){
+    public function home()
+    {
         return view('client.home');
+    }
+
+    public function banUser($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            // die('here');
+            $user->update(['ban' => true]);
+            // dd($user->ban);
+            if (auth()->check() && auth()->user()->id == $id) {
+                auth()->logout();
+                return redirect()->route('login')->with('banned_message', 'You are banned from logging in.');
+            }
+
+            return redirect()->route('admin.users')->with('success', 'User has been banned.');
+        }
+
+        return redirect()->route('admin.users')->with('error', 'User not found.');
+    }
+
+    public function unbanUser($id)
+    {
+        $user = User::find($id);
+        if ($user) {
+            $user->update(['ban' => false]);
+            return redirect()->route('admin.users')->with('success', 'User unbanned successfully.');
+        }
+        return redirect()->route('admin.users')->with('error', 'User not found.');
     }
 }

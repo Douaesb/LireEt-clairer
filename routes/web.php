@@ -61,3 +61,7 @@ Route::get('/home',[UserController::class, 'home'])->name('client.home');
 Route::post('/categorie',[CategorieController::class, 'store'])->name('categorie.store');
 Route::put('/categorie/update',[CategorieController::class, 'update'])->name('categorie.update');
 Route::delete('/categorie/{id}',[CategorieController::class, 'destroy'])->name('categorie.destroy');
+
+Route::put('/user/ban/{id}', [UserController::class, 'banUser'])->name('ban.user');
+Route::put('/user/unban/{id}', [UserController::class, 'unbanUser'])->name('unban.user');
+
