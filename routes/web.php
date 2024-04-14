@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategorieController;
 use Illuminate\Support\Facades\Route;
 
@@ -64,4 +65,6 @@ Route::delete('/categorie/{id}',[CategorieController::class, 'destroy'])->name('
 
 Route::put('/user/ban/{id}', [UserController::class, 'banUser'])->name('ban.user');
 Route::put('/user/unban/{id}', [UserController::class, 'unbanUser'])->name('unban.user');
+
+Route::get('/books',[BookController::class, 'index'])->name('books');
 

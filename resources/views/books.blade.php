@@ -91,18 +91,19 @@
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
             </div>
             <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
+                @foreach ($bookData as $book)
+                    
                 <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
                     <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
+                        <img src={{$book['thumbnail']}} alt="">
                     </div>
                     <div class="w-11/12 gap-3 flex flex-col">
                         <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
+                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book['title']}}</h3>
                             <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
                         </div>
                         <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
+                           {{substr($book['description'], 0, 100) }}
                         </p>
                         <div class="flex gap-2 ">
                             <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
@@ -112,111 +113,11 @@
                         <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
                     </div>
                 </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
-                            </div>
-                        </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
-                            </div>
-                        </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
-                            </div>
-                        </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
-                            </div>
-                        </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src="../img/booksyellow.png" alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Atomic One’s</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nam velit dicta reprehenderit
-                            eveni
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
-                            </div>
-                        </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
-                    </div>
-                </div>
+                @endforeach
+                
+                
+                
+                
             </div>
 
             <div class="flex justify-center pt-8 gap-4">

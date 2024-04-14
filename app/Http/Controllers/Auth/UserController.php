@@ -89,7 +89,7 @@ class UserController extends Controller
 
     public function users()
     {
-        $users = User::orderBy('created_at', 'desc')->get();
+        $users = User::where('role','<>','admin')->orderBy('created_at', 'desc')->get();
         return view('admin.users', compact('users'));
     }
 
