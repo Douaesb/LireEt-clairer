@@ -91,138 +91,33 @@
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
             </div>
             <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture de
-                                Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
+                {{-- @dd($products) --}}
+                @foreach ($products as $product)
+                    <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
+                        <img src="{{ $product['image'] }}" alt="">
+                        <div class="w-11/12 gap-3 flex flex-col">
+                            <div class="flex justify-between px-2">
+                                <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">{{ $product['name'] }}
+                                </h3>
+                            </div>
+                            <p class="text-slate-400 text-lg p-2">
+                                Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables,
+                                Pliable
+                                à 360°.
+                            </p>
 
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture de
-                                Cou</h3>
                         </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
                     </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture de
-                                Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
+                    
+                @endforeach
 
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture de
-                                Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
 
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture
-                                de Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture
-                                de Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture
-                                de Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture
-                                de Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
-                    </div>
-                </div>
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <img src="../img/booksyellow.png" alt="">
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">Diboniur Lampe de Lecture
-                                de Cou</h3>
-                        </div>
-                        <p class="text-slate-400 text-lg p-2">
-                            Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables, Pliable
-                            à 360°.
-                        </p>
-
-                    </div>
-                </div>
 
             </div>
 
             <div class="flex justify-center pt-8 gap-4">
-                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
+                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                    stroke="#FFCA42" transform="rotate(180)">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
