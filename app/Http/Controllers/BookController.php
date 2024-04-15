@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Services\GoogleBooksService;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -29,9 +30,10 @@ class BookController extends Controller
                 $bookData = [];
 
                 // dd($books);
+                
                 foreach ($books as $book) {
                     $bookInfo = [
-                        'category' => $categories,
+                        'category' => isset($book['volumeInfo']['categories'][0]) ? $book['volumeInfo']['categories'][0] : 'book' ,
                         'title' => $book['volumeInfo']['title'],
                         'authors' => isset($book['volumeInfo']['authors']) ? implode(", ", $book['volumeInfo']['authors']) : 'Unknown Author',
                         'description' => $book['volumeInfo']['description'] ?? 'No description available',
@@ -58,21 +60,42 @@ class BookController extends Controller
     }
 
 
+    public function createBooks($bookData)
+    {
+        foreach ($bookData as $book) {
+                    $pageCount = is_numeric($book['pageCount']) ? $book['pageCount'] : null;
 
+            Book::create([
+                'category' => $book['category'],
+                'title' => $book['title'],
+                'authors' => $book['authors'],
+                'description' => $book['description'],
+                'image_url' => $book['thumbnail'],
+                'average_rating' => $book['averageRating'],
+                'page_count' => $pageCount,
+                'language' => $book['language'],
+                'pdf_url' => $book['pdf'],
+            ]);
+        }
+    }
+
+    
     public function index()
     {
         $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"]; // Example categories
         $languages = ["en", "fr", "ar"]; // Example languages (English, French, Arabic)
-        $maxResults = 20; // Example maximum number of books
+        $maxResults = 40; // Example maximum number of books
         $bookData = $this->getBookData($categories, $languages, $maxResults);
-
+    // dd($bookData);
+        $this->createBooks($bookData);
+    
         $booksWithImages = array_filter($bookData, function ($book) {
             return isset($book['thumbnail']) && $book['thumbnail'] != '';
         });
-
+    
         return view('books', ['bookData' => $booksWithImages]);
     }
-
+    
 
     // public function search(Request $request, GoogleBooksService $googleBooksService = null)
     // {
