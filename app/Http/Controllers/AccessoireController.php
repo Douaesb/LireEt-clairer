@@ -78,4 +78,11 @@ class AccessoireController extends Controller
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
     }
+
+    public function show($id)
+    {
+        $accessoire = Article::findOrFail($id);
+        return view('oneAccessoire', ['accessoire' => $accessoire]);
+    }
+    
 }

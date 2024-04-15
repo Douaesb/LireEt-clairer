@@ -72,5 +72,5 @@ Route::get('/accessoires',[AccessoireController::class, 'displayAccessories'])->
 
 Route::get('/books/{id}',[BookController::class, 'show'])->name('books.show');
 
-Route::get('/accessoires/{id}',[BookController::class, 'show'])->name('accessoires.show');
+Route::get('/accessoires/{id}',[AccessoireController::class, 'show'])->name('accessoires.show');
 

@@ -83,12 +83,18 @@
         <div class="w-8/12 flex justify-center items-center">
             <div class="flex gap-8">
                 <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4 h-[60vh]">
-                    <img src="../img/booksyellow.png" alt="">
+                    <img src="{{$accessoire->photo}}" alt="">
                 </div>
                 <div class="flex flex-col gap-4 justify-center">
-                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Glocusent Lampe</h3>
+                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$accessoire->titre}}</h3>
                     <span class="text-2xl font-semibold font-[cardp] text-amber-300">$30.00 USD</span>
                     <ul>
+                        @foreach (explode('</li><li>', $accessoire->description) as $item)
+                            <li class="text-slate-400 text-lg p-2 list-disc">{!! str_replace(['<li>', '</li>'], '', $item) !!}</li>
+                        @endforeach
+                    </ul>
+                    
+                    {{-- <ul>
                         <li class="text-slate-400 text-lg p-2 list-disc">Bras télescopique pour livres de petite et moyenne taille ; couverture rigide ou papier
                         </li>
                         <li class="text-slate-400 text-lg p-2 list-disc">Design léger, mais très robuste, ce qui signifie qu'il est excellent pour les voyages ; excellent pour la lecture mains libres au bord de la piscine ou sur la plage
@@ -101,7 +107,7 @@
                         <li class="text-slate-400 text-lg p-2 list-disc">
                             Disponible dans une gamme de couleurs attrayantes et éclatantes                        </li>
 
-                    </ul>
+                    </ul> --}}
                     <div class="flex gap-2">
                         <div class="border border-amber-300 px-12 py-4 text-center text-xl text-slate-400">1</div>
                         <div
