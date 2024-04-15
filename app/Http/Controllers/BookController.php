@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Categorie;
 use App\Services\GoogleBooksService;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
@@ -12,90 +13,105 @@ class BookController extends Controller
 {
 
 
-    public function getBookData($categories, $languages, $maxResults)
-    {
-        $categoryQuery = implode('+', $categories);
-        $languageQuery = implode('+', $languages);
+    // public function getBookData($categories, $languages, $maxResults)
+    // {
+    //     $categoryQuery = implode('+', $categories);
+    //     $languageQuery = implode('+', $languages);
 
-        $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($categoryQuery) . "&langRestrict=" . urlencode($languageQuery) . "&maxResults=" . $maxResults;
+    //     $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($categoryQuery) . "&langRestrict=" . urlencode($languageQuery) . "&maxResults=" . $maxResults;
 
-        $response = Http::get($url);
+    //     $response = Http::get($url);
 
-        if ($response->successful()) {
-            $data = $response->json();
+    //     if ($response->successful()) {
+    //         $data = $response->json();
 
-            if (isset($data['items'])) {
-                $books = $data['items'];
+    //         if (isset($data['items'])) {
+    //             $books = $data['items'];
 
-                $bookData = [];
+    //             $bookData = [];
 
-                // dd($books);
+    //             // dd($books);
                 
-                foreach ($books as $book) {
-                    $bookInfo = [
-                        'category' => isset($book['volumeInfo']['categories'][0]) ? $book['volumeInfo']['categories'][0] : 'book' ,
-                        'title' => $book['volumeInfo']['title'],
-                        'authors' => isset($book['volumeInfo']['authors']) ? implode(", ", $book['volumeInfo']['authors']) : 'Unknown Author',
-                        'description' => $book['volumeInfo']['description'] ?? 'No description available',
-                        'thumbnail' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? 'No thumbnail available',
-                        'averageRating' => $book['volumeInfo']['averageRating'] ?? 'N/A',
-                        'pageCount' => $book['volumeInfo']['pageCount'] ?? 'N/A',
-                        'language' => $book['volumeInfo']['language'] ?? 'N/A',
-                        'pdf' => isset($book['accessInfo']['pdf']['acsTokenLink']) ?
-                            $book['accessInfo']['pdf']['acsTokenLink'] :
-                            'Not available',
-                    ];
+    //             foreach ($books as $book) {
+    //                 $bookInfo = [
+    //                     'category' => isset($book['volumeInfo']['categories'][0]) ? $book['volumeInfo']['categories'][0] : 'book' ,
+    //                     'title' => $book['volumeInfo']['title'],
+    //                     'authors' => isset($book['volumeInfo']['authors']) ? implode(", ", $book['volumeInfo']['authors']) : 'Unknown Author',
+    //                     'description' => $book['volumeInfo']['description'] ?? 'No description available',
+    //                     'thumbnail' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? 'No thumbnail available',
+    //                     'averageRating' => $book['volumeInfo']['averageRating'] ?? 'N/A',
+    //                     'pageCount' => $book['volumeInfo']['pageCount'] ?? 'N/A',
+    //                     'language' => $book['volumeInfo']['language'] ?? 'N/A',
+    //                     'pdf' => isset($book['accessInfo']['pdf']['acsTokenLink']) ?
+    //                         $book['accessInfo']['pdf']['acsTokenLink'] :
+    //                         'Not available',
+    //                 ];
 
-                    $bookData[] = $bookInfo;
-                }
-
-
-                return $bookData;
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-    }
+    //                 $bookData[] = $bookInfo;
+    //             }
 
 
-    public function createBooks($bookData)
+    //             return $bookData;
+    //         } else {
+    //             return null;
+    //         }
+    //     } else {
+    //         return null;
+    //     }
+    // }
+
+
+    // public function createBooks($bookData)
+    // {
+    //     foreach ($bookData as $book) {
+    //                 $pageCount = is_numeric($book['pageCount']) ? $book['pageCount'] : null;
+
+    //         Book::create([
+    //             'category' => $book['category'],
+    //             'title' => $book['title'],
+    //             'authors' => $book['authors'],
+    //             'description' => $book['description'],
+    //             'image_url' => $book['thumbnail'],
+    //             'average_rating' => $book['averageRating'],
+    //             'page_count' => $pageCount,
+    //             'language' => $book['language'],
+    //             'pdf_url' => $book['pdf'],
+    //         ]);
+    //     }
+    // }
+
+    
+    // public function index()
+    // {
+    //     $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"]; 
+    //     $languages = ["en", "fr", "ar"]; 
+    //     $maxResults = 40; 
+    //     $bookData = $this->getBookData($categories, $languages, $maxResults);
+    // // dd($bookData);
+    //     $this->createBooks($bookData);
+    
+    //     $booksWithImages = array_filter($bookData, function ($book) {
+    //         return isset($book['thumbnail']) && $book['thumbnail'] != '';
+    //     });
+    
+    //     return view('books', ['bookData' => $booksWithImages]);
+    // }
+    
+    public function displayBooks()
     {
-        foreach ($bookData as $book) {
-                    $pageCount = is_numeric($book['pageCount']) ? $book['pageCount'] : null;
-
-            Book::create([
-                'category' => $book['category'],
-                'title' => $book['title'],
-                'authors' => $book['authors'],
-                'description' => $book['description'],
-                'image_url' => $book['thumbnail'],
-                'average_rating' => $book['averageRating'],
-                'page_count' => $pageCount,
-                'language' => $book['language'],
-                'pdf_url' => $book['pdf'],
-            ]);
-        }
+        
+            $books = Book::paginate(6);
+            // dd($products);
+            return view('books', ['bookData' => $books]);
+        
     }
 
-    
-    public function index()
-    {
-        $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"]; // Example categories
-        $languages = ["en", "fr", "ar"]; // Example languages (English, French, Arabic)
-        $maxResults = 40; // Example maximum number of books
-        $bookData = $this->getBookData($categories, $languages, $maxResults);
-    // dd($bookData);
-        $this->createBooks($bookData);
-    
-        $booksWithImages = array_filter($bookData, function ($book) {
-            return isset($book['thumbnail']) && $book['thumbnail'] != '';
-        });
-    
-        return view('books', ['bookData' => $booksWithImages]);
-    }
-    
+    public function show($id)
+{
+    $book = Book::findOrFail($id);
+    return view('oneBook', ['book' => $book]);
+}
+
 
     // public function search(Request $request, GoogleBooksService $googleBooksService = null)
     // {

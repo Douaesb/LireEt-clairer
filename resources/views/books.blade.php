@@ -91,27 +91,46 @@
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
             </div>
             <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
+                {{-- @dd($bookData) --}}
                 @foreach ($bookData as $book)
                     
                 <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
                     <div class="bg-slate-100 w-full flex justify-center">
-                        <img src={{$book['thumbnail']}} alt="">
+                        <img src={{$book->image_url}} alt="">
                     </div>
                     <div class="w-11/12 gap-3 flex flex-col">
                         <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book['title']}}</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">$23.89</span>
+                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book->title}}</h3>
+                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
                         </div>
                         <p class="text-slate-400 text-lg p-2">
-                           {{substr($book['description'], 0, 100) }}
+                           {{substr($book->description, 0, 100) }}
                         </p>
                         <div class="flex gap-2 ">
                             <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">Printed Books
+                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">{{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }} 
                             </div>
                         </div>
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Order Today </button>
+                        <div class="flex justify-between">
+
+                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart  </button>
+                        <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
+                            <svg width='28px' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </g>
+                            </svg>
+                            <span class="mt-2 ml-1 text-amber-400 underline">
+                                View more
+                            </span>
+                          
+                        </a>
                     </div>
+
+                                            </div>
                 </div>
                 @endforeach
                 
@@ -121,17 +140,41 @@
             </div>
 
             <div class="flex justify-center pt-8 gap-4">
-                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z"></path> </g></svg>
-                <div class="relative rounded-full w-16 h-16 border border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl font-[cardo]">1</span>
-                </div>
-                <div class="relative rounded-full w-16 h-16  bg-yellow-900 border-2 border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl text-white font-[cardo]">2</span>
-                </div>
-                <div class="relative rounded-full w-16 h-16 border border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl font-[cardo]">3</span>
-                </div>
-                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z"></path> </g></svg>
+                @if ($bookData->previousPageUrl())
+                    <a href="{{ $bookData->previousPageUrl() }}" class="flex justify-end">
+                        <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg> </a>
+                @endif
+                @for ($i = max(1, $bookData->currentPage() - 1); $i <= min($bookData->lastPage(), $bookData->currentPage() + 1); $i++)
+                    <div
+                        class="relative rounded-full w-16 h-16 {{ $i === $bookData->currentPage() ? 'bg-yellow-900' : 'border border-amber-300' }}">
+                        <a href="{{ $bookData->url($i) }}">
+                            <span
+                                class="absolute left-6 top-2 font-bold text-4xl {{ $i === $bookData->currentPage() ? 'text-white' : 'text-black' }} font-[cardo]">{{ $i }}</span>
+                        </a>
+                    </div>
+                @endfor
+                @if ($bookData->nextPageUrl())
+                    <a href="{{ $bookData->nextPageUrl() }}" class="flex justify-end">
+                        <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg> </a>
+                @endif
             </div>
         </div>
 

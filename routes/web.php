@@ -67,6 +67,10 @@ Route::delete('/categorie/{id}',[CategorieController::class, 'destroy'])->name('
 Route::put('/user/ban/{id}', [UserController::class, 'banUser'])->name('ban.user');
 Route::put('/user/unban/{id}', [UserController::class, 'unbanUser'])->name('unban.user');
 
-Route::get('/books',[BookController::class, 'index'])->name('books');
+Route::get('/books',[BookController::class, 'displayBooks'])->name('books');
 Route::get('/accessoires',[AccessoireController::class, 'displayAccessories'])->name('accessoires');
+
+Route::get('/books/{id}',[BookController::class, 'show'])->name('books.show');
+
+Route::get('/accessoires/{id}',[BookController::class, 'show'])->name('accessoires.show');
 
