@@ -15,45 +15,39 @@ class BookController extends Controller
     {
         $categoryQuery = implode('+', $categories);
         $languageQuery = implode('+', $languages);
-    
+
         $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($categoryQuery) . "&langRestrict=" . urlencode($languageQuery) . "&maxResults=" . $maxResults;
-    
+
         $response = Http::get($url);
-    
+
         if ($response->successful()) {
             $data = $response->json();
-    
+
             if (isset($data['items'])) {
                 $books = $data['items'];
-    
+
                 $bookData = [];
-    
+
+                // dd($books);
                 foreach ($books as $book) {
-                    $bookInfo = [];
-    
-                    $bookInfo['title'] = $book['volumeInfo']['title'];
-    
-                    if (isset($book['volumeInfo']['authors'])) {
-                        $bookInfo['authors'] = implode(", ", $book['volumeInfo']['authors']);
-                    } else {
-                        $bookInfo['authors'] = "Auteur inconnu";
-                    }
-    
-                    if (isset($book['volumeInfo']['description'])) {
-                        $bookInfo['description'] = $book['volumeInfo']['description'];
-                    } else {
-                        $bookInfo['description'] = "Pas de description disponible";
-                    }
-    
-                    if (isset($book['volumeInfo']['imageLinks']['thumbnail'])) {
-                        $bookInfo['thumbnail'] = $book['volumeInfo']['imageLinks']['thumbnail'];
-                    } else {
-                        $bookInfo['thumbnail'] = "Pas d'image de couverture disponible";
-                    }
-    
+                    $bookInfo = [
+                        'category' => $categories,
+                        'title' => $book['volumeInfo']['title'],
+                        'authors' => isset($book['volumeInfo']['authors']) ? implode(", ", $book['volumeInfo']['authors']) : 'Unknown Author',
+                        'description' => $book['volumeInfo']['description'] ?? 'No description available',
+                        'thumbnail' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? 'No thumbnail available',
+                        'averageRating' => $book['volumeInfo']['averageRating'] ?? 'N/A',
+                        'pageCount' => $book['volumeInfo']['pageCount'] ?? 'N/A',
+                        'language' => $book['volumeInfo']['language'] ?? 'N/A',
+                        'pdf' => isset($book['accessInfo']['pdf']['acsTokenLink']) ?
+                            $book['accessInfo']['pdf']['acsTokenLink'] :
+                            'Not available',
+                    ];
+
                     $bookData[] = $bookInfo;
                 }
-    
+
+
                 return $bookData;
             } else {
                 return null;
@@ -62,28 +56,28 @@ class BookController extends Controller
             return null;
         }
     }
-    
-    
- 
+
+
+
     public function index()
     {
-        $categories = ["science fiction", "history", "biography"]; // Example categories
+        $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"]; // Example categories
         $languages = ["en", "fr", "ar"]; // Example languages (English, French, Arabic)
         $maxResults = 20; // Example maximum number of books
         $bookData = $this->getBookData($categories, $languages, $maxResults);
-      
+
         $booksWithImages = array_filter($bookData, function ($book) {
             return isset($book['thumbnail']) && $book['thumbnail'] != '';
         });
-    
+
         return view('books', ['bookData' => $booksWithImages]);
     }
-    
+
 
     // public function search(Request $request, GoogleBooksService $googleBooksService = null)
     // {
 
-       
+
     //     $query = $request->get('query');
 
     //     if (!$query) {
@@ -97,7 +91,7 @@ class BookController extends Controller
     //         $client = new Client();
     //         $search = 'lang=fr'; 
     //         $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($search) . "&orderBy=relevance&maxResults=10&key=" . env('GOOGLE_BOOKS_API_KEY');
-    
+
     //         $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($query) . "&key=" . $apiKey;
 
     //         $response = $client->request('GET', $url);
