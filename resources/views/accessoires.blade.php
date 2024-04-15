@@ -94,58 +94,60 @@
                 {{-- @dd($products) --}}
                 @foreach ($products as $product)
                     <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                        <img src="{{ $product['image'] }}" alt="">
+                        <img src="{{ $product->photo }}" alt="">
                         <div class="w-11/12 gap-3 flex flex-col">
                             <div class="flex justify-between px-2">
-                                <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">{{ $product['name'] }}
+                                <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">
+                                    {{ substr($product->titre, 0, 55) }}
                                 </h3>
                             </div>
                             <p class="text-slate-400 text-lg p-2">
-                                Lampe lecture Rechargeable au lit, 3 Couleurs et 3 Niveaux de Luminosité Réglables,
-                                Pliable
-                                à 360°.
+                                {{ $product->description }}
                             </p>
 
                         </div>
                     </div>
-                    
                 @endforeach
-
-
-
             </div>
 
             <div class="flex justify-center pt-8 gap-4">
-                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                    stroke="#FFCA42" transform="rotate(180)">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
-                        </path>
-                    </g>
-                </svg>
-                <div class="relative rounded-full w-16 h-16 border border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl font-[cardo]">1</span>
-                </div>
-                <div class="relative rounded-full w-16 h-16  bg-yellow-900 border-2 border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl text-white font-[cardo]">2</span>
-                </div>
-                <div class="relative rounded-full w-16 h-16 border border-amber-300 ">
-                    <span class="absolute left-6 top-2 font-bold text-4xl font-[cardo]">3</span>
-                </div>
-                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
-                    xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <path
-                            d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
-                        </path>
-                    </g>
-                </svg>
+                @if ($products->previousPageUrl())
+                    <a href="{{ $products->previousPageUrl() }}" class="flex justify-end">
+                        <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg> </a>
+                @endif
+                @for ($i = max(1, $products->currentPage() - 1); $i <= min($products->lastPage(), $products->currentPage() + 1); $i++)
+                    <div
+                        class="relative rounded-full w-16 h-16 {{ $i === $products->currentPage() ? 'bg-yellow-900' : 'border border-amber-300' }}">
+                        <a href="{{ $products->url($i) }}">
+                            <span
+                                class="absolute left-6 top-2 font-bold text-4xl {{ $i === $products->currentPage() ? 'text-white' : 'text-black' }} font-[cardo]">{{ $i }}</span>
+                        </a>
+                    </div>
+                @endfor
+                @if ($products->nextPageUrl())
+                    <a href="{{ $products->nextPageUrl() }}" class="flex justify-end">
+                        <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg> </a>
+                @endif
             </div>
+
         </div>
 
     </section>

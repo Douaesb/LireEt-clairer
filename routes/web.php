@@ -68,5 +68,5 @@ Route::put('/user/ban/{id}', [UserController::class, 'banUser'])->name('ban.user
 Route::put('/user/unban/{id}', [UserController::class, 'unbanUser'])->name('unban.user');
 
 Route::get('/books',[BookController::class, 'index'])->name('books');
-Route::get('/accessoires',[AccessoireController::class, 'getAccessories'])->name('accessoires');
+Route::get('/accessoires',[AccessoireController::class, 'displayAccessories'])->name('accessoires');
 
