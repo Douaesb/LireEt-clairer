@@ -103,14 +103,8 @@
                                 <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
                             </div>
                             <p class="text-slate-400 text-lg p-2">
-                                @foreach (explode('</li><li>', $book->description) as $item)
-                                    @php
-                                        $trimmedItem = strip_tags($item);
-                                        $trimmedItem = substr($trimmedItem, 0, 30);
-                                        $trimmedItem .= strlen($trimmedItem) < strlen($item) ? '...' : '';
-                                    @endphp
-                                    <li class="text-slate-400 text-lg p-2 list-disc">{!! $trimmedItem !!}</li>
-                                @endforeach
+                                {{substr($book->description, 0, 150) . '...' }}
+
                             </p>
                             <div class="flex gap-2 ">
                                 <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>

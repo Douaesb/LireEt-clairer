@@ -82,21 +82,21 @@
     <section class="bg-white flex justify-center h-full p-10 flex-col items-center">
         <div class="w-8/12 grid grid-cols-2 justify-center items-center">
             <div class="card shadow-lg flex flex-col w-4/5 justify-start items-center pb-4 gap-4 h-full">
-                <img src="{{$book->image_url}}" alt="" class="w-4/5 h-4/5 object-cover flex justify-center m-auto">
+                <img src="{{$book->photo}}" alt="" class="w-4/5 h-4/5 object-cover flex justify-center m-auto">
             </div>
             
             
             <div class="flex gap-8">
                 <div class="flex flex-col gap-4">
-                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book->title}}</h3>
+                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book->titre}}</h3>
                     {{-- <span class="text-2xl font-semibold font-[cardp] text-amber-300">$30.00 USD</span> --}}
                     
                     <ul>
                         <li class="text-slate-400 text-lg p-2">Category : {{$book->category}}
                         </li>
-                        <li class="text-slate-400 text-lg p-2">Author : {{$book->authors}}
+                        <li class="text-slate-400 text-lg p-2">Author : {{$book->auteur}}
                         </li>
-                        <li class="text-slate-400 text-lg p-2">Language : {{$book->language}}
+                        <li class="text-slate-400 text-lg p-2">Language : {{$book->langues}}
                         </li>
 
                         <li class="text-slate-400 text-lg p-2">Paperback : {{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }} 
@@ -105,10 +105,10 @@
                         <li class="text-slate-400 text-lg p-2">
                             Dimensions : 20 x 14 x 4 cm
                         </li>
-
                     </ul>
                     <p class="text-slate-400 text-lg p-2 w-full">
-                        {{substr($book->description, 0, 820) }}
+                        {{-- {{$book->description}} --}}
+                        {{substr($book->description, 0, 900) }}
                     </p>
                     <div class="flex gap-2">
                         <div class="border border-amber-300 px-12 py-4 text-center text-xl text-slate-400">1</div>
