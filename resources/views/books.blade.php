@@ -142,7 +142,7 @@
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">
                                                     SVG, PNG, JPG or GIF (MAX. 800x400px)
                                                 </p>
-                                               
+
                                             </div>
                                             <input id="dropzone-file" type="file" accept="image/*" class="hidden"
                                                 name="photo" />
@@ -219,8 +219,136 @@
                                     </div>
                                 </div>
                                 <button type="submit"
-                                    class="mt-2 text-white inline-flex items-center bg-blue-500  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    class="mt-2 text-white inline-flex items-center bg-yellow-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                     Ajouter </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div id="popup-modal" tabindex="-1"
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <div
+                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Modifier un livre
+                                </h3>
+                                <button type="button"
+                                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-hide="popup-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <form class="p-4 md:p-5" encType="multipart/form-data" method="POST"
+                                action="{{ route('books.update') }}" id="editBookForm">
+                                @csrf
+                                @method('put')
+                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                    <div class="flex flex-col w-full col-span-2">
+                                        <label
+                                            class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <img id="bookImage" src="" alt="Book Photo"
+                                                    class="w-32 h-32 mb-4">
+                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <span class="font-semibold">Click to upload</span>
+                                                    or drag and drop
+                                                </p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                                </p>
+                                            </div>
+                                            <input id="dropzone-file" type="file" accept="image/*" class="hidden"
+                                                name="photo">
+                                        </label>
+                                    </div>
+
+
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Categorie
+                                        </label>
+                                        <select id="categorie_id" name="categorie_id"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            <option value="" id="">Select category</option>
+                                            @foreach ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                    <input type="hidden" id="bookId" name="id">
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Titre
+                                        </label>
+                                        <input type="text" name="titre" id="bookTitre" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="entrer le titre de l'itinéraire" required="" />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="description"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                        <textarea name="description" id="bookDescription" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="write description here"></textarea>
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Price
+                                        </label>
+                                        <input type="text" name="price" id="bookPrice" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="price" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Page Count
+                                        </label>
+                                        <input type="text" name="page_count" id="bookPageCount" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="pages" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Auteur
+                                        </label>
+                                        <input type="text" name="auteur" id="bookAuteur" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="auteur" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Langue
+                                        </label>
+                                        <input type="text" name="langues" id="bookLangues" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="langue" required="" />
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Pdf url
+                                        </label>
+                                        <input type="text" name="pdf_url" id="bookPdfUrl" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="lien du pdf" required="" />
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="mt-2 text-white inline-flex items-center bg-yellow-900  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Modifier </button>
 
                             </form>
                         </div>
@@ -284,12 +412,18 @@
                                     </span>
 
                                 </a>
-                                <form action="{{route('books.update')}}" method="POST">
-                                    @csrf
-                                    @method('put')
-                                    <button>Modifier</button>
-                                </form>
-                                <form action="{{route('books.delete',$book->id)}}" method="POST">
+
+                                <button class = "popupBtn" data-modal-target="popup-modal"
+                                    data-modal-toggle="popup-modal" type="button"
+                                    data-book-id="{{ $book->id }}" data-book-photo="{{ $book->photo }}"
+                                    data-categorie-id="{{ $book->categorie_id }}"
+                                    data-book-titre="{{ $book->titre }}"
+                                    data-book-description="{{ $book->description }}"
+                                    data-book-price="{{ $book->price }}" data-book-auteur="{{ $book->auteur }}"
+                                    data-book-page-count="{{ $book->page_count }}"
+                                    data-book-langues="{{ $book->langues }}"
+                                    data-book-pdf-url="{{ $book->pdf_url }}">Modifier</button>
+                                <form action="{{ route('books.delete', $book->id) }}" method="POST">
                                     @csrf
                                     @method('delete')
                                     <button>Supprimer</button>
@@ -299,12 +433,7 @@
                         </div>
                     </div>
                 @endforeach
-
-
-
-
             </div>
-
             <div class="flex justify-center pt-8 gap-4">
                 @if ($bookData->previousPageUrl())
                     <a href="{{ $bookData->previousPageUrl() }}" class="flex justify-end">
@@ -343,7 +472,6 @@
                 @endif
             </div>
         </div>
-
     </section>
     <footer>
         <div class="flex justify-evenly justify-center items-start h-[350px] pt-8">
@@ -479,6 +607,40 @@
         document.getElementById('burger-menu').addEventListener('click', function() {
             document.getElementById('nav-links').classList.toggle('hidden');
         });
+    </script>
+
+    <script>
+        document.querySelectorAll('.popupBtn').forEach(button => {
+            button.addEventListener('click', function() {
+                showEditBookForm(button);
+            });
+        });
+
+        function showEditBookForm(button) {
+            var editBookForm = document.getElementById('editBookForm');
+            var bookId = button.dataset.bookId;
+            var bookPhoto = button.dataset.bookPhoto;
+            var categorieId = button.dataset.categorieId;
+            var bookTitre = button.dataset.bookTitre;
+            var bookDescription = button.dataset.bookDescription;
+            var bookPrice = button.dataset.bookPrice;
+            var bookPageCount = button.dataset.bookPageCount;
+            var bookAuteur = button.dataset.bookAuteur;
+            var bookLangues = button.dataset.bookLangues;
+            var bookPdfUrl = button.dataset.bookPdfUrl;
+            editBookForm.querySelector('#bookId').value = bookId;
+            var selectElement = editBookForm.querySelector('#categorie_id');
+            selectElement.value = categorieId;
+            editBookForm.querySelector('#bookTitre').value = bookTitre;
+            editBookForm.querySelector('#bookImage').src = bookPhoto;
+            console.log(" bookPhoto:", bookPhoto);
+            editBookForm.querySelector('#bookDescription').value = bookDescription;
+            editBookForm.querySelector('#bookPrice').value = bookPrice;
+            editBookForm.querySelector('#bookPageCount').value = bookPageCount;
+            editBookForm.querySelector('#bookAuteur').value = bookAuteur;
+            editBookForm.querySelector('#bookLangues').value = bookLangues;
+            editBookForm.querySelector('#bookPdfUrl').value = bookPdfUrl;
+        }
     </script>
 </body>
 

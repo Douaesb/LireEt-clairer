@@ -17,7 +17,6 @@ class Article extends Model
         'categorie_id',
         'auteur',
         'page_count',
-        'category',
         'price',
         'pdf_url'
     ];

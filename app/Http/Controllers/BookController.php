@@ -141,26 +141,37 @@ class BookController extends Controller
 
     public function update(Request $request)
     {
+        // dd($request);
         try {
-            $validatedData = $request->validate([
+           $request->validate([
+               'photo' => 'nullable|image|max:2048',
+               'categorie_id' => 'required|exists:categories,id',
                 'titre' => 'required|string',
                 'description' => 'required|string',
-                'photo' => 'nullable|image|max:2048',
-                'langues' => 'nullable|string',
-                'categorie_id' => 'required|exists:categories,id',
-                'auteur' => 'nullable|string',
-                'page_count' => 'nullable|integer',
-                'category' => 'nullable|string',
                 'price' => 'nullable|numeric',
+                'page_count' => 'nullable|integer',
+                'auteur' => 'nullable|string',
+                'langues' => 'nullable|string',
                 'pdf_url' => 'nullable|string',
             ]);
-            if ($request->hasFile('photo')) {
-                $validatedData['photo'] = $request->file('photo')->store('photos', 'public');
-            }
-
-            $id = $request->BookId;
+            $id = $request->id;
+            // dd($id);
             $book = Article::FindOrFail($id);
-            $book->update($validatedData);
+            if ($request->hasFile('photo')) {
+                $book->photo = $request->file('photo')->store('photos', 'public');
+            }
+            // dd($request->all());
+            $book->update([
+                'titre' => $request->titre,
+                'description' => $request->description,
+                'photo' => $book->photo,
+                'langues' => $request->langues,
+                'categorie_id' => $request->categorie_id,
+                'auteur' => $request->auteur,
+                'page_count' => $request->page_count,
+                'price' => $request->price,
+                'pdf_url' => $request->pdf_url,
+            ]);
             return redirect()->route('books')->with('success', 'book modified successfully.');
         } catch (\Exception $e) {
             return ('Error updating book: ' . $e->getMessage());
