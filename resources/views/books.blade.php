@@ -93,50 +93,65 @@
             <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
                 {{-- @dd($bookData) --}}
                 @foreach ($bookData as $book)
-                    
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
-                    <div class="bg-slate-100 w-full flex justify-center">
-                        <img src={{$book->image_url}} alt="">
-                    </div>
-                    <div class="w-11/12 gap-3 flex flex-col">
-                        <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$book->title}}</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
+                    <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
+                        <div class="bg-slate-100 w-full flex justify-center">
+                            <img src={{ $book->photo }} alt="">
                         </div>
-                        <p class="text-slate-400 text-lg p-2">
-                           {{substr($book->description, 0, 100) }}
-                        </p>
-                        <div class="flex gap-2 ">
-                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
-                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">{{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }} 
+                        <div class="w-11/12 gap-3 flex flex-col">
+                            <div class="flex justify-between px-2">
+                                <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{ substr($book->titre,0,60) }}</h3>
+                                <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
                             </div>
+                            <p class="text-slate-400 text-lg p-2">
+                                @foreach (explode('</li><li>', $book->description) as $item)
+                                    @php
+                                        $trimmedItem = strip_tags($item);
+                                        $trimmedItem = substr($trimmedItem, 0, 30);
+                                        $trimmedItem .= strlen($trimmedItem) < strlen($item) ? '...' : '';
+                                    @endphp
+                                    <li class="text-slate-400 text-lg p-2 list-disc">{!! $trimmedItem !!}</li>
+                                @endforeach
+                            </p>
+                            <div class="flex gap-2 ">
+                                <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
+                                <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">
+                                   <span> {{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }}</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+
+                                <button class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart </button>
+                                <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
+                                    <svg width='28px' viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                            <path
+                                                d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>
+                                    <span class="mt-2 ml-1 text-amber-400 underline">
+                                        View more
+                                    </span>
+
+                                </a>
+                            </div>
+
                         </div>
-                        <div class="flex justify-between">
-
-                        <button class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart  </button>
-                        <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
-                            <svg width='28px' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                <g id="SVGRepo_iconCarrier">
-                                    <path d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    <path d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </g>
-                            </svg>
-                            <span class="mt-2 ml-1 text-amber-400 underline">
-                                View more
-                            </span>
-                          
-                        </a>
                     </div>
-
-                                            </div>
-                </div>
                 @endforeach
-                
-                
-                
-                
+
+
+
+
             </div>
 
             <div class="flex justify-center pt-8 gap-4">

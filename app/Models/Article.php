@@ -14,8 +14,10 @@ class Article extends Model
         'description',
         'photo',
         'langues',
-        'date_creation',
-        'categorie_id'
+        'categorie_id',
+        'auteur',
+        'page_count',
+        'category',
     ];
 
     public function category()

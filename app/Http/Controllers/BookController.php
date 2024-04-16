@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use App\Models\Book;
 use App\Models\Categorie;
 use App\Services\GoogleBooksService;
@@ -31,20 +32,17 @@ class BookController extends Controller
     //             $bookData = [];
 
     //             // dd($books);
-                
+
     //             foreach ($books as $book) {
     //                 $bookInfo = [
-    //                     'category' => isset($book['volumeInfo']['categories'][0]) ? $book['volumeInfo']['categories'][0] : 'book' ,
+    //                     'category' => isset($book['volumeInfo']['categories'][0]) ? $book['volumeInfo']['categories'][0] : 'book',
     //                     'title' => $book['volumeInfo']['title'],
     //                     'authors' => isset($book['volumeInfo']['authors']) ? implode(", ", $book['volumeInfo']['authors']) : 'Unknown Author',
     //                     'description' => $book['volumeInfo']['description'] ?? 'No description available',
     //                     'thumbnail' => $book['volumeInfo']['imageLinks']['thumbnail'] ?? 'No thumbnail available',
-    //                     'averageRating' => $book['volumeInfo']['averageRating'] ?? 'N/A',
     //                     'pageCount' => $book['volumeInfo']['pageCount'] ?? 'N/A',
     //                     'language' => $book['volumeInfo']['language'] ?? 'N/A',
-    //                     'pdf' => isset($book['accessInfo']['pdf']['acsTokenLink']) ?
-    //                         $book['accessInfo']['pdf']['acsTokenLink'] :
-    //                         'Not available',
+
     //                 ];
 
     //                 $bookData[] = $bookInfo;
@@ -64,53 +62,55 @@ class BookController extends Controller
     // public function createBooks($bookData)
     // {
     //     foreach ($bookData as $book) {
-    //                 $pageCount = is_numeric($book['pageCount']) ? $book['pageCount'] : null;
-
-    //         Book::create([
+    //         $pageCount = is_numeric($book['pageCount']) ? $book['pageCount'] : null;
+    //         Article::create([
     //             'category' => $book['category'],
-    //             'title' => $book['title'],
-    //             'authors' => $book['authors'],
+    //             'titre' => $book['title'],
+    //             'auteur' => $book['authors'],
     //             'description' => $book['description'],
-    //             'image_url' => $book['thumbnail'],
-    //             'average_rating' => $book['averageRating'],
+    //             'photo' => $book['thumbnail'],
     //             'page_count' => $pageCount,
-    //             'language' => $book['language'],
-    //             'pdf_url' => $book['pdf'],
+    //             'langues' => $book['language'],
+    //             'categorie_id' => 2,
     //         ]);
     //     }
     // }
 
-    
+
     // public function index()
     // {
-    //     $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"]; 
-    //     $languages = ["en", "fr", "ar"]; 
-    //     $maxResults = 40; 
+    //     $categories = ["science fiction", "history", "biography", "literature", "psychology", "fantasie", "Adventure"];
+    //     $languages = ["en", "fr", "ar"];
+    //     $maxResults = 40;
     //     $bookData = $this->getBookData($categories, $languages, $maxResults);
-    // // dd($bookData);
+    //     // dd($bookData);
     //     $this->createBooks($bookData);
-    
+
     //     $booksWithImages = array_filter($bookData, function ($book) {
     //         return isset($book['thumbnail']) && $book['thumbnail'] != '';
     //     });
-    
+
     //     return view('books', ['bookData' => $booksWithImages]);
     // }
-    
-    public function displayBooks()
-    {
-        
-            $books = Book::paginate(6);
-            // dd($products);
-            return view('books', ['bookData' => $books]);
-        
-    }
 
-    public function show($id)
-{
-    $book = Book::findOrFail($id);
-    return view('oneBook', ['book' => $book]);
-}
+        public function displayBooks()
+        {
+                $category = Categorie::where('name','<>', 'accessoire')->first();
+            if ($category) {
+                $books = Article::where('categorie_id', $category->id)->paginate(6);
+                // dd($products);
+                return view('books', ['bookData' => $books]);
+            } else {
+                return view('books')->with('error', 'Category "book" not found.');
+            }
+
+        }
+
+        public function show($id)
+    {
+        $book = Article::findOrFail($id);
+        return view('oneBook', ['book' => $book]);
+    }
 
 
     // public function search(Request $request, GoogleBooksService $googleBooksService = null)
