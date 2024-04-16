@@ -74,3 +74,6 @@ Route::get('/books/{id}',[BookController::class, 'show'])->name('books.show');
 
 Route::get('/accessoires/{id}',[AccessoireController::class, 'show'])->name('accessoires.show');
 
+Route::post('/books/add',[BookController::class, 'store'])->name('books.store');
+
+

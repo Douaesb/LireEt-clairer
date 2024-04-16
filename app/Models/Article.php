@@ -18,9 +18,11 @@ class Article extends Model
         'auteur',
         'page_count',
         'category',
+        'price',
+        'pdf_url'
     ];
 
-    public function category()
+    public function categorie()
     {
         return $this->belongsTo(Categorie::class);
     }

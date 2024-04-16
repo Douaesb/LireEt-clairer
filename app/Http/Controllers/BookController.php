@@ -93,92 +93,49 @@ class BookController extends Controller
     //     return view('books', ['bookData' => $booksWithImages]);
     // }
 
-        public function displayBooks()
-        {
-                $category = Categorie::where('name','<>', 'accessoire')->first();
-            if ($category) {
-                $books = Article::where('categorie_id', $category->id)->paginate(6);
-                // dd($products);
-                return view('books', ['bookData' => $books]);
-            } else {
-                return view('books')->with('error', 'Category "book" not found.');
-            }
-
+    public function displayBooks()
+    {
+        $categories = Categorie::all();
+        $category = Categorie::where('name', '<>', 'accessoire')->first();
+        if ($category) {
+            $books = Article::where('categorie_id', $category->id)->orderBy('created_at', 'desc')->paginate(6);
+            // dd($products);
+            return view('books', ['bookData' => $books, 'categories' => $categories]);
+        } else {
+            return view('books')->with('error', 'Category "book" not found.');
         }
+    }
 
-        public function show($id)
+    public function show($id)
     {
         $book = Article::findOrFail($id);
         return view('oneBook', ['book' => $book]);
     }
 
+    public function store(Request $request)
+    {
 
-    // public function search(Request $request, GoogleBooksService $googleBooksService = null)
-    // {
+        try {
+            $validatedData = $request->validate([
+                'titre' => 'required|string',
+                'description' => 'required|string',
+                'photo' => 'nullable|image|max:2048',
+                'langues' => 'nullable|string',
+                'categorie_id' => 'required|exists:categories,id',
+                'auteur' => 'nullable|string',
+                'page_count' => 'nullable|integer',
+                'category' => 'nullable|string',
+                'price' => 'nullable|numeric',
+                'pdf_url' => 'nullable|string',
+            ]);
+            if ($request->hasFile('photo')) {
+                $validatedData['photo'] = $request->file('photo')->store('photos', 'public');
+            }
 
-
-    //     $query = $request->get('query');
-
-    //     if (!$query) {
-    //         return response()->json(['message' => 'Please provide a search query'], 400);
-    //     }
-
-    //     if ($googleBooksService) {
-    //         $books = $googleBooksService->searchBooks($query);
-    //     } else {
-    //         $apiKey = env('GOOGLE_BOOKS_API_KEY');
-    //         $client = new Client();
-    //         $search = 'lang=fr'; 
-    //         $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($search) . "&orderBy=relevance&maxResults=10&key=" . env('GOOGLE_BOOKS_API_KEY');
-
-    //         $url = "https://www.googleapis.com/books/v1/volumes?q=" . urlencode($query) . "&key=" . $apiKey;
-
-    //         $response = $client->request('GET', $url);
-
-    //         if ($response->getStatusCode() === 200) {
-    //             $data = json_decode($response->getBody(), true);
-    //             $books = isset($data['items']) ? $data['items'] : [];
-    //                         return view('books', compact('books'));
-
-    //         } else {
-    //             throw new \Exception("Error fetching books: " . $response->getStatusCode());
-    //         }
-    //     }
-
-    //     return response()->json($books);
-    // }
-
-
-
-
-    // public function fetchBooks(Request $request)
-    // {
-    //     $searchTerm = $request->query('searchTerm');
-    //     if (empty($searchTerm)) {
-    //         $searchTerm = 'rings';
-    //     }
-
-    //     $client = new Client();
-    //     $url = "https://openlibrary.org/search.json?q={$searchTerm}&limit=10";
-    //     $response = $client->get($url);
-
-    //     if ($response->getStatusCode() === 200) {
-    //         $data = json_decode($response->getBody(), true);
-
-    //         $books = [];
-    //         foreach ($data['docs'] as $book) {
-    //             $bookDetails = [
-    //                 'title' => $book['title'],
-    //                 'authors' => (isset($book['author_name']) ? implode(', ', $book['author_name']) : 'Author Not Available'),
-    //                 'description' => (isset($book['description']) ? $book['description']['value'][0] : 'No description available'),
-    //             ];
-
-    //             $books[] = $bookDetails;
-    //         }
-
-    //         return view('books', compact('books'));
-    //     } else {
-    //         return abort(500, 'Failed to fetch books');
-    //     }
-    // }
+            Article::create($validatedData);
+            return redirect()->route('books')->with('success', 'book created successfully.');
+        } catch (\Exception $e) {
+            return ('Error creating book: ' . $e->getMessage());
+        }
+    }
 }

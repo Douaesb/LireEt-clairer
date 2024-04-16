@@ -10,6 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
     <title>Books</title>
 </head>
 
@@ -90,31 +93,175 @@
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Philosophie</div>
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
             </div>
-            <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
+            <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-20 hover:bg-amber-200 bg-amber-100"
+                data-modal-target="crud-modal" data-modal-toggle="crud-modal">
+                Ajouter un livre
+            </button>
+            <div class="grid grid-cols-3 w-4/5 m-auto gap-8">
                 {{-- @dd($bookData) --}}
+
+                <div id="crud-modal" tabIndex="-1" aria-hidden="true"
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <div
+                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Ajouter un livre
+                                </h3>
+                                <button type="button"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-toggle="crud-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                            strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <form class="p-4 md:p-5" encType="multipart/form-data" method="POST"
+                                action="{{ route('books.store') }}">
+                                @csrf
+                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                    <div class="flex flex-col w-full col-span-2">
+                                        <label
+                                            class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none" viewBox="0 0 20 16">
+                                                    <path stroke="currentColor" strokeLinecap="round"
+                                                        strokeLinejoin="round" strokeWidth="2"
+                                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                                </svg>
+                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <span class="font-semibold">Click to upload</span>
+                                                    or drag and drop
+                                                </p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                                </p>
+                                               
+                                            </div>
+                                            <input id="dropzone-file" type="file" accept="image/*" class="hidden"
+                                                name="photo" />
+                                        </label>
+                                    </div>
+
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Categorie
+                                        </label>
+                                        <select id="categorie" name="categorie_id" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            <option value="">Select categorie</option>
+                                            @foreach ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Titre
+                                        </label>
+                                        <input type="text" name="titre" id="titre" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="entrer le titre de l'itinéraire" required="" />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="description"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                        <textarea name="description" id="description" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="write description here"></textarea>
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Price
+                                        </label>
+                                        <input type="text" name="price" id="price" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="price" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Page Count
+                                        </label>
+                                        <input type="text" name="page_count" id="page_count" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="pages" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Auteur
+                                        </label>
+                                        <input type="text" name="auteur" id="auteur" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="auteur" required="" />
+                                    </div>
+                                    <div class="col-span-2 sm:col-span-1 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Langue
+                                        </label>
+                                        <input type="text" name="langues" id="langues" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="langue" required="" />
+                                    </div>
+
+                                    <div class="col-span-2">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Pdf url
+                                        </label>
+                                        <input type="text" name="pdf_url" id="pdf_url" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="lien du pdf" required="" />
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="mt-2 text-white inline-flex items-center bg-blue-500  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Ajouter </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 @foreach ($bookData as $book)
                     <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
                         <div class="bg-slate-100 w-full flex justify-center">
-                            <img src={{ $book->photo }} alt="">
+                            @if ($book->photo && filter_var($book->photo, FILTER_VALIDATE_URL))
+                                <img src="{{ $book->photo }}" alt="Book Image">
+                            @elseif($book->photo && !filter_var($book->photo, FILTER_VALIDATE_URL))
+                                <img src="{{ asset('storage/' . $book->photo) }}" alt="Book Image">
+                            @else
+                                <p>No Image Available</p>
+                            @endif
                         </div>
                         <div class="w-11/12 gap-3 flex flex-col">
                             <div class="flex justify-between px-2">
-                                <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{ substr($book->titre,0,60) }}</h3>
+                                <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">
+                                    {{ substr($book->titre, 0, 60) }}</h3>
                                 <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
                             </div>
                             <p class="text-slate-400 text-lg p-2">
-                                {{substr($book->description, 0, 150) . '...' }}
+                                {{ substr($book->description, 0, 150) . '...' }}
 
                             </p>
                             <div class="flex gap-2 ">
                                 <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
                                 <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">
-                                   <span> {{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }}</span>
+                                    <span>
+                                        {{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }}</span>
                                 </div>
                             </div>
                             <div class="flex justify-between">
-
-                                <button class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart </button>
+                                @if ($book->pdf_url)
+                                    <a href="{{ $book->pdf_url }}" class="border-2 border-amber-300 px-8 p-2 w-fit"
+                                        download>Download PDF</a>
+                                @else
+                                    <button class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart </button>
+                                @endif
                                 <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
                                     <svg width='28px' viewBox="0 0 24 24" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
