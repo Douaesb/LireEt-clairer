@@ -98,7 +98,7 @@ class BookController extends Controller
         $categories = Categorie::all();
         $category = Categorie::where('name', '<>', 'accessoire')->first();
         if ($category) {
-            $books = Article::where('categorie_id', $category->id)->orderBy('created_at', 'desc')->paginate(6);
+            $books = Article::orderBy('created_at', 'desc')->paginate(6);
             // dd($products);
             return view('books', ['bookData' => $books, 'categories' => $categories]);
         } else {
@@ -137,5 +137,41 @@ class BookController extends Controller
         } catch (\Exception $e) {
             return ('Error creating book: ' . $e->getMessage());
         }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'titre' => 'required|string',
+                'description' => 'required|string',
+                'photo' => 'nullable|image|max:2048',
+                'langues' => 'nullable|string',
+                'categorie_id' => 'required|exists:categories,id',
+                'auteur' => 'nullable|string',
+                'page_count' => 'nullable|integer',
+                'category' => 'nullable|string',
+                'price' => 'nullable|numeric',
+                'pdf_url' => 'nullable|string',
+            ]);
+            if ($request->hasFile('photo')) {
+                $validatedData['photo'] = $request->file('photo')->store('photos', 'public');
+            }
+
+            $id = $request->BookId;
+            $book = Article::FindOrFail($id);
+            $book->update($validatedData);
+            return redirect()->route('books')->with('success', 'book modified successfully.');
+        } catch (\Exception $e) {
+            return ('Error updating book: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id){
+        $book = Article::FindOrFail($id);
+        $book->delete();
+        return redirect()->route('books')->with('success', 'book deleted successfully.');
+
+
     }
 }

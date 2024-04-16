@@ -75,5 +75,8 @@ Route::get('/books/{id}',[BookController::class, 'show'])->name('books.show');
 Route::get('/accessoires/{id}',[AccessoireController::class, 'show'])->name('accessoires.show');
 
 Route::post('/books/add',[BookController::class, 'store'])->name('books.store');
+Route::post('/books/update',[BookController::class, 'update'])->name('books.update');
+Route::delete('/books/delete/{id}',[BookController::class, 'destroy'])->name('books.delete');
+
 
 

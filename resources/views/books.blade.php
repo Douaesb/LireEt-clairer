@@ -284,6 +284,16 @@
                                     </span>
 
                                 </a>
+                                <form action="{{route('books.update')}}" method="POST">
+                                    @csrf
+                                    @method('put')
+                                    <button>Modifier</button>
+                                </form>
+                                <form action="{{route('books.delete',$book->id)}}" method="POST">
+                                    @csrf
+                                    @method('delete')
+                                    <button>Supprimer</button>
+                                </form>
                             </div>
 
                         </div>
