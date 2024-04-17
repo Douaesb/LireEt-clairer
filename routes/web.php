@@ -71,12 +71,15 @@ Route::get('/books',[BookController::class, 'displayBooks'])->name('books');
 Route::get('/accessoires',[AccessoireController::class, 'displayAccessories'])->name('accessoires');
 
 Route::get('/books/{id}',[BookController::class, 'show'])->name('books.show');
-
 Route::get('/accessoires/{id}',[AccessoireController::class, 'show'])->name('accessoires.show');
 
 Route::post('/books/add',[BookController::class, 'store'])->name('books.store');
 Route::put('/books/update',[BookController::class, 'update'])->name('books.update');
 Route::delete('/books/delete/{id}',[BookController::class, 'destroy'])->name('books.delete');
+
+Route::post('/accessoires/add',[AccessoireController::class, 'store'])->name('accessoires.store');
+Route::put('/accessoires/update',[AccessoireController::class, 'update'])->name('accessoires.update');
+Route::delete('/accessoires/delete/{id}',[AccessoireController::class, 'destroy'])->name('accessoires.delete');
 
 
 

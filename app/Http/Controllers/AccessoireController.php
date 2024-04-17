@@ -69,11 +69,13 @@ class AccessoireController extends Controller
 
     public function displayAccessories()
     {
+        $categories = Categorie::all();
+
         $category = Categorie::where('name', 'accessoire')->first();
         if ($category) {
             $products = Article::where('categorie_id', $category->id)->paginate(6);
             // dd($products);
-            return view('accessoires', ['products' => $products]);
+            return view('accessoires', ['products' => $products, 'categories' => $categories]);
         } else {
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
@@ -83,6 +85,66 @@ class AccessoireController extends Controller
     {
         $accessoire = Article::findOrFail($id);
         return view('oneAccessoire', ['accessoire' => $accessoire]);
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $validatedData = $request->validate([
+                'titre' => 'required|string',
+                'description' => 'required|string',
+                'photo' => 'nullable|image|max:2048',
+                'categorie_id' => 'required|exists:categories,id',
+                'price' => 'nullable|numeric',
+            ]);
+            if ($request->hasFile('photo')) {
+                $validatedData['photo'] = $request->file('photo')->store('photos', 'public');
+            }
+
+            Article::create($validatedData);
+            // return redirect()->route('accessoires')->with('success', 'accessoire created successfully.');
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            return ('Error creating accessoire: ' . $e->getMessage());
+        }
+    }
+
+    public function update(Request $request)
+    {
+        // dd($request);
+        try {
+           $request->validate([
+               'photo' => 'nullable|image|max:2048',
+               'categorie_id' => 'required|exists:categories,id',
+                'titre' => 'required|string',
+                'description' => 'required|string',
+                'price' => 'nullable|numeric',
+            ]);
+            $id = $request->id;
+            // dd($id);
+            $accessoire = Article::FindOrFail($id);
+            if ($request->hasFile('photo')) {
+                $accessoire->photo = $request->file('photo')->store('photos', 'public');
+            }
+            // dd($request->all());
+            $accessoire->update([
+                'titre' => $request->titre,
+                'description' => $request->description,
+                'photo' => $accessoire->photo,
+                'categorie_id' => $request->categorie_id,
+                'price' => $request->price,
+            ]);
+            return redirect()->back();
+        } catch (\Exception $e) {
+            return ('Error updating accessoire: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id){
+        $accessoire = Article::FindOrFail($id);
+        $accessoire->delete();
+        return redirect()->back();
     }
     
 }

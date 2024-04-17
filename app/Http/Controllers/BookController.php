@@ -133,7 +133,9 @@ class BookController extends Controller
             }
 
             Article::create($validatedData);
-            return redirect()->route('books')->with('success', 'book created successfully.');
+            // return redirect()->route('books')->with('success', 'book created successfully.');
+            return redirect()->back();
+
         } catch (\Exception $e) {
             return ('Error creating book: ' . $e->getMessage());
         }
@@ -172,7 +174,9 @@ class BookController extends Controller
                 'price' => $request->price,
                 'pdf_url' => $request->pdf_url,
             ]);
-            return redirect()->route('books')->with('success', 'book modified successfully.');
+            // return redirect()->route('books')->with('success', 'book modified successfully.');
+            return redirect()->back();
+
         } catch (\Exception $e) {
             return ('Error updating book: ' . $e->getMessage());
         }
@@ -181,8 +185,7 @@ class BookController extends Controller
     public function destroy($id){
         $book = Article::FindOrFail($id);
         $book->delete();
-        return redirect()->route('books')->with('success', 'book deleted successfully.');
-
+        return redirect()->back();
 
     }
 }

@@ -80,20 +80,25 @@
         </div>
     </section>
     <section class="bg-white flex justify-center h-full p-10 flex-col items-center">
-        <div class="w-8/12 flex justify-center items-center">
-            <div class="flex gap-8">
-                <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4 h-[60vh]">
-                    <img src="{{$accessoire->photo}}" alt="">
+        <div class="w-8/12 grid grid-cols-2 justify-center items-center">
+                <div class="card shadow-lg flex flex-col w-4/5 justify-start items-center pb-4 gap-4 h-full">
+                    @if ($accessoire->photo && filter_var($accessoire->photo, FILTER_VALIDATE_URL))
+                        <img src="{{ $accessoire->photo }}" alt="accessoire Image">
+                    @elseif($accessoire->photo && !filter_var($accessoire->photo, FILTER_VALIDATE_URL))
+                        <img src="{{ asset('storage/' . $accessoire->photo) }}" alt="accessoire Image">
+                    @else
+                        <p>No Image Available</p>
+                    @endif
                 </div>
                 <div class="flex flex-col gap-4 justify-center">
-                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{$accessoire->titre}}</h3>
+                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{ $accessoire->titre }}</h3>
                     <span class="text-2xl font-semibold font-[cardp] text-amber-300">$30.00 USD</span>
                     <ul>
                         @foreach (explode('</li><li>', $accessoire->description) as $item)
                             <li class="text-slate-400 text-lg p-2 list-disc">{!! str_replace(['<li>', '</li>'], '', $item) !!}</li>
                         @endforeach
                     </ul>
-                    
+
                     {{-- <ul>
                         <li class="text-slate-400 text-lg p-2 list-disc">Bras télescopique pour livres de petite et moyenne taille ; couverture rigide ou papier
                         </li>
@@ -125,7 +130,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
         <div class="flex justify-center items-center  w-4/5 p-10">
             <div class="flex flex-col gap-10 justify-center pt-10">
