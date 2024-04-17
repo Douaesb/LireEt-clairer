@@ -104,7 +104,6 @@ class AccessoireController extends Controller
             Article::create($validatedData);
             // return redirect()->route('accessoires')->with('success', 'accessoire created successfully.');
             return redirect()->back();
-
         } catch (\Exception $e) {
             return ('Error creating accessoire: ' . $e->getMessage());
         }
@@ -114,9 +113,9 @@ class AccessoireController extends Controller
     {
         // dd($request);
         try {
-           $request->validate([
-               'photo' => 'nullable|image|max:2048',
-               'categorie_id' => 'required|exists:categories,id',
+            $request->validate([
+                'photo' => 'nullable|image|max:2048',
+                'categorie_id' => 'required|exists:categories,id',
                 'titre' => 'required|string',
                 'description' => 'required|string',
                 'price' => 'nullable|numeric',
@@ -141,10 +140,38 @@ class AccessoireController extends Controller
         }
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $accessoire = Article::FindOrFail($id);
         $accessoire->delete();
         return redirect()->back();
     }
-    
+
+
+    // public function search(Request $request)
+    // {
+    //     try {
+    //         $searchTerm = $request->query('titre');
+    //         $accessories = Accessoire::where('titre', 'like', '%' . $searchTerm . '%')
+    //             ->join('categories', 'accessoires.categorie_id', '=', 'categories.id')
+    //             ->where('categories.name', 'accessoirre')
+    //             ->get();
+    //         return response()->json($accessories);
+    //     } catch (\Exception $e) {
+    //         return response()->json(['error' => 'An error occurred while searching for accessories.'], 500);
+    //     }
+    // }
+
+public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $filteredBooks = Article::where('titre', 'like', "%$query%");
+        if ($query) {
+            $filteredBooks = $filteredBooks->orWhere('auteur', 'like', "%$query%");
+        }
+
+        $filteredBooks = $filteredBooks->paginate(8);
+
+        return response()->json($filteredBooks);
+    }
 }

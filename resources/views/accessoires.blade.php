@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
     <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,19 +85,34 @@
     <section class="bg-white">
         <div class="p-10">
 
-            <div class="flex border border-amber-300 p-4 rounded gap-4 w-3/5 justify-evenly items-center m-auto">
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">All</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Aventure</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Psychologie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Comedie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Philosophie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
+            <div class="flex  p-4 rounded gap-4 w-2/5 justify-evenly items-center m-auto">
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-3 flex items-center">
+                        <svg width="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M11 6C13.7614 6 16 8.23858 16 11M16.6588 16.6549L21 21M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
+                                    stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                </path>
+                            </g>
+                        </svg>
+                    </div>
+                    <form method="POST" action="{{ route('accessoires.search') }}">
+                        @csrf
+                        <input type="text" name="query" id="searchInput"
+                            placeholder="Search accessories by title here..."
+                            class="search-input p-4 ps-12 w-[550px] border border-amber-300 rounded-xl focus:border-yellow-900 focus:ring-1 focus:outline-none focus:ring-yellow-900">
+                    </form>
+                </div>
             </div>
-            <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-20 hover:bg-amber-200 bg-amber-100"
+
+            <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-4 hover:bg-amber-200 bg-amber-100"
                 data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                 Ajouter un accessoire
             </button>
-            <div class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
+            <div id="accessoriesContainer" class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
                 {{-- @dd($products) --}}
 
                 <div id="crud-modal" tabIndex="-1" aria-hidden="true"
@@ -196,100 +212,96 @@
 
 
                 <div id="popup-modal" tabindex="-1"
-                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <div class="relative p-4 w-full max-w-md max-h-full">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <div
-                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                                Modifier un livre
-                            </h3>
-                            <button type="button"
-                                class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                data-modal-hide="popup-modal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                    fill="none" viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <form class="p-4 md:p-5" encType="multipart/form-data" method="POST"
-                            action="{{ route('accessoires.update') }}" id="editAccessoireForm">
-                            @csrf
-                            @method('put')
-                            <div class="grid gap-4 mb-4 grid-cols-2">
-                                <div class="flex flex-col w-full col-span-2">
-                                    <label
-                                        class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <img id="productImage" src="" alt="product Photo"
-                                                class="w-32 h-32 mb-4">
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                <span class="font-semibold">Click to upload</span>
-                                                or drag and drop
-                                            </p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400">
-                                                SVG, PNG, JPG or GIF (MAX. 800x400px)
-                                            </p>
-                                        </div>
-                                        <input id="dropzone-file" type="file" accept="image/*" class="hidden"
-                                            name="photo">
-                                    </label>
-                                </div>
-
-
-                                <div class="col-span-2 ">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Categorie
-                                    </label>
-                                    <select id="categorie_id" name="categorie_id"
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                        <option value="" id="">Select category</option>
-                                        @foreach ($categories as $categorie)
-                                            <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
-                                        @endforeach
-                                    </select>
-
-                                </div>
-                                <input type="hidden" id="productId" name="id">
-                                <div class="col-span-2 ">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Titre
-                                    </label>
-                                    <input type="text" name="titre" id="productTitre" value=""
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="entrer le titre de l'itinéraire" required="" />
-                                </div>
-                                <div class="col-span-2">
-                                    <label for="description"
-                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                    <textarea name="description" id="productDescription" rows="4"
-                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        placeholder="write description here"></textarea>
-                                </div>
-                                <div class="col-span-2">
-                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        Price
-                                    </label>
-                                    <input type="text" name="price" id="productPrice" value=""
-                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="price" required="" />
-                                </div>                             
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-md max-h-full">
+                        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <div
+                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Modifier un livre
+                                </h3>
+                                <button type="button"
+                                    class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-hide="popup-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
                             </div>
-                            <button type="submit"
-                                class="mt-2 text-white inline-flex items-center bg-yellow-900  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                Modifier </button>
+                            <form class="p-4 md:p-5" encType="multipart/form-data" method="POST"
+                                action="{{ route('accessoires.update') }}" id="editAccessoireForm">
+                                @csrf
+                                @method('put')
+                                <div class="grid gap-4 mb-4 grid-cols-2">
+                                    <div class="flex flex-col w-full col-span-2">
+                                        <label
+                                            class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <img id="productImage" src="" alt="product Photo"
+                                                    class="w-32 h-32 mb-4">
+                                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                                    <span class="font-semibold">Click to upload</span>
+                                                    or drag and drop
+                                                </p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                                    SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                                </p>
+                                            </div>
+                                            <input id="dropzone-file" type="file" accept="image/*" class="hidden"
+                                                name="photo">
+                                        </label>
+                                    </div>
 
-                        </form>
+
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Categorie
+                                        </label>
+                                        <select id="categorie_id" name="categorie_id"
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                            <option value="" id="">Select category</option>
+                                            @foreach ($categories as $categorie)
+                                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+                                    <input type="hidden" id="productId" name="id">
+                                    <div class="col-span-2 ">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Titre
+                                        </label>
+                                        <input type="text" name="titre" id="productTitre" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="entrer le titre de l'itinéraire" required="" />
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label for="description"
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                        <textarea name="description" id="productDescription" rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            placeholder="write description here"></textarea>
+                                    </div>
+                                    <div class="col-span-2">
+                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            Price
+                                        </label>
+                                        <input type="text" name="price" id="productPrice" value=""
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                            placeholder="price" required="" />
+                                    </div>
+                                </div>
+                                <button type="submit"
+                                    class="mt-2 text-white inline-flex items-center bg-yellow-900  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Modifier </button>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-
-
-
 
                 @foreach ($products as $product)
                     <div class="card shadow-lg flex flex-col w-4/5 justify-center items-center pb-4 gap-4">
@@ -305,7 +317,9 @@
                                 <h3 class="text-2xl font-semibold font-[cardo] text-yellow-900">
                                     {{ substr($product->titre, 0, 55) }}
                                 </h3>
-                                <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">{{$product->price}} $</span>
+                                <span
+                                    class="text-2xl font-semibold font-[cardp] text-amber-300 text-center">{{ $product->price }}
+                                    $</span>
 
                             </div>
                             <p class="text-slate-400 text-lg p-2">
@@ -350,17 +364,51 @@
                             <div class="flex justify-center gap-4">
                                 <button class = "popupBtnA" data-modal-target="popup-modal"
                                     data-modal-toggle="popup-modal" type="button"
-                                    data-product-id="{{ $product->id }}"
-                                     data-product-photo="{{ $product->photo }}"
+                                    data-product-id="{{ $product->id }}" data-product-photo="{{ $product->photo }}"
                                     data-categorie-id="{{ $product->categorie_id }}"
                                     data-product-titre="{{ $product->titre }}"
                                     data-product-description="{{ $product->description }}"
-                                    data-product-price="{{ $product->price }}"
-                                    ><svg width="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+                                    data-product-price="{{ $product->price }}"><svg width="25px"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                            <path
+                                                d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg></button>
                                 <form action="{{ route('accessoires.delete', $product->id) }}" method="POST">
                                     @csrf
                                     @method('delete')
-                                    <button class="mt-1"><svg width="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 12V17" stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#713f12" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+                                    <button class="mt-1"><svg width="32px" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path d="M10 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M14 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M4 7H20" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg></button>
                                 </form>
                             </div>
                         </div>
@@ -538,7 +586,7 @@
         </div>
 
     </footer>
-    
+
     <script>
         document.getElementById('burger-menu').addEventListener('click', function() {
             document.getElementById('nav-links').classList.toggle('hidden');
@@ -570,7 +618,95 @@
             console.log(productPrice)
 
         }
-    
+    </script>
+
+    <script>
+        let searchInput = document.querySelector(".search-input");
+        let token = document
+            .querySelector('meta[name="csrf-token"]')
+            .getAttribute("content");
+        let searchResults = document.getElementById("accessoriesContainer");
+
+        searchInput.addEventListener("keyup", (event) => {
+            sendRequest(event.target.value);
+        });
+
+        function sendRequest(query) {
+            const url = "/search/accessories";
+
+            const data = {
+                _token: token,
+                query: query,
+            };
+
+            const options = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json, text-plain ",
+                    "X-Requested-With": "XMLHttpRequest",
+                    "X-CSRF-TOKEN": token,
+                },
+                method: "POST",
+                body: JSON.stringify(data),
+            };
+
+            fetch(url, options)
+                .then((response) => response.json())
+                .then((data) => displayResults(data))
+                .catch((error) => console.error(error));
+        }
+
+        function displayResults(products) {
+            searchResults.innerHTML = "";
+
+            
+            const flexContainer = document.createElement("div");
+            flexContainer.classList.add("flex", "flex-wrap", "mx-4");
+
+            console.log(products);
+            products.data.forEach((product) => {
+                const card = createProductCard(product);
+                searchResults.appendChild(card);
+            });
+        }
+
+
+        function createProductCard(product) {
+            const card = document.createElement('div');
+            card.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4',
+                'gap-4');
+
+            const image = document.createElement('img');
+            image.src = product.photo ? (product.photo.includes('http') ? product.photo :
+                `{{ asset('storage/') }}/${product.photo}`) : '';
+            image.alt = 'Product Image';
+            card.appendChild(image);
+
+            const title = document.createElement('h3');
+            title.classList.add('text-2xl', 'font-semibold', 'font-[cardo]', 'text-yellow-900');
+            title.textContent = product.titre.substring(0, 55);
+            card.appendChild(title);
+
+            const price = document.createElement('span');
+            price.classList.add('text-2xl', 'font-semibold', 'font-[cardp]', 'text-amber-300', 'text-center');
+            price.textContent = `${product.price} $`;
+            card.appendChild(price);
+
+            const addToCartButton = document.createElement('button');
+            addToCartButton.classList.add('border-2', 'border-amber-300', 'px-8', 'p-2', 'w-fit');
+            addToCartButton.textContent = 'Add to cart';
+            card.appendChild(addToCartButton);
+
+            const viewMoreLink = document.createElement('a');
+            viewMoreLink.href = `{{ route('accessoires.show', ['id' => ':productId']) }}`.replace(':productId', product
+                .id);
+            viewMoreLink.classList.add('flex');
+            viewMoreLink.innerHTML =
+                `<svg width='28px' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <!-- SVG code for view more icon --> </svg><span class="mt-2 ml-1 text-amber-400 underline">View more</span>`;
+            card.appendChild(viewMoreLink);
+
+            return card;
+        }
     </script>
 </body>
 

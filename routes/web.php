@@ -82,4 +82,5 @@ Route::put('/accessoires/update',[AccessoireController::class, 'update'])->name(
 Route::delete('/accessoires/delete/{id}',[AccessoireController::class, 'destroy'])->name('accessoires.delete');
 
 
+Route::post('/search/accessories', [AccessoireController::class, 'search'])->name('accessoires.search');
 
