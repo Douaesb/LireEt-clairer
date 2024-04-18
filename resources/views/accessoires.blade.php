@@ -670,43 +670,153 @@
             });
         }
 
-
         function createProductCard(product) {
-            const card = document.createElement('div');
-            card.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4',
-                'gap-4');
+    const card = document.createElement('div');
+    card.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4', 'gap-4');
 
-            const image = document.createElement('img');
-            image.src = product.photo ? (product.photo.includes('http') ? product.photo :
-                `{{ asset('storage/') }}/${product.photo}`) : '';
-            image.alt = 'Product Image';
-            card.appendChild(image);
+    const image = document.createElement('img');
+    if (product.photo && typeof product.photo === 'string' && product.photo.startsWith('http')) {
+        image.src = product.photo;
+    } else if (product.photo && typeof product.photo === 'string' && !product.photo.startsWith('http')) {
+        image.src = `{{ asset('storage/') }}/${product.photo}`;
+    } else {
+        image.alt = 'No Image Available';
+    }
+    image.alt = 'Product Image';
+    card.appendChild(image);
 
-            const title = document.createElement('h3');
-            title.classList.add('text-2xl', 'font-semibold', 'font-[cardo]', 'text-yellow-900');
-            title.textContent = product.titre.substring(0, 55);
-            card.appendChild(title);
+    const title = document.createElement('h3');
+    title.classList.add('text-2xl', 'font-semibold', 'font-[cardo]', 'text-yellow-900');
+    title.textContent = product.titre.substring(0, 55);
+    card.appendChild(title);
 
-            const price = document.createElement('span');
-            price.classList.add('text-2xl', 'font-semibold', 'font-[cardp]', 'text-amber-300', 'text-center');
-            price.textContent = `${product.price} $`;
-            card.appendChild(price);
+    const price = document.createElement('span');
+    price.classList.add('text-2xl', 'font-semibold', 'font-[cardp]', 'text-amber-300', 'text-center');
+    price.textContent = `${product.price} $`;
+    card.appendChild(price);
 
-            const addToCartButton = document.createElement('button');
-            addToCartButton.classList.add('border-2', 'border-amber-300', 'px-8', 'p-2', 'w-fit');
-            addToCartButton.textContent = 'Add to cart';
-            card.appendChild(addToCartButton);
+    const description = document.createElement('p');
+    description.classList.add('text-slate-400', 'text-lg', 'p-2');
+    const plainDescription = product.description.replace(/<\/?li>/g, '\n \n \n');
+    const trimmedDescription = plainDescription.substring(0, 150) + (plainDescription.length > 150 ? '...' : '');
 
-            const viewMoreLink = document.createElement('a');
-            viewMoreLink.href = `{{ route('accessoires.show', ['id' => ':productId']) }}`.replace(':productId', product
-                .id);
-            viewMoreLink.classList.add('flex');
-            viewMoreLink.innerHTML =
-                `<svg width='28px' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <!-- SVG code for view more icon --> </svg><span class="mt-2 ml-1 text-amber-400 underline">View more</span>`;
-            card.appendChild(viewMoreLink);
+    description.textContent = trimmedDescription;
+    card.appendChild(description);
 
-            return card;
-        }
+    const cartview = document.createElement('div');
+    cartview.classList.add('flex', 'justify-between','gap-6');
+
+    const addToCartButton = document.createElement('button');
+    addToCartButton.classList.add('border-2', 'border-amber-300', 'px-8', 'p-2', 'w-fit');
+    addToCartButton.textContent = 'Add to cart';
+    cartview.appendChild(addToCartButton);
+
+    const viewMoreLink = document.createElement('a');
+    viewMoreLink.href = `{{ route('accessoires.show', ['id' => ':productId']) }}`.replace(':productId', product.id);
+    viewMoreLink.classList.add('flex');
+    viewMoreLink.innerHTML = `<svg width='28px' viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                            <path
+                                                d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg><span class="mt-2 ml-1 text-amber-400 underline">View more</span>`;
+                                    cartview.appendChild(viewMoreLink);
+                                    card.appendChild(cartview);
+
+    const hr = document.createElement('hr');
+    hr.classList.add('flex','justify-self-center','border-yellow-900','mt-2','w-[200px]');
+    card.appendChild(hr);
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('flex', 'justify-between','gap-3','w-1/5');
+
+    const popupButton = document.createElement('button');
+    popupButton.classList.add('popupBtnA');
+    popupButton.dataset.modalTarget = 'popup-modal';
+    popupButton.dataset.modalToggle = 'popup-modal';
+    popupButton.type = 'button';
+    popupButton.dataset.productId = product.id;
+    popupButton.dataset.productPhoto = product.photo;
+    popupButton.dataset.categorieId = product.categorie_id;
+    popupButton.dataset.productTitre = product.titre;
+    popupButton.dataset.productDescription = product.description;
+    popupButton.dataset.productPrice = product.price;
+    popupButton.innerHTML = `<svg width="25px"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                            <path
+                                                d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>`;
+
+    const deleteForm = document.createElement('form');
+    deleteForm.action = `{{ route('accessoires.delete', ':productId') }}`.replace(':productId', product.id);
+    deleteForm.method = 'POST';
+
+    const csrfToken = document.createElement('input');
+    csrfToken.type = 'hidden';
+    csrfToken.name = '_token';
+    csrfToken.value = '{{ csrf_token() }}';
+
+    const deleteMethod = document.createElement('input');
+    deleteMethod.type = 'hidden';
+    deleteMethod.name = '_method';
+    deleteMethod.value = 'delete';
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'submit';
+    deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path d="M10 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M14 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M4 7H20" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg>`;
+
+    deleteForm.appendChild(csrfToken);
+    deleteForm.appendChild(deleteMethod);
+    deleteForm.appendChild(deleteButton);
+
+    buttonContainer.appendChild(popupButton);
+    buttonContainer.appendChild(deleteForm);
+    card.appendChild(buttonContainer);
+
+    return card;
+}
     </script>
 </body>
 
