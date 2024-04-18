@@ -162,17 +162,17 @@ class AccessoireController extends Controller
     //     }
     // }
 
-public function search(Request $request)
+    public function search(Request $request)
     {
         $query = $request->input('query');
+
         $filteredBooks = Article::where('titre', 'like', '%' . $query . '%')
-            ->whereHas('categorie', function($query) {
+            ->whereHas('categorie', function ($query) {
                 $query->where('name', 'accessoire');
-            })
-            ->get();
-        // $filteredBooks = Article::where('')->where('titre', 'like', "%$query%");
+            });
+
         if ($query) {
-            $filteredBooks = $filteredBooks->orWhere('auteur', 'like', "%$query%");
+            $filteredBooks->orWhere('auteur', 'like', "%$query%");
         }
 
         $filteredBooks = $filteredBooks->paginate(8);
