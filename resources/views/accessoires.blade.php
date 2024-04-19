@@ -75,10 +75,14 @@
                 </div>
             {{-- </div> --}}
             @endif
+            @auth
+            @if (auth()->user()->role == 'admin')
             <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-4 hover:bg-amber-200 bg-amber-100"
                 data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                 Ajouter un accessoire
             </button>
+            @endif
+            @endauth
             <div id="accessoriesContainer" class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
                 {{-- @dd($products) --}}
 
@@ -343,6 +347,8 @@
 
                                 </a>
                             </div>
+                            @auth
+                            @if (auth()->user()->role == 'admin')
                             <hr class="flex justify-self-center border-yellow-900 mt-2">
                             <div class="flex justify-center gap-4">
                                 <button class = "popupBtnA" data-modal-target="popup-modal"
@@ -395,6 +401,8 @@
                                         </svg></button>
                                 </form>
                             </div>
+                            @endif
+                            @endauth
                         </div>
                     </div>
                 @endforeach
@@ -719,7 +727,7 @@
                 searchResults.appendChild(card);
             });
         }
-
+        var userRole = "{{ auth()->user()->role }}";
         function createProductCard(product) {
             const card = document.createElement('div');
             card.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4',
