@@ -22,16 +22,12 @@ class BasketController extends Controller
         return view('basket.index', ['basket' => $basket, 'articles' => $articles]);
     }
 
-    // Add an item to the basket
     public function add(Request $request)
     {
-        // Ensure the user is authenticated
         $user = auth()->user();
         if (!$user) {
             return redirect()->route('login')->with('error', 'You must be logged in to add items to the basket.');
         }
-
-        // Retrieve the user's panier (basket)
         $basket = $user->panier;
         if (!$basket) {
             $basket = new Panier();
@@ -39,24 +35,16 @@ class BasketController extends Controller
             $basket->date_creation = Carbon::now();
             $basket->save();
         }
-
-        // Retrieve article ID and quantity from the request
         $articleId = $request->input('article_id');
         $quantity = $request->input('quantity', 1);
-
-        // Check if the article is already in the basket
         $commande = $basket->articles()->where('article_id', $articleId)->first();
         if ($commande) {
-            // Update the quantity if the article is already in the basket
             $commande->pivot->quantity += $quantity;
             $commande->pivot->save();
         } else {
-            // Add a new article to the basket
             $basket->articles()->attach($articleId, ['quantity' => $quantity]);
         }
-
-        // Redirect to the basket page with a success message
-        return redirect()->route('basket.index')->with('success', 'Item added to the basket.');
+        return redirect()->back()->with('success','added to card successfully');
     }
 
     // Update item quantity in the basket

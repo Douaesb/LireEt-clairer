@@ -100,17 +100,51 @@ class UserController extends Controller
 
     public function home()
     {
-        $categories = Categorie::all();
+        // Get the authenticated user
+        $user = auth()->user();
+    
+        // Get the user's basket (panier)
+        $basket = $user->panier;
+        
+        // Calculate the total cost of all articles in the basket
+        $totalCost = 0;
+        $numProductsInBasket = 0;
 
+        if ($basket) {
+            $numProductsInBasket = $basket->articles->count();
+
+            foreach ($basket->articles as $article) {
+                // Calculate the cost for each article (quantity * price)
+                $articleCost = $article->pivot->quantity * $article->price;
+                // Add the article cost to the total cost
+                $totalCost += $articleCost;
+            }
+        }
+    
+        // Get the list of categories
+        $categories = Categorie::all();
+    
+        // Get the category "accessoire"
         $category = Categorie::where('name', 'accessoire')->first();
+    
+        // Get products based on the category
         if ($category) {
             $products = Article::where('categorie_id', $category->id)->paginate(6);
-            // dd($products);
-            return view('client.home', ['products' => $products, 'categories' => $categories]);
+    
+            // Pass the total cost along with other data to the view
+            return view('client.home', [
+                'products' => $products,
+                'categories' => $categories,
+                'basket' => $basket,
+                'articles' => $basket->articles,
+                'totalCost' => $totalCost, 
+                'numProductsInBasket' => $numProductsInBasket, 
+            ]);
         } else {
             return view('client.home')->with('error', 'Category "accessoire" not found.');
         }
     }
+    
 
     public function banUser($id)
     {
