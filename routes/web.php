@@ -24,7 +24,7 @@ Route::get('/', function () {
 
 Route::get('/contact', function () {
     return view('contact');
-});
+})->name('contact');
 
 Route::get('/books', function () {
     return view('books');
@@ -87,7 +87,7 @@ Route::post('/search/accessories', [AccessoireController::class, 'search'])->nam
 
 
 // Les routes de gestion du panier
-Route::get('basket',[BasketController::class, 'index'])->name('basket.index');
+// Route::get('basket',[BasketController::class, 'index'])->name('basket.index');
 Route::post('basket/add',[BasketController::class, 'add'])->name('basket.add');
 Route::get('basket/update',[BasketController::class, 'update'])->name('basket.update');
 Route::get('basket/remove',[BasketController::class, 'remove'])->name('basket.remove');

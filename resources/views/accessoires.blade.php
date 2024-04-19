@@ -1,77 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- <meta http-equiv="X-UA-Compatible" content="ie=edge"> --}}
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="{{ asset('css/font.css') }}">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Handlee&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-    <title>Books</title>
-</head>
-
-<body class="bg-yellow-900">
-    <nav class="flex justify-between md:justify-evenly items-center bg-yellow-900 h-16 px-4 lg:px-10">
-        <div class="flex items-center gap-4">
-            <img class="w-10 h-10" src="../img/booksyellow.png" />
-            <div class="text-white text-xl font-normal handlee-regular">Lire et Éclairer</div>
-        </div>
-        {{-- <div class=""> --}}
-
-        <!-- Burger menu -->
-        <div class="block lg:hidden">
-            <button id="burger-menu" class="text-white focus:outline-none">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
-                    </path>
-                </svg>
-            </button>
-        </div>
-        <!-- End of Burger menu -->
-        <div id="nav-links" class="hidden lg:flex md:bg-yellow-900 bg-black p-3 md:mt-0 mt-36 ">
-            <ul class="lg:flex gap-6 text-white list-none ">
-                <li>Accueil</li>
-                <li>Catalogues</li>
-                <li>A propos</li>
-                <li>Contact</li>
-                <li>
-                    <div class="relative hidden md:block">
-                        <svg width='28px' fill="#ffffff" viewBox="0 0 32 32" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z">
-                                </path>
-                            </g>
-                        </svg>
-                        <div class="hidden md:flex absolute top-0 left-6 h-5 w-5 bg-amber-400 rounded-full"></div>
-                        <div class="hidden md:flex absolute top-0.5 left-7 text-xs text-yellow-900 font-bold">01</div>
-                    </div>
-                </li>
-            </ul>
-            {{-- </div> --}}
-        </div>
-
-        <div class="hidden lg:flex gap-4">
-            <div
-                class="px-6 py-1.5 bg-yellow-900 rounded-full border-2 border-amber-300 text-white text-center text-lg font-bold font-['Cardo'] leading-normal tracking-tight">
-                Login
-            </div>
-            <div
-                class="px-6 py-1.5 bg-amber-400 rounded-full text-yellow-900 text-center text-lg font-bold font-['Cardo'] leading-normal tracking-tight">
-                Register
-            </div>
-        </div>
-    </nav>
+@extends('layouts.master')
+@section('accessoires')
     <section class="newsletter  w-full h-[250px] flex justify-center items-center">
         <div class=" w-9/12 flex flex-col h-3/5 ">
             <div class="flex justify-center items-center flex-col gap-6">
@@ -108,6 +36,45 @@
                 </div>
             </div>
 
+            @if (session()->has('success'))
+                <div class="flex w-full justify-center">
+
+                    <div class="flex justify-center max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800"
+                        x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">
+                        <div class="flex items-center justify-center w-12 bg-amber-400">
+                            <svg fill="#713f12" class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
+                            </svg>
+                        </div>
+
+                        <div class="px-4 py-2 -mx-3">
+                            <div class="mx-3">
+                                <span class="font-semibold text-amber-400 dark:text-emerald-400">Success</span>
+                                <p class="text-sm text-gray-600 dark:text-gray-200">{{ session('success') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- @elseif(session()->has('info'))
+            <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800" x-data="{show : true}" x-init="setTimeout(()=> show = false , 3000)"
+                x-show="show">
+                <div class="flex items-center justify-center w-12 bg-blue-500">
+                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z" />
+                    </svg>
+                </div>
+            
+                <div class="px-4 py-2 -mx-3">
+                    <div class="mx-3">
+                        <span class="font-semibold text-blue-500 dark:text-blue-400">Info</span>
+                        <p class="text-sm text-gray-600 dark:text-gray-200">{{session('info')}}</p>
+                    </div>
+                </div>
+            {{-- </div> --}}
+            @endif
             <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-4 hover:bg-amber-200 bg-amber-100"
                 data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                 Ajouter un accessoire
@@ -144,14 +111,15 @@
                                             class="flex flex-col items-center justify-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                                 <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none" viewBox="0 0 20 16">
-                                                    <path stroke="currentColor" strokeLinecap="round"
-                                                        strokeLinejoin="round" strokeWidth="2"
+                                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                    viewBox="0 0 20 16">
+                                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
+                                                        strokeWidth="2"
                                                         d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                                 </svg>
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                    <span class="font-semibold">Click to upload</span>
+                                                    <span class="font-semibold">Click to
+                                                        upload</span>
                                                     or drag and drop
                                                 </p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">
@@ -172,7 +140,8 @@
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
                                             <option value="">Select categorie</option>
                                             @foreach ($categories as $categorie)
-                                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                                <option value="{{ $categorie->id }}">
+                                                    {{ $categorie->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -243,7 +212,8 @@
                                                 <img id="productImage" src="" alt="product Photo"
                                                     class="w-32 h-32 mb-4">
                                                 <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                                                    <span class="font-semibold">Click to upload</span>
+                                                    <span class="font-semibold">Click to
+                                                        upload</span>
                                                     or drag and drop
                                                 </p>
                                                 <p class="text-xs text-gray-500 dark:text-gray-400">
@@ -262,9 +232,11 @@
                                         </label>
                                         <select id="categorie_id" name="categorie_id"
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                                            <option value="" id="">Select category</option>
+                                            <option value="" id="">Select category
+                                            </option>
                                             @foreach ($categories as $categorie)
-                                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                                <option value="{{ $categorie->id }}">
+                                                    {{ $categorie->name }}</option>
                                             @endforeach
                                         </select>
 
@@ -330,7 +302,8 @@
                                         $trimmedItem = substr($trimmedItem, 0, 30);
                                         $trimmedItem .= strlen($trimmedItem) < strlen($item) ? '...' : '';
                                     @endphp
-                                    <li class="text-slate-400 text-lg p-2 list-disc">{!! $trimmedItem !!}</li>
+                                    <li class="text-slate-400 text-lg p-2 list-disc">
+                                        {!! $trimmedItem !!}</li>
                                 @endforeach
 
                             </p>
@@ -339,8 +312,11 @@
                                 <form method="post" action="{{ route('basket.add') }}">
                                     @csrf
                                     <input type="hidden" name="article_id" value="{{ $product->id }}">
-                                    <input type="number" name="quantity" value="1" min="1">
-                                    <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit">Add to cart </button>
+                                    <input type="number" name="quantity" value="1" min="1"
+                                        class="w-[70px] border-yellow-900">
+                                    <button id="addToCart" type="submit"
+                                        class="border-2 border-amber-300 px-8 p-2 w-fit">Add to
+                                        cart </button>
                                 </form>
                                 <a href="{{ route('accessoires.show', ['id' => $product['id']]) }}" class="flex ">
                                     <svg width='28px' viewBox="0 0 24 24" fill="none"
@@ -352,11 +328,13 @@
                                             <path
                                                 d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
                                                 stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
+                                                stroke-linejoin="round">
+                                            </path>
                                             <path
                                                 d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
                                                 stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
+                                                stroke-linejoin="round">
+                                            </path>
                                         </g>
                                     </svg>
                                     <span class="mt-2 ml-1 text-amber-400 underline">
@@ -368,13 +346,13 @@
                             <hr class="flex justify-self-center border-yellow-900 mt-2">
                             <div class="flex justify-center gap-4">
                                 <button class = "popupBtnA" data-modal-target="popup-modal"
-                                    data-modal-toggle="popup-modal" type="button"
-                                    data-product-id="{{ $product->id }}" data-product-photo="{{ $product->photo }}"
+                                    data-modal-toggle="popup-modal" type="button" data-product-id="{{ $product->id }}"
+                                    data-product-photo="{{ $product->photo }}"
                                     data-categorie-id="{{ $product->categorie_id }}"
                                     data-product-titre="{{ $product->titre }}"
                                     data-product-description="{{ $product->description }}"
-                                    data-product-price="{{ $product->price }}"><svg width="25px"
-                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    data-product-price="{{ $product->price }}"><svg width="25px" viewBox="0 0 24 24"
+                                        fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                         </g>
@@ -382,11 +360,13 @@
                                             <path
                                                 d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
                                                 stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
+                                                stroke-linejoin="round">
+                                            </path>
                                             <path
                                                 d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
                                                 stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
+                                                stroke-linejoin="round">
+                                            </path>
                                         </g>
                                     </svg></button>
                                 <form action="{{ route('accessoires.delete', $product->id) }}" method="POST">
@@ -395,8 +375,8 @@
                                     <button class="mt-1"><svg width="32px" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
-                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                            </g>
                                             <g id="SVGRepo_iconCarrier">
                                                 <path d="M10 12V17" stroke="#713f12" stroke-width="2"
                                                     stroke-linecap="round" stroke-linejoin="round"></path>
@@ -408,8 +388,7 @@
                                                     d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
                                                     stroke="#713f12" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round"></path>
-                                                <path
-                                                    d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
                                                     stroke="#713f12" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round"></path>
                                             </g>
@@ -462,141 +441,10 @@
         </div>
 
     </section>
-    <footer>
-        <div class="flex justify-evenly justify-center items-start h-[350px] pt-8">
-            <div class="flex flex-col">
 
-                <div class="flex items-center gap-4">
-                    <img class="w-10 h-10" src="../img/booksyellow.png" />
-                    <div class="text-white text-2xl font-normal handlee-regular">Lire et Éclairer</div>
-                </div>
-                <div class="flex gap-4 pt-10">
-                    <div class="border-2 border-amber-300 p-4">
-                        <svg width='28px' fill="#ffffff" viewBox="0 0 32 32" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="border-2 border-amber-300 p-4">
-                        <svg width='28px' fill="#ffffff" viewBox="0 0 32 32" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="border-2 border-amber-300 p-4">
-                        <svg width='28px' fill="#ffffff" viewBox="0 0 32 32" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="border-2 border-amber-300 p-4">
-                        <svg width='28px' fill="#ffffff" viewBox="0 0 32 32" version="1.1"
-                            xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
-                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                            <g id="SVGRepo_iconCarrier">
-                                <path
-                                    d="M31.739 8.875c-0.186-0.264-0.489-0.422-0.812-0.422h-21.223l-1.607-5.54c-0.63-2.182-2.127-2.417-2.741-2.417h-4.284c-0.549 0-0.993 0.445-0.993 0.993s0.445 0.993 0.993 0.993h4.283c0.136 0 0.549 0 0.831 0.974l5.527 20.311c0.12 0.428 0.511 0.724 0.956 0.724h13.499c0.419 0 0.793-0.262 0.934-0.657l4.758-14.053c0.11-0.304 0.064-0.643-0.122-0.907zM25.47 22.506h-12.046l-3.161-12.066h19.253zM23.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5zM14.5 26.504c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5c0-1.381-1.119-2.5-2.5-2.5z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
 
-                </div>
-            </div>
-            <div>
-                <div class="text-2xl text-white font-['Inter']">Explorer</div>
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-center gap-1 pt-6">
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <a href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Accueil</a>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <a href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">A propos</a>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <a href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Services</a>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <a href=""
-                            class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Catalogues</a>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                        <a href=""
-                            class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Contactez-nous</a>
-                    </div>
-                </div>
-            </div>
-            <div>
-
-                <div class="text-2xl text-white font-['Inter']">Restez en contact !</div>
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-start gap-1 pt-6">
-                        <span class=" text-white text-xl font-normal font-['Inter'] ml-4"> Adresse : </span>
-                        <span href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4 w-60">24A
-                            Kingston St, Los Vegas NC 28202, USA.</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class=" text-white text-xl font-normal font-['Inter'] ml-4"> Email : </span>
-
-                        <span href=""
-                            class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">support@books.com</span>
-                    </div>
-                    <div class="flex items-center gap-1">
-                        <span class=" text-white text-xl font-normal font-['Inter'] ml-4"> Tel : </span>
-
-                        <span href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">(+22) 123
-                            - 4567 - 900</span>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-        <div class="flex flex-col justify-center items-center mx-auto">
-            <hr class="w-full border-slate-400">
-            <span class="text-slate-300 text-lg font-normal font-['Inter'] p-4">© All rigths reserved</span>
-        </div>
-
-    </footer>
 
     <script>
-        document.getElementById('burger-menu').addEventListener('click', function() {
-            document.getElementById('nav-links').classList.toggle('hidden');
-        });
-
         document.querySelectorAll('.popupBtnA').forEach(button => {
             button.addEventListener('click', function() {
                 showEditAccessoireForm(button);
@@ -1031,6 +879,4 @@
             return card;
         }
     </script>
-</body>
-
-</html>
+@endsection

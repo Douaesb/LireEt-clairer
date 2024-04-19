@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Article;
-use App\Models\Categorie;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -92,59 +90,14 @@ class UserController extends Controller
 
     public function users()
     {
-        $users = User::where('role','<>','admin')->orderBy('created_at', 'desc')->get();
+        $users = User::where('role', '<>', 'admin')->orderBy('created_at', 'desc')->get();
         return view('admin.users', compact('users'));
     }
 
-
-
     public function home()
     {
-        // Get the authenticated user
-        $user = auth()->user();
-    
-        // Get the user's basket (panier)
-        $basket = $user->panier;
-        
-        // Calculate the total cost of all articles in the basket
-        $totalCost = 0;
-        $numProductsInBasket = 0;
-
-        if ($basket) {
-            $numProductsInBasket = $basket->articles->count();
-
-            foreach ($basket->articles as $article) {
-                // Calculate the cost for each article (quantity * price)
-                $articleCost = $article->pivot->quantity * $article->price;
-                // Add the article cost to the total cost
-                $totalCost += $articleCost;
-            }
-        }
-    
-        // Get the list of categories
-        $categories = Categorie::all();
-    
-        // Get the category "accessoire"
-        $category = Categorie::where('name', 'accessoire')->first();
-    
-        // Get products based on the category
-        if ($category) {
-            $products = Article::where('categorie_id', $category->id)->paginate(6);
-    
-            // Pass the total cost along with other data to the view
-            return view('client.home', [
-                'products' => $products,
-                'categories' => $categories,
-                'basket' => $basket,
-                'articles' => $basket->articles,
-                'totalCost' => $totalCost, 
-                'numProductsInBasket' => $numProductsInBasket, 
-            ]);
-        } else {
-            return view('client.home')->with('error', 'Category "accessoire" not found.');
-        }
+        return view('client.home');
     }
-    
 
     public function banUser($id)
     {
@@ -172,5 +125,18 @@ class UserController extends Controller
             return redirect()->route('admin.users')->with('success', 'User unbanned successfully.');
         }
         return redirect()->route('admin.users')->with('error', 'User not found.');
+    }
+
+    public function numProductsInBasket()
+    {
+        if (auth()->user()) {
+            $user = auth()->user();
+            $basket = $user->panier;
+            $numProductsInBasket = 0;
+            if ($basket) {
+                $numProductsInBasket = $basket->articles->count();
+            }
+            return $numProductsInBasket;
+        }
     }
 }

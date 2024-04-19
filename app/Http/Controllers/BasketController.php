@@ -21,6 +21,7 @@ class BasketController extends Controller
         // Return the view with the basket contents
         return view('basket.index', ['basket' => $basket, 'articles' => $articles]);
     }
+    
 
     public function add(Request $request)
     {

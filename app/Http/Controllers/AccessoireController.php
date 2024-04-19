@@ -69,13 +69,31 @@ class AccessoireController extends Controller
 
     public function displayAccessories()
     {
-        $categories = Categorie::all();
+        $user = auth()->user();
+        $basket = $user->panier;
+        $totalCost = 0;
+        $numProductsInBasket = 0;
 
+        if ($basket) {
+            $numProductsInBasket = $basket->articles->count();
+
+            foreach ($basket->articles as $article) {
+                $articleCost = $article->pivot->quantity * $article->price;
+                $totalCost += $articleCost;
+            }
+        }
+        $categories = Categorie::all();
         $category = Categorie::where('name', 'accessoire')->first();
         if ($category) {
             $products = Article::where('categorie_id', $category->id)->paginate(6);
-            // dd($products);
-            return view('accessoires', ['products' => $products, 'categories' => $categories]);
+            return view('accessoires', [
+                'products' => $products,
+                'categories' => $categories,
+                'basket' => $basket,
+                'articles' => $basket->articles,
+                'totalCost' => $totalCost,
+                'numProductsInBasket' => $numProductsInBasket,
+            ]);
         } else {
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
