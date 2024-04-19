@@ -4,6 +4,7 @@ use App\Http\Controllers\AccessoireController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\BasketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -84,3 +85,9 @@ Route::delete('/accessoires/delete/{id}',[AccessoireController::class, 'destroy'
 
 Route::post('/search/accessories', [AccessoireController::class, 'search'])->name('accessoires.search');
 
+
+// Les routes de gestion du panier
+Route::get('basket',[BasketController::class, 'index'])->name('basket.index');
+Route::post('basket/add',[BasketController::class, 'add'])->name('basket.add');
+Route::get('basket/update',[BasketController::class, 'update'])->name('basket.update');
+Route::get('basket/remove',[BasketController::class, 'remove'])->name('basket.remove');

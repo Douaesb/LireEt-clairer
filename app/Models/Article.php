@@ -25,4 +25,11 @@ class Article extends Model
     {
         return $this->belongsTo(Categorie::class);
     }
+
+    public function paniers()
+{
+    return $this->belongsToMany(Panier::class, 'commandes')
+                ->withPivot('quantity')
+                ->withTimestamps();
+}
 }

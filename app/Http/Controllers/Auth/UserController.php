@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
+use App\Models\Categorie;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -27,8 +29,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
-
+            'password' => 'required|min:6',
         ]);
         $data = $request->all();
         $this->create($data);
@@ -57,6 +58,7 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
+            'role' => 'client',
 
         ]);
     }
@@ -75,6 +77,7 @@ class UserController extends Controller
     protected function redirectBasedOnRole()
     {
         $user = auth()->user();
+        // dd($user);
         if ($user->role == 'admin') {
             return redirect()->route('admin.dashboard');
         } else {
@@ -93,9 +96,20 @@ class UserController extends Controller
         return view('admin.users', compact('users'));
     }
 
+
+
     public function home()
     {
-        return view('client.home');
+        $categories = Categorie::all();
+
+        $category = Categorie::where('name', 'accessoire')->first();
+        if ($category) {
+            $products = Article::where('categorie_id', $category->id)->paginate(6);
+            // dd($products);
+            return view('client.home', ['products' => $products, 'categories' => $categories]);
+        } else {
+            return view('client.home')->with('error', 'Category "accessoire" not found.');
+        }
     }
 
     public function banUser($id)
