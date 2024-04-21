@@ -30,9 +30,12 @@ class UserController extends Controller
             'password' => 'required|min:6',
         ]);
         $data = $request->all();
-        $this->create($data);
+        $user = $this->create($data);
+        Auth::login($user);
         return $this->redirectBasedOnRole();
     }
+
+
 
 
     public function login(Request $request)
@@ -56,8 +59,9 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => $data['password'],
-            'role' => 'client',
+            'role' => $data['role'],
 
+            // 'role' => 'client',
         ]);
     }
 
@@ -74,7 +78,7 @@ class UserController extends Controller
 
     protected function redirectBasedOnRole()
     {
-        $user = auth()->user();
+        $user = Auth::user();
         // dd($user);
         if ($user->role == 'admin') {
             return redirect()->route('admin.dashboard');
@@ -125,18 +129,5 @@ class UserController extends Controller
             return redirect()->route('admin.users')->with('success', 'User unbanned successfully.');
         }
         return redirect()->route('admin.users')->with('error', 'User not found.');
-    }
-
-    public function numProductsInBasket()
-    {
-        if (auth()->user()) {
-            $user = auth()->user();
-            $basket = $user->panier;
-            $numProductsInBasket = 0;
-            if ($basket) {
-                $numProductsInBasket = $basket->articles->count();
-            }
-            return $numProductsInBasket;
-        }
     }
 }

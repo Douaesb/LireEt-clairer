@@ -28,6 +28,7 @@
                     </div>
                     <form action="{{route('registerP')}}" method="POST">
                         @csrf
+                        <input type="hidden" name="role" value="client">
                         <div>
                             <label class="font-semibold text-xl p-2" for="">Name : </label>
                             <input class="mt-2 mb-2 w-full px-6 py-2 rounded-xl" type="text" name="name"

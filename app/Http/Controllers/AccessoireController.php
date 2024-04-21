@@ -73,15 +73,20 @@ class AccessoireController extends Controller
         $basket = $user->panier;
         $totalCost = 0;
         $numProductsInBasket = 0;
-
+        $articles = collect(); // Initialize an empty collection
+    
         if ($basket) {
             $numProductsInBasket = $basket->articles->count();
-
-            foreach ($basket->articles as $article) {
-                $articleCost = $article->pivot->quantity * $article->price;
-                $totalCost += $articleCost;
+            $articles = $basket->articles; // Retrieve articles from the basket
+    
+            if ($articles !== null) {
+                foreach ($articles as $article) {
+                    $articleCost = $article->pivot->quantity * $article->price;
+                    $totalCost += $articleCost;
+                }
             }
         }
+    
         $categories = Categorie::all();
         $category = Categorie::where('name', 'accessoire')->first();
         if ($category) {
@@ -90,7 +95,7 @@ class AccessoireController extends Controller
                 'products' => $products,
                 'categories' => $categories,
                 'basket' => $basket,
-                'articles' => $basket->articles,
+                'articles' => $articles, // Use the initialized articles collection
                 'totalCost' => $totalCost,
                 'numProductsInBasket' => $numProductsInBasket,
             ]);
@@ -98,6 +103,7 @@ class AccessoireController extends Controller
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
     }
+    
 
     public function show($id)
     {

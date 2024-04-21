@@ -1,4 +1,3 @@
-
 <div id="panier" class="hidden relative z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
     <!--
   Background backdrop, show/hide based on slide-over state.
@@ -48,60 +47,70 @@
                             <div class="mt-8">
                                 <div class="flow-root">
                                     @if (isset($articles))
-                                    @if ($articles->isEmpty())
-                                        <p>Your basket is empty.</p>
-                                    @else
-                                        <ul role="list" class="-my-6 divide-y divide-gray-200">
-                                            @foreach ($articles as $article)
-                                                <li class="flex py-6">
-                                                    <div
-                                                        class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                                        <img src="{{ $article->photo }}"
-                                                            alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt."
-                                                            class="h-full w-full object-cover object-center">
-                                                    </div>
+                                        @if ($articles->isEmpty())
+                                            <p>Your basket is empty.</p>
+                                        @else
+                                            <ul role="list" class="-my-6 divide-y divide-gray-200">
+                                                @foreach ($articles as $article)
+                                                    <li class="flex py-6">
 
-                                                    <div class="ml-4 flex flex-1 flex-col">
-                                                        <div>
-                                                            <div
-                                                                class="flex justify-between text-base font-medium text-gray-900">
-                                                                <h3>
-                                                                    <a
-                                                                        href="#">{{ substr($article->titre, 0, 25) }}</a>
-                                                                </h3>
-                                                                <p class="ml-4">
-                                                                    Total:{{ $article->pivot->quantity * $article->price }}
-                                                                    $</p>
-                                                            </div>
-                                                            <p class="mt-1 text-sm text-gray-500">price per piece :
-                                                                {{ $article->price }}$</p>
+                                                        <div
+                                                            class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                            @if ($article->photo && filter_var($article->photo, FILTER_VALIDATE_URL))
+                                                                <img src="{{ $article->photo }}" alt="article Image"
+                                                                    class="h-full w-full object-cover object-center">
+                                                            @elseif($article->photo && !filter_var($article->photo, FILTER_VALIDATE_URL))
+                                                                <img src="{{ asset('storage/' . $article->photo) }}"
+                                                                    alt="article Image"
+                                                                    class="h-full w-full object-cover object-center">
+                                                            @else
+                                                                <p>No Image Available</p>
+                                                            @endif
+
                                                         </div>
-                                                        <div class="flex flex-1 items-end justify-between text-sm">
-                                                            <p class="text-gray-500">Quantity :
-                                                                {{ $article->pivot->quantity }}</p>
 
-                                                            {{-- <form method="post" action="{{ route('basket.update') }}">
+                                                        <div class="ml-4 flex flex-1 flex-col">
+                                                            <div>
+                                                                <div
+                                                                    class="flex justify-between text-base font-medium text-gray-900">
+                                                                    <h3>
+                                                                        <a
+                                                                            href="#">{{ substr($article->titre, 0, 25) }}</a>
+                                                                    </h3>
+                                                                    <p class="ml-4">
+                                                                        Total:{{ $article->pivot->quantity * $article->price }}
+                                                                        $</p>
+                                                                </div>
+                                                                <p class="mt-1 text-sm text-gray-500">price per piece :
+                                                                    {{ $article->price }}$</p>
+                                                            </div>
+                                                            <div class="flex flex-1 items-end justify-between text-sm">
+                                                                <p class="text-gray-500">Quantity :
+                                                                    {{ $article->pivot->quantity }}</p>
+
+                                                                {{-- <form method="post" action="{{ route('basket.update') }}">
                                                         @csrf
                                                         <input type="hidden" name="article_id" value="{{ $article->id }}">
                                                         <input type="number" name="quantity" value="{{ $article->pivot->quantity }}">
                                                         <button type="submit">Update</button>
                                                     </form> --}}
-                                                            <form method="post" action="{{ route('basket.remove') }}">
-                                                                @csrf
-                                                                <input type="hidden" name="article_id"
-                                                                    value="{{ $article->id }}">
-                                                                <div class="flex">
-                                                                    <button type="submit"
-                                                                        class="font-medium text-yellow-600">Remove</button>
-                                                                </div>
-                                                            </form>
+                                                                <form method="post"
+                                                                    action="{{ route('basket.remove') }}">
+                                                                    @csrf
+                                                                    <input type="hidden" name="article_id"
+                                                                        value="{{ $article->id }}">
+                                                                    <div class="flex">
+                                                                        <button type="submit"
+                                                                            class="font-medium text-yellow-600">Remove</button>
+                                                                    </div>
+                                                                </form>
 
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </li>
-                                            @endforeach
-                                        </ul>
-                                    @endif
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                 </div>
                             </div>
                         </div>
