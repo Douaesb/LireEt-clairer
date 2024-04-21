@@ -35,46 +35,6 @@
                     </form>
                 </div>
             </div>
-
-            @if (session()->has('success'))
-                <div class="flex w-full justify-center">
-
-                    <div class="flex justify-center max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800"
-                        x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">
-                        <div class="flex items-center justify-center w-12 bg-amber-400">
-                            <svg fill="#713f12" class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
-                            </svg>
-                        </div>
-
-                        <div class="px-4 py-2 -mx-3">
-                            <div class="mx-3">
-                                <span class="font-semibold text-amber-400 dark:text-emerald-400">Success</span>
-                                <p class="text-sm text-gray-600 dark:text-gray-200">{{ session('success') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- @elseif(session()->has('info'))
-            <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800" x-data="{show : true}" x-init="setTimeout(()=> show = false , 3000)"
-                x-show="show">
-                <div class="flex items-center justify-center w-12 bg-blue-500">
-                    <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z" />
-                    </svg>
-                </div>
-            
-                <div class="px-4 py-2 -mx-3">
-                    <div class="mx-3">
-                        <span class="font-semibold text-blue-500 dark:text-blue-400">Info</span>
-                        <p class="text-sm text-gray-600 dark:text-gray-200">{{session('info')}}</p>
-                    </div>
-                </div>
-            {{-- </div> --}}
-            @endif
             @auth
                 @if (auth()->user()->role == 'admin')
                     <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-4 hover:bg-amber-200 bg-amber-100"
@@ -319,7 +279,12 @@
                                     <input type="number" name="quantity" value="1" min="1"
                                         class="w-[70px] border-yellow-900">
                                     <button id="addToCart" type="submit"
-                                        class="border-2 border-amber-300 px-8 p-2 w-fit">Add to
+                                        class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
+                                            icon: 'success',
+                                            title: 'Added to card successfully',
+                                            showConfirmButton: false,
+                                            timer: 1500
+                                          });">Add to
                                         cart </button>
                                 </form>
                                 <a href="{{ route('accessoires.show', ['id' => $product['id']]) }}" class="flex ">
