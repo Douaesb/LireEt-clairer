@@ -52,7 +52,7 @@
                                         @else
                                             <ul role="list" class="-my-6 divide-y divide-gray-200">
                                                 @foreach ($articles as $article)
-                                                    <li class="flex py-6">
+                                                    <li class="flex py-6" data-article-id="{{ $article->id }}">
 
                                                         <div
                                                             class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
@@ -77,34 +77,33 @@
                                                                         <a
                                                                             href="#">{{ substr($article->titre, 0, 25) }}</a>
                                                                     </h3>
-                                                                    <p class="ml-4">
-                                                                        Total:{{ $article->pivot->quantity * $article->price }}
-                                                                        $</p>
+                                                                    <p class="ml-4 ">
+                                                                        <span
+                                                                            class="total-quantity">{{ $article->pivot->quantity * $article->price }}</span>
+                                                                        </p>
                                                                 </div>
-                                                                <p class="mt-1 text-sm text-gray-500">price per piece :
-                                                                    {{ $article->price }}$</p>
+                                                                <p class="mt-1 text-sm text-gray-500 ">price per piece :
+                                                                    <span class="article-price">
+                                                                        {{ $article->price }}</span>$
+                                                                </p>
                                                             </div>
-                                                            <div class="flex flex-1 items-end justify-between text-sm">
-                                                                <p class="text-gray-500">Quantity :
-                                                                    {{ $article->pivot->quantity }}</p>
-
-                                                                {{-- <form method="post" action="{{ route('basket.update') }}">
-                                                        @csrf
-                                                        <input type="hidden" name="article_id" value="{{ $article->id }}">
-                                                        <input type="number" name="quantity" value="{{ $article->pivot->quantity }}">
-                                                        <button type="submit">Update</button>
-                                                    </form> --}}
+                                                            <div class="flex items-center">
+                                                                <button class="quantity-decrease text-gray-500"
+                                                                    type="button">-</button>
+                                                                <span
+                                                                    class="quantity-value mx-2">{{ $article->pivot->quantity }}</span>
+                                                                <button class="quantity-increase text-gray-500"
+                                                                    type="button">+</button>
+                                                            </div>
+                                                            <div class="flex justify-end">
                                                                 <form method="post"
                                                                     action="{{ route('basket.remove') }}">
                                                                     @csrf
                                                                     <input type="hidden" name="article_id"
                                                                         value="{{ $article->id }}">
-                                                                    <div class="flex">
-                                                                        <button type="submit"
-                                                                            class="font-medium text-yellow-600">Remove</button>
-                                                                    </div>
+                                                                    <button type="submit"
+                                                                        class="font-medium text-yellow-600">Remove</button>
                                                                 </form>
-
                                                             </div>
                                                         </div>
                                                     </li>
@@ -118,7 +117,7 @@
                         <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
                             <div class="flex justify-between text-base font-medium text-gray-900">
                                 <p>Total</p>
-                                <p>{{ $totalCost }}$</p>
+                                <p><span class="total-cost">{{ $totalCost }}</span> $</p>
                             </div>
                             <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at
                                 checkout.</p>
@@ -155,4 +154,101 @@
     basket.addEventListener('click', function() {
         panier.classList.remove('hidden');
     })
+
+
+    function updateTotalAndTotalCost() {
+        let totalCost = 0;
+
+        // Iterate through each list item (article) in the basket
+        document.querySelectorAll('#panier li').forEach(listItem => {
+            const quantitySpan = listItem.querySelector('.quantity-value');
+            const pricePerPieceSpan = listItem.querySelector('.article-price');
+
+            // Ensure both quantity and price are available and valid
+            if (!quantitySpan || !pricePerPieceSpan) {
+                console.error('Missing quantity or price element in list item.');
+                return;
+            }
+
+            const quantity = parseInt(quantitySpan.textContent, 10);
+            const pricePerPiece = parseFloat(pricePerPieceSpan.textContent.trim().replace('$', ''));
+            console.log(quantity);
+            console.log(pricePerPiece);
+
+            if (isNaN(quantity) || isNaN(pricePerPiece)) {
+                console.error('Invalid quantity or price value in list item.');
+                return;
+            }
+
+            // Calculate the total for the article
+            const totalForArticle = quantity * pricePerPiece;
+            console.log(totalForArticle);
+
+            // Update the total for the article in the DOM
+            listItem.querySelector('.total-quantity').textContent = `Total: ${totalForArticle.toFixed(2)} $`;
+
+            // Accumulate the total cost
+            totalCost += totalForArticle;
+            console.log(totalCost);
+
+        });
+
+        // Update the total cost in the DOM
+        document.querySelector('.total-cost').textContent = `${totalCost.toFixed(2)}$`;
+    }
+
+    // Event listener for updating quantity
+    document.querySelectorAll('.quantity-increase, .quantity-decrease').forEach(button => {
+        button.addEventListener('click', function() {
+            const listItem = this.closest('li');
+            const articleId = listItem.getAttribute('data-article-id');
+            const quantitySpan = listItem.querySelector('.quantity-value');
+            let quantity = parseInt(quantitySpan.textContent);
+
+            // Increase or decrease quantity based on the button clicked
+            if (this.classList.contains('quantity-increase')) {
+                if (quantity < 10) {
+                    quantity++;
+                }
+            } else if (this.classList.contains('quantity-decrease')) {
+                quantity--;
+                if (quantity === 0) {
+                    // If quantity becomes zero, remove the article from the list
+                    listItem.remove();
+                }
+            }
+
+            // Update the quantity value in the DOM
+            quantitySpan.textContent = quantity;
+
+            // Make an AJAX request to update the quantity in the backend
+            fetch('/basket/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        article_id: articleId,
+                        quantity: quantity
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update the total and total cost after successful quantity update
+                        updateTotalAndTotalCost();
+                    } else {
+                        console.error('Error updating quantity:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+
+    // Call the function to initialize the total cost when the page loads
+    updateTotalAndTotalCost();
 </script>
