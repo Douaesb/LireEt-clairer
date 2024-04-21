@@ -96,8 +96,8 @@
                                                                     type="button">+</button>
                                                             </div>
                                                             <div class="flex justify-end">
-                                                                    <button type="button"
-                                                                        class="removeArticle font-medium text-yellow-600">Remove</button>
+                                                                <button type="button"
+                                                                    class="removeArticle font-medium text-yellow-600">Remove</button>
                                                             </div>
                                                         </div>
                                                     </li>
@@ -148,7 +148,10 @@
     basket.addEventListener('click', function() {
         panier.classList.remove('hidden');
     })
+    const articlesCountElement = document.querySelector('.articlesCount');
 
+    let articlesCount = document.querySelector('.articlesCount').innerText;
+    console.log('articles Count at first', articlesCount)
 
     function updateTotalAndTotalCost() {
         let totalCost = 0;
@@ -159,7 +162,6 @@
                 console.error('Missing quantity or price element in list item.');
                 return;
             }
-
             const quantity = parseInt(quantitySpan.textContent, 10);
             const pricePerPiece = parseFloat(pricePerPieceSpan.textContent.trim().replace('$', ''));
             console.log(quantity);
@@ -192,6 +194,10 @@
                 quantity--;
                 if (quantity === 0) {
                     listItem.remove();
+                    articlesCount--;
+                    articlesCountElement.textContent = articlesCount;
+                    console.log('articles Count after --0', articlesCount)
+
                 }
             }
             quantitySpan.textContent = quantity;
@@ -223,36 +229,38 @@
     updateTotalAndTotalCost();
 
     document.querySelectorAll('.removeArticle').forEach(button => {
-    button.addEventListener('click', function() {
-        event.preventDefault();
-        const listItem = this.closest('li');
-        const articleId = listItem.getAttribute('data-article-id');
-        fetch('/basket/remove', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            body: JSON.stringify({
-                article_id: articleId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Remove the article from the DOM
-                listItem.remove();
+        button.addEventListener('click', function() {
+            event.preventDefault();
+            const listItem = this.closest('li');
+            const articleId = listItem.getAttribute('data-article-id');
+            fetch('/basket/remove', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        article_id: articleId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the article from the DOM
+                        listItem.remove();
+                        articlesCount--;
+                        articlesCountElement.textContent = articlesCount;
+                        console.log('articles Count after remove', articlesCount)
 
-                // Update the total cost
-                updateTotalAndTotalCost();
-            } else {
-                console.error('Error removing article:', data.error);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
+                        updateTotalAndTotalCost();
+                    } else {
+                        console.error('Error removing article:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         });
     });
-});
-
 </script>

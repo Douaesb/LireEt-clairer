@@ -91,3 +91,5 @@ Route::post('/search/accessories', [AccessoireController::class, 'search'])->nam
 Route::post('basket/add',[BasketController::class, 'add'])->name('basket.add');
 Route::post('/basket/update', [BasketController::class, 'update'])->name('basket.update');
 Route::post('basket/remove',[BasketController::class, 'remove'])->name('basket.remove');
+
+// Route::get('/basket', [BasketController::class, 'getBasketData'])->name('basket.data');

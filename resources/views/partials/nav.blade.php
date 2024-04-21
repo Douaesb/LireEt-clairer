@@ -46,7 +46,7 @@
                                     </g>
                                 </svg>
                                 <div class="hidden md:flex absolute top-0 left-6 h-5 w-5 bg-amber-400 rounded-full"></div>
-                                <div class="hidden md:flex absolute top-0.5 left-7 text-xs text-yellow-900 font-bold">
+                                <div class="articlesCount hidden md:flex absolute top-0.5 left-7 text-xs text-yellow-900 font-bold">
                                     {{ $numProductsInBasket }}</div>
                             </button>
                         </li>
