@@ -24,7 +24,7 @@
 
             @auth
                 @if (auth()->user()->role == 'admin')
-                    <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-20 hover:bg-amber-200 bg-amber-100"
+                    <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  md:ml-52 mt-20 hover:bg-amber-200 bg-amber-100"
                         data-modal-target="crud-modal" data-modal-toggle="crud-modal">
                         Ajouter un livre
                     </button>
