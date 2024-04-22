@@ -70,7 +70,7 @@
                     accessoires, restez à jour et profitez des réductions de notre plateforme.</p>
                 <div class="flex flex-col md:flex-row gap-3">
                     <input type="email" name="email" id="" placeholder="Votre Email ..." class="p-2 md:p-4 md:w-[450px]">
-                    <button class="bg-yellow-900 text-white px-14 mb-4 py-2">S’abonnez !</button>
+                    <button class="bg-yellow-900 text-white px-14 mb-4 md:mb-0 py-2">S’abonnez !</button>
                 </div>
             </div>
         </div>

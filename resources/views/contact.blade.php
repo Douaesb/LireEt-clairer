@@ -6,16 +6,16 @@
             <div class="flex justify-center items-center flex-col gap-6">
                 <h2 class=" text-white text-4xl font-semibold font-[cardo] ">Contactez-nous</h2>
                 <hr class="border-2 border-amber-300 w-1/5">
-                <p class="text-slate-300 text-lg w-3/6 text-center">There are many variations of passages of Lorem Ipsum
-                    available, have suffered alteration in some form.</p>
+                <p class="text-slate-300 text-lg md:w-3/6 text-center">There are many variations of passages of Lorem Ipsum
+                    available.</p>
             </div>
         </div>
     </section>
     <section class="bg-white">
-        <div class="grid grid-cols-2 w-3/5 p-8 justify-center items-center m-auto gap-8 bg-white  h-[600px]">
+        <div class=" pl-6 grid grid cols-1 md:grid-cols-2 w-full md:w-3/5 md:p-8 justify-center items-center md:m-auto gap-8 bg-white  md:h-[650px]">
             <div class="flex flex-col">
                 <div class="flex flex-col gap-4">
-                    <h2 class=" text-yellow-900 text-4xl font-semibold font-[cardo] ">Restez en contact</h2>
+                    <h2 class=" text-yellow-900 text-4xl font-semibold font-[cardo] mt-4">Restez en contact</h2>
                     <hr class="border-2 border-amber-300 w-1/5">
                     <p class="text-slate-500 text-lg w-10/12 ">There are many variations of passages of Lorem
                         Ipsum
@@ -93,7 +93,8 @@
                 </div>
             </div>
             <div class="flex flex-col justify-start h-full gap-4 pt-8">
-                <div class="flex gap-2">
+                <h2 class=" text-yellow-900 text-2xl font-semibold font-[cardo] mt-4 ml-4 md:ml-0 md:text-center">Envoyez-nous vos remarques</h2>
+                <div class="flex md:flex-row flex-col gap-2">
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
                             <svg width='25px' viewBox="0 0 24 24" fill="none"
@@ -109,7 +110,7 @@
                             </svg>
                         </div>
                         <input type="name" name="" id=""
-                            class="ml-2 border-2 border-gray-200 p-4 px-9 text-base font-normal " placeholder="Name">
+                            class="ml-2 border-2 border-gray-200 p-4 px-9 text-base font-normal w-4/5 md:w-full " placeholder="Name">
                     </div>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
@@ -125,7 +126,7 @@
                             </svg>
                         </div>
                         <input type="email" name="" id=""
-                            class="ml-2 border-2 border-gray-200 p-4 px-9 text-base font-normal" placeholder="Email">
+                            class="ml-2 border-2 border-gray-200 p-4 px-9 text-base font-normal w-4/5 md:w-full " placeholder="Email">
                     </div>
 
                 </div>
@@ -142,7 +143,7 @@
                             </g>
                         </svg>
                     </div>
-                    <input type="Phone" class="ml-2 border-2 border-gray-200 p-4 w-full px-10" placeholder="Phone">
+                    <input type="Phone" class="ml-2 border-2 border-gray-200 p-4 w-4/5 md:w-full px-10" placeholder="Phone">
 
                 </div>
                 <div class="relative">
@@ -150,15 +151,15 @@
                         <svg width='20px' viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill="#FFCA42" fill-rule="evenodd" d="M15.747 2.97a.864.864 0 011.177 1.265l-7.904 7.37-1.516.194.653-1.785 7.59-7.044zm2.639-1.366a2.864 2.864 0 00-4-.1L6.62 8.71a1 1 0 00-.26.39l-1.3 3.556a1 1 0 001.067 1.335l3.467-.445a1 1 0 00.555-.26l8.139-7.59a2.864 2.864 0 00.098-4.093zM3.1 3.007c0-.001 0-.003.002-.005A.013.013 0 013.106 3H8a1 1 0 100-2H3.108a2.009 2.009 0 00-2 2.19C1.256 4.814 1.5 7.848 1.5 10c0 2.153-.245 5.187-.391 6.81A2.009 2.009 0 003.108 19H17c1.103 0 2-.892 2-1.999V12a1 1 0 10-2 0v5H3.106l-.003-.002a.012.012 0 01-.002-.005v-.004c.146-1.62.399-4.735.399-6.989 0-2.254-.253-5.37-.4-6.99v-.003zM17 17c-.001 0 0 0 0 0zm0 0z"></path> </g></svg>
                     </div>
                     <textarea rows="7" name="message" id="message" placeholder="Message"
-                        class="ml-2 w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-10 text-base font-normal focus:border-[#6A64F1] focus:shadow-md"></textarea>
+                        class="ml-2 w-4/5 md:w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-10 text-base font-normal focus:border-[#6A64F1] focus:shadow-md"></textarea>
 
                 </div>
                 <div>
                     <input type="checkbox" id="demoCheckbox" name="checkbox" value="1"
-                        class="border-2 border-gray-200 p-8">
+                        class="border-2 border-gray-200 p-2">
                     <span class="font-normal text-gray-400">S’abonnez à notre newsletter, restez à jour !</span>
                 </div>
-                <button class="bg-amber-300 text-yellow-900 p-4 font-semibold font-[cardo]">Envoyer message</button>
+                <button class="bg-amber-300 text-yellow-900 p-4 md:w-full w-3/5 font-semibold font-[cardo] ml-10 mb-4">Envoyer message</button>
             </div>
         </div>
     </section>

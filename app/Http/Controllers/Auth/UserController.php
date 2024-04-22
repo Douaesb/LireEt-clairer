@@ -83,7 +83,7 @@ class UserController extends Controller
         if ($user->role == 'admin') {
             return redirect()->route('admin.dashboard');
         } else {
-            return redirect()->route('client.home');
+            return redirect()->route('welcome');
         }
     }
 
@@ -100,7 +100,7 @@ class UserController extends Controller
 
     public function home()
     {
-        return view('client.home');
+        return view('welcome');
     }
 
     public function banUser($id)

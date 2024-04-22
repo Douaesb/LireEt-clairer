@@ -3,7 +3,7 @@
     <section class="newsletter  w-full h-[250px] flex justify-center items-center">
         <div class=" w-9/12 flex flex-col h-3/5 ">
             <div class="flex justify-center items-center flex-col gap-6">
-                <h2 class=" text-white text-4xl font-semibold font-[cardo] ">Notre Magasin de livres</h2>
+                <h2 class=" text-white text-4xl font-semibold font-[cardo] text-center">Notre Magasin d'accessoires</h2>
                 <hr class="border-2 border-amber-300 w-1/5">
                 <p class="text-slate-300 text-lg md:w-3/6 text-center">There are many variations of passages of Lorem Ipsum
                     available.</p>

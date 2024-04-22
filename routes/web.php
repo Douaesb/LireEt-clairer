@@ -58,7 +58,7 @@ Route::get('/dashboard',[UserController::class, 'dashboard'])->name('admin.dashb
 Route::get('/categories',[CategorieController::class, 'categories'])->name('admin.categories');
 Route::get('/users',[UserController::class, 'users'])->name('admin.users');
 
-Route::get('/home',[UserController::class, 'home'])->name('client.home');
+// Route::get('/home',[UserController::class, 'home'])->name('client.home');
 
 
 Route::post('/categorie',[CategorieController::class, 'store'])->name('categorie.store');
