@@ -54,6 +54,8 @@
                        Already have an Account ? <a class="text-gray-700 underline" href="{{route('login')}}">Login here</a>
                     </form>
                 </div>
+                <span class="mt-4 w-fit flex flex-start underline text-yellow-900"><svg width="25px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#713f12" d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"></path><path fill="#713f12" d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"></path></g></svg><a href="{{route('welcome')}}">Back to home</a></span>
+
             </div>
 
         </div>

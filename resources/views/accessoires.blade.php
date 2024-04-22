@@ -5,15 +5,15 @@
             <div class="flex justify-center items-center flex-col gap-6">
                 <h2 class=" text-white text-4xl font-semibold font-[cardo] ">Notre Magasin de livres</h2>
                 <hr class="border-2 border-amber-300 w-1/5">
-                <p class="text-slate-300 text-lg w-3/6 text-center">There are many variations of passages of Lorem Ipsum
-                    available, have suffered alteration in some form.</p>
+                <p class="text-slate-300 text-lg md:w-3/6 text-center">There are many variations of passages of Lorem Ipsum
+                    available.</p>
             </div>
         </div>
     </section>
     <section class="bg-white">
         <div class="p-10">
 
-            <div class="flex  p-4 rounded gap-4 w-2/5 justify-evenly items-center m-auto">
+            <div class="flex  p-4 rounded gap-4 w-2/5 justify-evenly items-center md:m-auto">
                 <div class="relative">
                     <div class="absolute inset-y-0 start-3 flex items-center">
                         <svg width="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -31,7 +31,7 @@
                         @csrf
                         <input type="text" name="query" id="searchInput"
                             placeholder="Search accessories by title here..."
-                            class="search-input p-4 ps-12 w-[550px] border border-amber-300 rounded-xl focus:border-yellow-900 focus:ring-1 focus:outline-none focus:ring-yellow-900">
+                            class="search-input p-4 ps-12  md:w-[550px] border border-amber-300 rounded-xl focus:border-yellow-900 focus:ring-1 focus:outline-none focus:ring-yellow-900">
                     </form>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                     </button>
                 @endif
             @endauth
-            <div id="accessoriesContainer" class="grid grid-cols-3 w-4/5 m-auto pt-8 gap-8">
+            <div id="accessoriesContainer" class=" books grid  grid-cols-1 sm:grid-cols-1  md:grid-cols-2 2xl:grid-cols-3 w-full md:w-4/5 m-auto gap-8 pt-8">
                 {{-- @dd($products) --}}
 
                 <div id="crud-modal" tabIndex="-1" aria-hidden="true"
@@ -271,7 +271,7 @@
                                 @endforeach
 
                             </p>
-                            <div class="flex justify-between">
+                            <div class="flex justify-between gap-3">
                                 @auth
 
                                     <form method="post" action="{{ route('basket.add') }}">

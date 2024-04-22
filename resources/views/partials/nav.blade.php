@@ -17,8 +17,9 @@
             </button>
         </div>
         <!-- End of Burger menu -->
-        <div id="nav-links" class="hidden absolute end-4 top-12 md:relative flex md:flex-row md:top-0 flex-col lg:flex md:bg-yellow-900 bg-amber-400 p-3 md:mt-0 text-white md:gap-6 justfiy-center rounded-lg border-2 border-yellow-900">
+        <div id="nav-links" class="hidden text-xl absolute end-4 top-12 md:relative flex md:flex-row md:top-0 flex-col lg:flex md:bg-yellow-900 bg-amber-400 p-3 md:mt-0 md:text-white md:gap-6 justfiy-center rounded-lg border-2 border-yellow-900 font-semibold font-[inter]">
                 @guest
+                <a href="{{ route('welcome') }}">Home</a>
                 <a href="{{ route('accessoires') }}">Accessoires</a>
                 <hr class="mt-2 border-yellow-900"> 
                 <a href="{{ route('books') }}">Livres</a>     
