@@ -5,14 +5,14 @@
             <div class="flex justify-center items-center flex-col gap-6">
                 <h2 class=" text-white text-4xl font-semibold font-[cardo] ">Notre Magasin </h2>
                 <hr class="border-2 border-amber-300 w-1/5">
-                <p class="text-slate-300 text-lg w-3/6 text-center">There are many variations of passages of Lorem Ipsum
-                    available, have suffered alteration in some form.</p>
+                <p class="text-slate-300 text-lg md:w-3/6 text-center">There are many variations of passages of Lorem Ipsum
+                    available.</p>
             </div>
         </div>
     </section>
-    <section class="bg-white flex justify-center h-full p-10 flex-col items-center">
-        <div class="w-8/12 grid grid-cols-2 justify-center items-center">
-            <div class="card shadow-lg flex flex-col w-4/5 justify-start items-center pb-4 gap-4 h-full">
+    <section class="bg-white flex justify-center h-full p-6 md:p-10 flex-col items-center">
+        <div class="md:w-8/12 grid grid-cols-1 md:grid-cols-2 justify-center items-center">
+            <div class="card shadow-lg flex flex-col w-full md:w-4/5 justify-start items-center pb-4 gap-4 h-full">
                 @if ($accessoire->photo && filter_var($accessoire->photo, FILTER_VALIDATE_URL))
                     <img src="{{ $accessoire->photo }}" alt="accessoire Image">
                 @elseif($accessoire->photo && !filter_var($accessoire->photo, FILTER_VALIDATE_URL))
@@ -21,7 +21,7 @@
                     <p>No Image Available</p>
                 @endif
             </div>
-            <div class="flex flex-col gap-4 justify-center">
+            <div class="flex flex-col gap-4 justify-center mt-4">
                 <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">{{ $accessoire->titre }}</h3>
                 <span class="text-2xl font-semibold font-[cardp] text-amber-300">$30.00 USD</span>
                 <ul>
@@ -53,7 +53,7 @@
                             <input type="number" name="quantity" value="1" min="1"
                                 class="border border-amber-300 w-[80px] text-center text-xl text-slate-400">
                             <button id="addToCart" type="submit"
-                                class="bg-amber-300 px-20 py-4 text-yellow-900 font-[cardo] text-xl font-semibold flex gap-4"
+                                class="bg-amber-300 p-2 md:px-20 md:py-4 text-yellow-900 font-[cardo] text-xl font-semibold flex gap-4"
                                 onclick="Swal.fire({
                         icon: 'success',
                         title: 'Added to card successfully',
@@ -75,7 +75,7 @@
                     </form>
                 @else
                     <a href="{{ route('login') }}"
-                        class="bg-amber-300 px-20 py-4 text-yellow-900 font-[cardo] text-xl font-semibold flex gap-4">
+                        class="bg-amber-300 p-2 md:px-20 md:py-4 text-yellow-900 font-[cardo] text-xl font-semibold flex gap-4">
                         <svg width='28px' fill="#7D4222" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
                             stroke="#7D4222">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -92,7 +92,7 @@
             </div>
         </div>
         </div>
-        <div class="flex justify-center items-center  w-4/5 p-10">
+        <div class="flex flex-wrap md:flex-nowrap justify-center items-center  w-4/5 p-10">
             <div class="flex flex-col gap-10 justify-center pt-10">
                 <div class="text-slate-200 font-xl font-[cardo] bg-yellow-900 w-fit p-4 self-end mr-4  px-16">PRODUCT
                     DESCRIPTION</div>
@@ -124,7 +124,7 @@
         </div>
     </section>
 
-    <section class="h-[30vh] bg-amber-300  justify-center flex ">
+    {{-- <section class="h-[30vh] bg-amber-300  justify-center flex ">
         <div class="flex gap-10 w justify-center items-center w-2/5">
             <div class="flex flex-col justify-center items-center">
                 <div class="flex justify-center pb-4">
@@ -148,5 +148,5 @@
                 </p>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection
