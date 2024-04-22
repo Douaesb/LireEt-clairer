@@ -709,10 +709,6 @@
         @if (auth()->check())
             userRole = "{{ auth()->user()->role }}";
         @endif
-
-        // Now you can use userRole safely in your script
-
-
         function createProductCard(product) {
             const card = document.createElement('div');
             card.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4',

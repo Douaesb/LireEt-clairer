@@ -145,9 +145,9 @@
     panierBtn.addEventListener('click', function() {
         panier.classList.add('hidden');
     })
-    basket.addEventListener('click', function() {
-        panier.classList.remove('hidden');
-    })
+    // basket.addEventListener('click', function() {
+    //     panier.classList.remove('hidden');
+    // })
     const articlesCountElement = document.querySelector('.articlesCount');
 
     let articlesCount = document.querySelector('.articlesCount').innerText;

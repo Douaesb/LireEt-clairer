@@ -519,6 +519,203 @@
             editBookForm.querySelector('#bookPdfUrl').value = bookPdfUrl;
         }
 
+        function showProductPopup(book) {
+            let modal = document.getElementById('popup-modal2');
+            if (modal) {
+                modal.remove();
+            }
+            modal = document.createElement('div');
+            modal.id = 'popup-modal2';
+            modal.tabIndex = -1;
+            modal.classList.add('overflow-y-auto', 'overflow-x-hidden', 'fixed', 'top-0', 'right-0', 'left-0', 'z-50',
+                'flex',
+                'justify-center', 'items-center', 'w-full', 'md:inset-0', 'h-[calc(100%-1rem)]', 'max-h-full');
+            const modalWrapper = document.createElement('div');
+            modalWrapper.classList.add('relative', 'p-4', 'w-full', 'max-w-md', 'max-h-full');
+            const modalContent = document.createElement('div');
+            modalContent.classList.add('relative', 'bg-white', 'rounded-lg', 'shadow', 'dark:bg-gray-700');
+            const modalHeader = document.createElement('div');
+            modalHeader.classList.add('flex', 'items-center', 'justify-between', 'p-4', 'md:p-5', 'border-b', 'rounded-t',
+                'dark:border-gray-600');
+            const modalTitle = document.createElement('h3');
+            modalTitle.classList.add('text-lg', 'font-semibold', 'text-gray-900', 'dark:text-white');
+            modalTitle.textContent = 'Modifier un livre';
+            modalHeader.appendChild(modalTitle);
+            const closeButton = document.createElement('button');
+            closeButton.type = 'button';
+            closeButton.classList.add('absolute', 'top-3', 'end-2.5', 'text-gray-400', 'bg-transparent',
+                'hover:bg-gray-200', 'hover:text-gray-900', 'rounded-lg', 'text-sm', 'w-8', 'h-8', 'ms-auto',
+                'inline-flex', 'justify-center', 'items-center', 'dark:hover:bg-gray-600', 'dark:hover:text-white');
+            closeButton.dataset.modalHide = 'popup-modal';
+            closeButton.innerHTML = `
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+        <span class="sr-only">Close modal</span>
+    `;
+            closeButton.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+            modalHeader.appendChild(closeButton);
+            const form = document.createElement('form');
+            form.classList.add('p-4', 'md:p-5');
+            form.enctype = 'multipart/form-data';
+            form.method = 'POST';
+            form.action = '{{ route('books.update') }}';
+            form.id = 'editBookForm';
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+            form.appendChild(csrfToken);
+            const methodInput = document.createElement('input');
+            methodInput.type = 'hidden';
+            methodInput.name = '_method';
+            methodInput.value = 'put';
+            form.appendChild(methodInput);
+            const gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid', 'gap-4', 'mb-4', 'grid-cols-2');
+            const fileInputSection = document.createElement('div');
+            fileInputSection.classList.add('flex', 'flex-col', 'w-full', 'col-span-2');
+            const fileLabel = document.createElement('label');
+            fileLabel.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'border-2', 'border-gray-300',
+                'border-dashed', 'rounded-lg', 'cursor-pointer', 'bg-gray-50', 'dark:hover:bg-bray-800',
+                'dark:bg-gray-700', 'hover:bg-gray-100', 'dark:border-gray-600', 'dark:hover:border-gray-500',
+                'dark:hover:bg-gray-600');
+            const fileLabelContent = document.createElement('div');
+            fileLabelContent.classList.add('flex', 'flex-col', 'items-center', 'justify-center', 'pt-5', 'pb-6');
+            const bookImage = document.createElement('img');
+            bookImage.id = 'bookImage';
+            bookImage.src = book.photo ? book.photo : '';
+            bookImage.alt = 'book Photo';
+            bookImage.classList.add('w-32', 'h-32', 'mb-4');
+            fileLabelContent.appendChild(bookImage);
+            const uploadText = document.createElement('p');
+            uploadText.classList.add('mb-2', 'text-sm', 'text-gray-500', 'dark:text-gray-400');
+            uploadText.innerHTML = `<span class="font-semibold">Click to upload</span> or drag and drop`;
+            fileLabelContent.appendChild(uploadText);
+            const supportedFormats = document.createElement('p');
+            supportedFormats.classList.add('text-xs', 'text-gray-500', 'dark:text-gray-400');
+            supportedFormats.textContent = 'SVG, PNG, JPG, or GIF (MAX. 800x400px)';
+            fileLabelContent.appendChild(supportedFormats);
+            fileLabel.appendChild(fileLabelContent);
+            const fileInput = document.createElement('input');
+            fileInput.id = 'dropzone-file';
+            fileInput.type = 'file';
+            fileInput.accept = 'image/*';
+            fileInput.classList.add('hidden');
+            fileInput.name = 'photo';
+            fileLabel.appendChild(fileInput);
+            fileInputSection.appendChild(fileLabel);
+            gridContainer.appendChild(fileInputSection);
+
+            const categorySection = document.createElement('div');
+            categorySection.classList.add('col-span-2');
+            const categoryLabel = document.createElement('label');
+            categoryLabel.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+            categoryLabel.textContent = 'Categorie';
+            categorySection.appendChild(categoryLabel);
+            const categorySelect = document.createElement('select');
+            categorySelect.id = 'categorie_id';
+            categorySelect.name = 'categorie_id';
+            categorySelect.classList.add('bg-gray-50', 'border', 'border-gray-300', 'text-gray-900', 'text-sm',
+                'rounded-lg', 'focus:ring-primary-500', 'focus:border-primary-500', 'block', 'w-full', 'p-2.5',
+                'dark:bg-gray-600', 'dark:border-gray-500', 'dark:placeholder-gray-400', 'dark:text-white',
+                'dark:focus:ring-primary-500', 'dark:focus:border-primary-500');
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Select category';
+            categorySelect.appendChild(defaultOption);
+            const categories = @json($categories);
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                categorySelect.appendChild(option);
+            });
+            categorySelect.value = book.categorie_id;
+            categorySection.appendChild(categorySelect);
+            gridContainer.appendChild(categorySection);
+
+
+            const bookIdInput = document.createElement('input');
+            bookIdInput.type = 'hidden';
+            bookIdInput.id = 'bookId';
+            bookIdInput.name = 'id';
+            bookIdInput.value = book.id;
+            gridContainer.appendChild(bookIdInput);
+            const titleSection = document.createElement('div');
+            titleSection.classList.add('col-span-2');
+            const titleLabel = document.createElement('label');
+            titleLabel.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+            titleLabel.textContent = 'Titre';
+            titleSection.appendChild(titleLabel);
+            const titleInput = document.createElement('input');
+            titleInput.type = 'text';
+            titleInput.name = 'titre';
+            titleInput.id = 'bookTitre';
+            titleInput.value = book.titre;
+            titleInput.classList.add('bg-gray-50', 'border', 'border-gray-300', 'text-gray-900', 'text-sm', 'rounded-lg',
+                'focus:ring-primary-600', 'focus:border-primary-600', 'block', 'w-full', 'p-2.5', 'dark:bg-gray-600',
+                'dark:border-gray-500', 'dark:placeholder-gray-400', 'dark:text-white', 'dark:focus:ring-primary-500',
+                'dark:focus:border-primary-500');
+            titleInput.placeholder = 'Enter the title of the book';
+            titleInput.required = true;
+            titleSection.appendChild(titleInput);
+            gridContainer.appendChild(titleSection);
+            const descriptionSection = document.createElement('div');
+            descriptionSection.classList.add('col-span-2');
+            const descriptionLabel = document.createElement('label');
+            descriptionLabel.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+            descriptionLabel.textContent = 'Description';
+            descriptionSection.appendChild(descriptionLabel);
+            const descriptionInput = document.createElement('textarea');
+            descriptionInput.name = 'description';
+            descriptionInput.id = 'bookDescription';
+            descriptionInput.rows = 4;
+            descriptionInput.classList.add('block', 'p-2.5', 'w-full', 'text-sm', 'text-gray-900', 'bg-gray-50',
+                'rounded-lg', 'border', 'border-gray-300', 'focus:ring-blue-500', 'focus:border-blue-500',
+                'dark:bg-gray-600', 'dark:border-gray-500', 'dark:placeholder-gray-400', 'dark:text-white',
+                'dark:focus:ring-blue-500', 'dark:focus:border-blue-500');
+            descriptionInput.placeholder = 'write description here';
+            descriptionInput.value = book.description;
+            descriptionSection.appendChild(descriptionInput);
+            gridContainer.appendChild(descriptionSection);
+            const priceSection = document.createElement('div');
+            priceSection.classList.add('col-span-2');
+            const priceLabel = document.createElement('label');
+            priceLabel.classList.add('block', 'mb-2', 'text-sm', 'font-medium', 'text-gray-900', 'dark:text-white');
+            priceLabel.textContent = 'Price';
+            priceSection.appendChild(priceLabel);
+            const priceInput = document.createElement('input');
+            priceInput.type = 'text';
+            priceInput.name = 'price';
+            priceInput.id = 'bookPrice';
+            priceInput.value = book.price;
+            priceInput.classList.add('bg-gray-50', 'border', 'border-gray-300', 'text-gray-900', 'text-sm', 'rounded-lg',
+                'focus:ring-primary-600', 'focus:border-primary-600', 'block', 'w-full', 'p-2.5', 'dark:bg-gray-600',
+                'dark:border-gray-500', 'dark:placeholder-gray-400', 'dark:text-white', 'dark:focus:ring-primary-500',
+                'dark:focus:border-primary-500');
+            priceInput.placeholder = 'price';
+            priceInput.required = true;
+            priceSection.appendChild(priceInput);
+            gridContainer.appendChild(priceSection);
+            form.appendChild(gridContainer);
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.classList.add('mt-2', 'text-white', 'inline-flex', 'items-center', 'bg-yellow-900', 'focus:ring-4',
+                'focus:outline-none', 'focus:ring-blue-300', 'font-medium', 'rounded-lg', 'text-sm', 'px-5', 'py-2.5',
+                'text-center', 'dark:bg-blue-600', 'dark:hover:bg-blue-700', 'dark:focus:ring-blue-800');
+            submitButton.textContent = 'Modifier';
+            form.appendChild(submitButton);
+            modalContent.appendChild(modalHeader);
+            modalContent.appendChild(form);
+            modalWrapper.appendChild(modalContent);
+            modal.appendChild(modalWrapper);
+            document.body.appendChild(modal);
+        }
+
+
 // Define the initial page number
 let currentPage = 1;
 
@@ -531,7 +728,11 @@ function fetchBooks(categoryId, page = 1) {
             // Update the book list
             const booksContainer = document.querySelector('.books');
             booksContainer.innerHTML = '';
+            var userRole = null;
 
+@if (auth()->check())
+    userRole = "{{ auth()->user()->role }}";
+@endif
             // Iterate through the books and create book cards
             data.books.data.forEach(book => {
                 // Create a book card element
@@ -586,6 +787,101 @@ function fetchBooks(categoryId, page = 1) {
                         </a>
                     </div>
                 `;
+                const hr = document.createElement('hr');
+            hr.classList.add('flex', 'justify-self-center', 'border-yellow-900', 'mt-2', 'w-[200px]');
+            if (userRole == 'admin') {
+
+                bookCard.appendChild(hr);
+            }
+            const buttonContainer = document.createElement('div');
+            buttonContainer.classList.add('flex', 'justify-between', 'gap-3', 'w-1/5');
+
+
+            const popupButton = document.createElement('button');
+            popupButton.classList.add('popupBtn');
+            popupButton.dataset.modalTarget = 'popup-modal';
+            popupButton.dataset.modalToggle = 'popup-modal';
+            popupButton.type = 'button';
+            popupButton.dataset.bookId = book.id;
+            popupButton.dataset.bookPhoto = book.photo;
+            popupButton.dataset.categorieId = book.categorie_id;
+            popupButton.dataset.bookTitre = book.titre;
+            popupButton.dataset.bookDescription = book.description;
+            popupButton.dataset.bookPrice = book.price;
+            popupButton.innerHTML = `<svg width="25px"
+                                        viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                        </g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                            <path
+                                                d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg>`;
+
+
+            const deleteForm = document.createElement('form');
+            deleteForm.action = `{{ route('accessoires.delete', ':bookId') }}`.replace(':bookId', book.id);
+            deleteForm.method = 'POST';
+
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            csrfToken.value = '{{ csrf_token() }}';
+
+            const deleteMethod = document.createElement('input');
+            deleteMethod.type = 'hidden';
+            deleteMethod.name = '_method';
+            deleteMethod.value = 'delete';
+
+            const deleteButton = document.createElement('button');
+            deleteButton.type = 'submit';
+            deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <path d="M10 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M14 12V17" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M4 7H20" stroke="#713f12" stroke-width="2"
+                                                    stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                                <path
+                                                    d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    stroke-linejoin="round"></path>
+                                            </g>
+                                        </svg>`;
+
+
+            deleteForm.appendChild(csrfToken);
+            deleteForm.appendChild(deleteMethod);
+            deleteForm.appendChild(deleteButton);
+
+            buttonContainer.appendChild(popupButton);
+            buttonContainer.appendChild(deleteForm);
+            if (userRole == 'admin') {
+
+                bookCard.appendChild(buttonContainer);
+            }     
+            const popupBtn = bookCard.querySelector('.popupBtn');
+            if (popupBtn) {
+                popupBtn.addEventListener('click', () => {
+                    showProductPopup(book);
+                });
+            }                  
                 booksContainer.appendChild(bookCard);
             });
 
