@@ -13,53 +13,15 @@
     <section class="bg-white">
         <div class="p-10">
 
-            <div class="flex border border-amber-300 p-4 rounded gap-4 w-3/5 justify-evenly items-center m-auto">
+            <div
+                class="flex flex-shrink border border-amber-300 p-4 rounded gap-4 w-3/5 justify-evenly items-center m-auto overflow-x-auto">
                 <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">All</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Aventure</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Psychologie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Comedie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Philosophie</div>
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">Fantaisie</div>
+                @foreach ($categories as $categorie)
+                    <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">
+                        {{ $categorie->name }}</div>
+                @endforeach
             </div>
-            @if (session()->has('success'))
-                <div class="flex w-full justify-center">
 
-                    <div class="flex justify-center max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800"
-                        x-data="{ show: true }" x-init="setTimeout(() => show = false, 3000)" x-show="show">
-                        <div class="flex items-center justify-center w-12 bg-amber-400">
-                            <svg fill="#713f12" class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z" />
-                            </svg>
-                        </div>
-
-                        <div class="px-4 py-2 -mx-3">
-                            <div class="mx-3">
-                                <span class="font-semibold text-amber-400 dark:text-emerald-400">Success</span>
-                                <p class="text-sm text-gray-600 dark:text-gray-200">{{ session('success') }}</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- @elseif(session()->has('info'))
-        <div class="flex w-full max-w-sm overflow-hidden bg-white rounded-lg shadow-md my-6 dark:bg-gray-800" x-data="{show : true}" x-init="setTimeout(()=> show = false , 3000)"
-            x-show="show">
-            <div class="flex items-center justify-center w-12 bg-blue-500">
-                <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM21.6667 28.3333H18.3334V25H21.6667V28.3333ZM21.6667 21.6666H18.3334V11.6666H21.6667V21.6666Z" />
-                </svg>
-            </div>
-        
-            <div class="px-4 py-2 -mx-3">
-                <div class="mx-3">
-                    <span class="font-semibold text-blue-500 dark:text-blue-400">Info</span>
-                    <p class="text-sm text-gray-600 dark:text-gray-200">{{session('info')}}</p>
-                </div>
-            </div>
-        {{-- </div> --}}
-            @endif
             @auth
                 @if (auth()->user()->role == 'admin')
                     <button class="border-amber-400 p-4 rounded-lg mb-4 border-2  ml-52 mt-20 hover:bg-amber-200 bg-amber-100"
@@ -187,7 +149,7 @@
                                         </label>
                                         <input type="text" name="pdf_url" id="pdf_url" value=""
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="lien du pdf" required="" />
+                                            placeholder="lien du pdf" />
                                     </div>
                                 </div>
                                 <button type="submit"
@@ -315,7 +277,7 @@
                                         </label>
                                         <input type="text" name="pdf_url" id="bookPdfUrl" value=""
                                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="lien du pdf" required="" />
+                                            placeholder="lien du pdf" />
                                     </div>
                                 </div>
                                 <button type="submit"
@@ -342,7 +304,8 @@
                             <div class="flex justify-between px-2">
                                 <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">
                                     {{ substr($book->titre, 0, 60) }}</h3>
-                                <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"></span>
+                                <span
+                                    class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"><span>{{ $book->price }}</span>$</span>
                             </div>
                             <p class="text-slate-400 text-lg p-2">
                                 {{ substr($book->description, 0, 150) . '...' }}
@@ -355,100 +318,127 @@
                                         {{ isset($book->page_count) && $book->page_count > 0 ? $book->page_count . ' pages' : '' }}</span>
                                 </div>
                             </div>
+
                             <div class="flex justify-between">
-                                @if ($book->pdf_url)
-                                    <a href="{{ $book->pdf_url }}" class="border-2 border-amber-300 px-8 p-2 w-fit"
-                                        download>Download PDF</a>
+                                @auth
+                                    @if ($book->pdf_url)
+                                        <a href="{{ $book->pdf_url }}" class="border-2 border-amber-300 px-8 p-2 w-fit"
+                                            download>Download PDF</a>
+                                    @else
+                                        <form method="post" action="{{ route('basket.add') }}">
+                                            @csrf
+                                            <input type="hidden" name="article_id" value="{{ $book->id }}">
+                                            <input type="number" name="quantity" value="1" min="1"
+                                                class="w-[70px] border-yellow-900">
+                                            <button id="addToCart" type="submit"
+                                                class="border-2 border-amber-300 px-8 p-2 w-fit"
+                                                onclick="Swal.fire({
+                                        icon: 'success',
+                                        title: 'Added to card successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                      });">Add
+                                                to
+                                                cart </button>
+                                        </form>
+                                    @endif
                                 @else
-                                    <form method="post" action="{{ route('basket.add') }}">
-                                        @csrf
-                                        <input type="hidden" name="article_id" value="{{ $book->id }}">
+                                    @if ($book->pdf_url)
+                                        <a href="{{ $book->pdf_url }}" class="border-2 border-amber-300 px-8 p-2 w-fit"
+                                            download>Download PDF</a>
+                                    @else
                                         <input type="number" name="quantity" value="1" min="1"
                                             class="w-[70px] border-yellow-900">
-                                        <button id="addToCart" type="submit"
-                                            class="border-2 border-amber-300 px-8 p-2 w-fit">Add to
-                                            cart </button>
-                                    </form>
-                                @endif
-                                <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
-                                    <svg width='28px' viewBox="0 0 24 24" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
-                                        </g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <path
-                                                d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
-                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                            <path
-                                                d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
-                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </g>
-                                    </svg>
-                                    <span class="mt-2 ml-1 text-amber-400 underline">
-                                        View more
-                                    </span>
+                                        <a class="border-2 border-amber-300 px-8 p-2 w-fit" href="{{ route('login') }}">Add
+                                            to
+                                            cart
+                                        </a>
+                                    @endif
 
-                                </a>
-                            </div>
-                            @auth
-                            @if (auth()->user()->role == 'admin')
-                            <hr class="flex justify-self-center border-yellow-900 mt-2">
-
-                            <div class="flex justify-center gap-4">
-
-                                <button class = "popupBtn" data-modal-target="popup-modal"
-                                    data-modal-toggle="popup-modal" type="button" data-book-id="{{ $book->id }}"
-                                    data-book-photo="{{ $book->photo }}" data-categorie-id="{{ $book->categorie_id }}"
-                                    data-book-titre="{{ $book->titre }}"
-                                    data-book-description="{{ $book->description }}"
-                                    data-book-price="{{ $book->price }}" data-book-auteur="{{ $book->auteur }}"
-                                    data-book-page-count="{{ $book->page_count }}"
-                                    data-book-langues="{{ $book->langues }}"
-                                    data-book-pdf-url="{{ $book->pdf_url }}"><svg width="25px" viewBox="0 0 24 24"
-                                        fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <path
-                                                d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
-                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                            <path
-                                                d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
-                                                stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
-                                                stroke-linejoin="round"></path>
-                                        </g>
-                                    </svg></button>
-                                <form action="{{ route('books.delete', $book->id) }}" method="POST">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="mt-1"><svg width="32px" viewBox="0 0 24 24" fill="none"
+                                    @endauth
+                                    <a href="{{ route('books.show', ['id' => $book['id']]) }}" class="flex ">
+                                        <svg width='28px' viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
                                             </g>
                                             <g id="SVGRepo_iconCarrier">
-                                                <path d="M10 12V17" stroke="#713f12" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M14 12V17" stroke="#713f12" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
-                                                <path d="M4 7H20" stroke="#713f12" stroke-width="2"
-                                                    stroke-linecap="round" stroke-linejoin="round"></path>
                                                 <path
-                                                    d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
-                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                    d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                                    stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round"></path>
-                                                <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
-                                                    stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                <path
+                                                    d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                                    stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
                                                     stroke-linejoin="round"></path>
                                             </g>
-                                        </svg></button>
-                                </form>
+                                        </svg>
+                                        <span class="mt-2 ml-1 text-amber-400 underline">
+                                            View more
+                                        </span>
+
+                                    </a>
                             </div>
-                            @endif
+                            @auth
+                                @if (auth()->user()->role == 'admin')
+                                    <hr class="flex justify-self-center border-yellow-900 mt-2">
+
+                                    <div class="flex justify-center gap-4">
+
+                                        <button class = "popupBtn" data-modal-target="popup-modal"
+                                            data-modal-toggle="popup-modal" type="button"
+                                            data-book-id="{{ $book->id }}" data-book-photo="{{ $book->photo }}"
+                                            data-categorie-id="{{ $book->categorie_id }}"
+                                            data-book-titre="{{ $book->titre }}"
+                                            data-book-description="{{ $book->description }}"
+                                            data-book-price="{{ $book->price }}" data-book-auteur="{{ $book->auteur }}"
+                                            data-book-page-count="{{ $book->page_count }}"
+                                            data-book-langues="{{ $book->langues }}"
+                                            data-book-pdf-url="{{ $book->pdf_url }}"><svg width="25px" viewBox="0 0 24 24"
+                                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
+                                                </g>
+                                                <g id="SVGRepo_iconCarrier">
+                                                    <path
+                                                        d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z"
+                                                        stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                    <path
+                                                        d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13"
+                                                        stroke="#fbbf24" stroke-width="1.5" stroke-linecap="round"
+                                                        stroke-linejoin="round"></path>
+                                                </g>
+                                            </svg></button>
+                                        <form action="{{ route('books.delete', $book->id) }}" method="POST">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="mt-1"><svg width="32px" viewBox="0 0 24 24" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
+                                                        stroke-linejoin="round">
+                                                    </g>
+                                                    <g id="SVGRepo_iconCarrier">
+                                                        <path d="M10 12V17" stroke="#713f12" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M14 12V17" stroke="#713f12" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path d="M4 7H20" stroke="#713f12" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"></path>
+                                                        <path
+                                                            d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10"
+                                                            stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                        <path
+                                                            d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z"
+                                                            stroke="#713f12" stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round"></path>
+                                                    </g>
+                                                </svg></button>
+                                        </form>
+                                    </div>
+                                @endif
                             @endauth
 
                         </div>

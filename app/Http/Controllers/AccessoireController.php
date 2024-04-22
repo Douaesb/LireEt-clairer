@@ -66,19 +66,25 @@ class AccessoireController extends Controller
     //         return ['message' => $e->getMessage()];
     //     }
     // }
-
     public function displayAccessories()
     {
         $user = auth()->user();
-        $basket = $user->panier;
+        $basket = null; // Initialize the basket to null
+        
+        // Check if the user is authenticated
+        if ($user) {
+            // If the user is authenticated, retrieve their basket
+            $basket = $user->panier;
+        }
+        
         $totalCost = 0;
         $numProductsInBasket = 0;
         $articles = collect(); // Initialize an empty collection
-    
+        
         if ($basket) {
             $numProductsInBasket = $basket->articles->count();
-            $articles = $basket->articles; // Retrieve articles from the basket
-    
+            $articles = $basket->articles;
+            
             if ($articles !== null) {
                 foreach ($articles as $article) {
                     $articleCost = $article->pivot->quantity * $article->price;
@@ -86,16 +92,17 @@ class AccessoireController extends Controller
                 }
             }
         }
-    
+        
         $categories = Categorie::all();
         $category = Categorie::where('name', 'accessoire')->first();
+        
         if ($category) {
             $products = Article::where('categorie_id', $category->id)->paginate(6);
             return view('accessoires', [
                 'products' => $products,
                 'categories' => $categories,
                 'basket' => $basket,
-                'articles' => $articles, // Use the initialized articles collection
+                'articles' => $articles,
                 'totalCost' => $totalCost,
                 'numProductsInBasket' => $numProductsInBasket,
             ]);
@@ -103,6 +110,7 @@ class AccessoireController extends Controller
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
     }
+    
     
 
     public function show($id)

@@ -272,20 +272,30 @@
 
                             </p>
                             <div class="flex justify-between">
+                                @auth
 
-                                <form method="post" action="{{ route('basket.add') }}">
-                                    @csrf
-                                    <input type="hidden" name="article_id" value="{{ $product->id }}">
-                                    <input type="number" name="quantity" value="1" min="1"
-                                        class="w-[70px] border-yellow-900">
-                                    <button id="addToCart" type="submit"
-                                        class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
+                                    <form method="post" action="{{ route('basket.add') }}">
+                                        @csrf
+                                        <input type="hidden" name="article_id" value="{{ $product->id }}">
+                                        <input type="number" name="quantity" value="1" min="1"
+                                            class="w-[70px] border-yellow-900">
+                                        <button id="addToCart" type="submit"
+                                            class="border-2 border-amber-300 px-8 p-2 w-fit"
+                                            onclick="Swal.fire({
                                             icon: 'success',
                                             title: 'Added to card successfully',
                                             showConfirmButton: false,
                                             timer: 1500
-                                          });">Add to
-                                        cart </button>
+                                          });">Add
+                                            to
+                                            cart </button>
+                                    @else
+                                        <input type="number" name="quantity" value="1" min="1"
+                                            class="w-[70px] border-yellow-900">
+                                        <a class="border-2 border-amber-300 px-8 p-2 w-fit" href="{{route('login')}}"
+                                        >Add to cart </a>
+                                    @endauth
+
                                 </form>
                                 <a href="{{ route('accessoires.show', ['id' => $product['id']]) }}" class="flex ">
                                     <svg width='28px' viewBox="0 0 24 24" fill="none"
@@ -694,7 +704,14 @@
                 searchResults.appendChild(card);
             });
         }
-        var userRole = "{{ auth()->user()->role }}";
+        var userRole = null;
+
+        @if (auth()->check())
+            userRole = "{{ auth()->user()->role }}";
+        @endif
+
+        // Now you can use userRole safely in your script
+
 
         function createProductCard(product) {
             const card = document.createElement('div');

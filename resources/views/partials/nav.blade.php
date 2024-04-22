@@ -19,19 +19,23 @@
         <!-- End of Burger menu -->
         <div id="nav-links" class="hidden lg:flex md:bg-yellow-900 bg-black p-3 md:mt-0 mt-36 ">
             <ul class="lg:flex gap-6 text-white list-none ">
+                @guest
+                <a href="{{ route('accessoires') }}">Accessoires</a>
+                <a href="{{ route('books') }}">Livres</a>     
+                @endguest
                 @auth
                     @if (auth()->user()->role == 'admin')
                         <a href="{{ route('admin.dashboard') }}">Dashboard</a>
                         <a href="{{ route('admin.users') }}">Utilisateurs</a>
                         <a href="{{ route('admin.categories') }}">Categories</a>
-                        {{-- <a href="{{route('dashboard')}}">Livres</a>
-                        <a href="{{route('dashboard')}}">Accessoires</a>
-                        <a href="{{route('dashboard')}}">Communauté</a> --}}
+                        <a href="{{ route('accessoires') }}">Accessoires</a>
+                        <a href="{{ route('books') }}">Livres</a>
+                        {{-- <a href="{{route('dashboard')}}">Communauté</a>  --}}
                     @else
-                    <a href="{{ route('client.home') }}">Home</a>
-                    <a href="{{ route('accessoires') }}">Accessoires</a>
-                    <a href="{{ route('books') }}">Livres</a>
-                    <a href="{{ route('contact') }}">Contactez-nous</a>
+                        <a href="{{ route('client.home') }}">Home</a>
+                        <a href="{{ route('accessoires') }}">Accessoires</a>
+                        <a href="{{ route('books') }}">Livres</a>
+                        <a href="{{ route('contact') }}">Contactez-nous</a>
                         {{-- <li>A propos</li> --}}
                         <li>
                             <button id="basket" class="relative hidden md:block">
@@ -46,7 +50,8 @@
                                     </g>
                                 </svg>
                                 <div class="hidden md:flex absolute top-0 left-6 h-5 w-5 bg-amber-400 rounded-full"></div>
-                                <div class="articlesCount hidden md:flex absolute top-0.5 left-7 text-xs text-yellow-900 font-bold">
+                                <div
+                                    class="articlesCount hidden md:flex absolute top-0.5 left-7 text-xs text-yellow-900 font-bold">
                                     {{ $numProductsInBasket }}</div>
                             </button>
                         </li>
