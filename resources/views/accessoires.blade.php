@@ -274,10 +274,10 @@
                             <div class="flex justify-between gap-3">
                                 @auth
 
-                                    <form method="post" action="{{ route('basket.add') }}">
+                                    <form method="post" action="{{ route('basket.add') }}" class="flex gap-2">
                                         @csrf
                                         <input type="hidden" name="article_id" value="{{ $product->id }}">
-                                        <input type="number" name="quantity" value="1" min="1"
+                                        <input type="number" name="quantity" value="1" min="1" class="w-[50px]"
                                             class="w-[70px] border-yellow-900">
                                         <button id="addToCart" type="submit"
                                             class="border-2 border-amber-300 px-8 p-2 w-fit"
