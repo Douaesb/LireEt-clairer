@@ -15,7 +15,7 @@
 
 <body>
     <div class="flex m-auto bg-yellow-900 justify-center items-center h-[100vh]">
-        <div class="grid md:grid-cols-2 grid-cols-1 p-16 bg-amber-400 w-3/5 h-3/5">
+        <div class="grid md:grid-cols-2 grid-cols-1 p-16 bg-amber-400 md:w-3/5 md:h-3/5">
             <div class="flex justify-center bg-white">
                 <img src="img/booksyellow.png" alt="book image">
             </div>
@@ -23,7 +23,7 @@
 
                 <div class="flex flex-col gap-4 h-full justify-center">
                     <div class="flex justfiy-center flex-col">
-                        <h1 class="font-[Inter] text-4xl font-semibold flex w-full justify-center "> Login to your account
+                        <h1 class="font-[Inter] text-4xl font-semibold flex w-full justify-center text-center pt-4 "> Login to your account
                         </h1>
                     </div>
                     <form action="{{route('loginP')}}" method="POST">
