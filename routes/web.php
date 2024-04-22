@@ -87,9 +87,10 @@ Route::post('/search/accessories', [AccessoireController::class, 'search'])->nam
 
 
 // Les routes de gestion du panier
-// Route::get('basket',[BasketController::class, 'index'])->name('basket.index');
 Route::post('basket/add',[BasketController::class, 'add'])->name('basket.add');
 Route::post('/basket/update', [BasketController::class, 'update'])->name('basket.update');
 Route::post('basket/remove',[BasketController::class, 'remove'])->name('basket.remove');
 
-// Route::get('/basket', [BasketController::class, 'getBasketData'])->name('basket.data');
+
+
+Route::get('/filter-books/{categoryId}', [BookController::class, 'filterBooks']);

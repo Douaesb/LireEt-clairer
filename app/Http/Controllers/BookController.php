@@ -95,7 +95,7 @@ class BookController extends Controller
 
     public function displayBooks()
     {
-        $categories = Categorie::all();
+        $categories = Categorie::where('name','<>','accessoire')->get();
         $category = Categorie::where('name', '<>', 'accessoire')->first();
         if ($category) {
             $books = Article::orderBy('created_at', 'desc')->paginate(6);
@@ -188,4 +188,21 @@ class BookController extends Controller
         return redirect()->back();
 
     }
+
+    public function filterBooks($categoryId)
+    {
+        $booksPerPage = 6; 
+        $query = Article::query();
+            if ($categoryId === 'all') {
+            $query->whereHas('categorie', function ($query) {
+                $query->where('name', '!=', 'accessoire');
+            });
+        } else {
+            $query->where('categorie_id', $categoryId);
+        }
+    
+        $books = $query->paginate($booksPerPage);
+                return response()->json(['books' => $books]);
+    }
+    
 }

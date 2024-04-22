@@ -13,12 +13,12 @@
     <section class="bg-white">
         <div class="p-10">
 
-            <div
-                class="flex flex-shrink border border-amber-300 p-4 rounded gap-4 w-3/5 justify-evenly items-center m-auto overflow-x-auto">
-                <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">All</div>
+            <div class="flex flex-shrink border border-amber-300 p-4 rounded gap-4 w-3/5 justify-evenly items-center m-auto overflow-x-auto">
+                <div id="all-category" class="cursor-pointer border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">All</div>
                 @foreach ($categories as $categorie)
-                    <div class="border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full">
-                        {{ $categorie->name }}</div>
+                    <div id="category-{{ $categorie->id }}" class="cursor-pointer border-2 border-amber-300 bg-yellow-900 text-white p-4 w-fit rounded-full category-button">
+                        {{ $categorie->name }}
+                    </div>
                 @endforeach
             </div>
 
@@ -31,7 +31,7 @@
                 @endif
             @endauth
 
-            <div class="grid grid-cols-3 w-4/5 m-auto gap-8 pt-20">
+            <div class=" books grid grid-cols-3 w-4/5 m-auto gap-8 pt-20">
                 {{-- @dd($bookData) --}}
 
                 <div id="crud-modal" tabIndex="-1" aria-hidden="true"
@@ -445,7 +445,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="flex justify-center pt-8 gap-4">
+            <div class="pagination flex justify-center pt-8 gap-4">
                 @if ($bookData->previousPageUrl())
                     <a href="{{ $bookData->previousPageUrl() }}" class="flex justify-end">
                         <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
@@ -518,5 +518,145 @@
             editBookForm.querySelector('#bookLangues').value = bookLangues;
             editBookForm.querySelector('#bookPdfUrl').value = bookPdfUrl;
         }
-    </script>
+
+// Define the initial page number
+let currentPage = 1;
+
+// Function to fetch books for a given category and page
+function fetchBooks(categoryId, page = 1) {
+    // Make an API request with the category ID and page number
+    fetch(`/filter-books/${categoryId}?page=${page}`)
+        .then(response => response.json())
+        .then(data => {
+            // Update the book list
+            const booksContainer = document.querySelector('.books');
+            booksContainer.innerHTML = '';
+
+            // Iterate through the books and create book cards
+            data.books.data.forEach(book => {
+                // Create a book card element
+                const bookCard = document.createElement('div');
+                bookCard.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5', 'justify-center', 'items-center', 'pb-4', 'gap-4');
+                bookCard.innerHTML = `
+                    <div class="bg-slate-100 w-full flex justify-center">
+                        ${book.photo ? `<img src="${book.photo}" alt="Book Image">` : '<p>No Image Available</p>'}
+                    </div>
+                    <div class="w-11/12 gap-3 flex flex-col">
+                        <div class="flex justify-between px-2">
+                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">${book.titre}</h3>
+                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"><span>${book.price}</span>$</span>
+                        </div>
+                        <p class="text-slate-400 text-lg p-2">${book.description.slice(0, 150)}...</p>
+                        <div class="flex gap-2">
+                            <div class="w-4 h-4 bg-amber-400 rounded-full mt-1"></div>
+                            <div class="font-semibold font-[cardo] text-yellow-900 text-center text-xl">
+                                ${book.page_count ? `${book.page_count} pages` : ''}
+                            </div>
+                        </div>
+                        <div class="flex justify-between">
+                            ${book.pdf_url ? `
+                                <a href="${book.pdf_url}" class="border-2 border-amber-300 px-8 p-2 w-fit" download>
+                                    Download PDF
+                                </a>
+                            ` : `
+                                <form method="post" action="{{ route('basket.add') }}">
+                                    @csrf
+                                    <input type="hidden" name="article_id" value="${book.id}">
+                                    <input type="number" name="quantity" value="1" min="1" class="w-[70px] border-yellow-900">
+                                    <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
+                                        icon: 'success',
+                                        title: 'Added to cart successfully',
+                                        showConfirmButton: false,
+                                        timer: 1500
+                                    });">Add to cart</button>
+                                </form>
+                            `}
+                        </div>
+                        <a href="{{ url('books') }}/${book.id}" class="flex">
+                            <svg width="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path d="M15.0007 12C15.0007 13.6569 13.6576 15 12.0007 15C10.3439 15 9.00073 13.6569 9.00073 12C9.00073 10.3431 10.3439 9 12.0007 9C13.6576 9 15.0007 10.3431 15.0007 12Z"
+                                    stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M12.0012 5C7.52354 5 3.73326 7.94288 2.45898 12C3.73324 16.0571 7.52354 19 12.0012 19C16.4788 19 20.2691 16.0571 21.5434 12C20.2691 7.94291 16.4788 5 12.0012 5Z"
+                                    stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            <span class="mt-2 ml-1 text-amber-400 underline">View more</span>
+                        </a>
+                    </div>
+                `;
+                booksContainer.appendChild(bookCard);
+            });
+
+            const paginationContainer = document.querySelector('.pagination');
+            paginationContainer.innerHTML = '';
+            if (data.books.prev_page_url) {
+                const prevButton = document.createElement('button');
+                prevButton.textContent = 'Previous';
+                prevButton.innerHTML=`
+                <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
+                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg>
+                    Previous
+
+    </div>
+                        `;
+                prevButton.addEventListener('click', () => {
+                    currentPage--;
+                    fetchBooks(categoryId, currentPage);
+                });
+                paginationContainer.appendChild(prevButton);
+            }
+
+            if (data.books.next_page_url) {
+                const nextButton = document.createElement('button');
+                nextButton.textContent = 'Next';
+                nextButton.innerHTML=`
+                <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
+                    Next
+
+                <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
+                            xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M8.489 31.975c-0.271 0-0.549-0.107-0.757-0.316-0.417-0.417-0.417-1.098 0-1.515l14.258-14.264-14.050-14.050c-0.417-0.417-0.417-1.098 0-1.515s1.098-0.417 1.515 0l14.807 14.807c0.417 0.417 0.417 1.098 0 1.515l-15.015 15.022c-0.208 0.208-0.486 0.316-0.757 0.316z">
+                                </path>
+                            </g>
+                        </svg>
+                        </div>`
+                nextButton.addEventListener('click', () => {
+                    currentPage++;
+                    fetchBooks(categoryId, currentPage);
+                });
+                paginationContainer.appendChild(nextButton);
+            }
+        })
+        .catch(error => console.error('Error fetching books:', error));
+}
+
+document.querySelectorAll('.category-button, #all-category').forEach(button => {
+    button.addEventListener('click', function() {
+        let categoryId = this.id === 'all-category' ? 'all' : this.id.split('-')[1];
+        currentPage = 1;
+        fetchBooks(categoryId, currentPage);
+    });
+});
+
+
+
+
+        </script>
+
+    
 @endsection
