@@ -95,4 +95,46 @@ class BasketController extends Controller
         $basket->articles()->detach($articleId);
         return response()->json(['success' => true]);
     }
+    public function checkout()
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'You must be logged in to checkout.'], 401);
+        }
+
+        $basket = $user->panier;
+        if (!$basket) {
+            return response()->json(['error' => 'Basket not found.'], 404);
+        }
+
+        $articles = $basket->articles;
+        if ($articles->isEmpty()) {
+            return response()->json(['error' => 'Your basket is empty.'], 400);
+        }
+
+        $totalCost = 0;
+        foreach ($articles as $article) {
+            $totalCost += $article->pivot->quantity * $article->price;
+        }
+        return response()->json([
+            'success' => true,
+            'articles' => $articles,
+            'totalCost' => $totalCost
+        ]);
+    }
+
+    public function emptyBasket()
+{
+    $user = auth()->user();
+    if (!$user) {
+        return response()->json(['error' => 'You must be logged in to empty the basket.'], 401);
+    }
+    $basket = $user->panier;
+    if (!$basket) {
+        return response()->json(['error' => 'Basket not found.'], 404);
+    }
+    $basket->articles()->detach();
+    return response()->json(['success' => true, 'message' => 'The basket has been emptied successfully.']);
+}
+
 }

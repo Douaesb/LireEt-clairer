@@ -117,15 +117,16 @@
                                 checkout.</p>
                             <div class="mt-6">
                                 <a href="#"
-                                    class="flex items-center justify-center rounded-md border border-transparent bg-yellow-900 px-6 py-3 text-base font-medium text-white shadow-sm ">Checkout</a>
+                                data-modal-target="default-modal" data-modal-toggle="default-modal"
+                                    class=" checkoutButton flex items-center justify-center rounded-md border border-transparent bg-yellow-900 px-6 py-3 text-base font-medium text-white shadow-sm ">Checkout</a>
                             </div>
                             <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
                                 <p>
                                     or
-                                    <button type="button" class="font-medium text-yellow-600 ">
+                                    <a href="" class="font-medium text-yellow-600 ">
                                         Continue Shopping
                                         <span aria-hidden="true"> &rarr;</span>
-                                    </button>
+                                    </a>
                                 </p>
                             </div>
                         </div>
@@ -137,6 +138,38 @@
         </div>
     </div>
 </div>
+
+
+  
+  <!-- Main modal -->
+  <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+          <div class="  relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                  <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                     Checkout 
+                  </h3>
+                  <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
+                      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                      </svg>
+                      <span class="sr-only">Close modal</span>
+                  </button>
+              </div>
+              <div id="orderSummaryBody" class="modal-body">
+                <!-- Order summary details will be populated here -->
+            </div>
+              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+                <button onclick="Swal.fire({
+                    icon: 'success',
+                    title: 'Commande finalisée',
+                    showConfirmButton: false,
+                    timer: 1500
+                  });" type="button" class="finalize text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Finaliser ma commande</button>
+            </div>
+          </div>
+      </div>
+  </div>
 
 <script>
     const panier = document.getElementById('panier');
@@ -247,7 +280,6 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        // Remove the article from the DOM
                         listItem.remove();
                         articlesCount--;
                         articlesCountElement.textContent = articlesCount;
@@ -263,4 +295,75 @@
                 });
         });
     });
+
+document.querySelector('.checkoutButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    
+    // Get the order summary body element
+    const orderSummaryBody = document.getElementById('orderSummaryBody');
+    
+    if (orderSummaryBody) {
+        // Element exists, continue with the function
+        const articles = document.querySelectorAll('#panier li');
+        let orderSummaryHTML = '';
+        let totalCost = 0;
+
+        articles.forEach(article => {
+            const articleTitle = article.querySelector('h3 a').textContent;
+            const articleQuantity = parseInt(article.querySelector('.quantity-value').textContent);
+            const articlePrice = parseFloat(article.querySelector('.article-price').textContent.trim().replace('$', ''));
+            const articleTotal = articleQuantity * articlePrice;
+            totalCost += articleTotal;
+
+            orderSummaryHTML += `
+                <div>
+                    <p>Title: ${articleTitle}</p>
+                    <p>Quantity: ${articleQuantity}</p>
+                    <p>Price per piece: $${articlePrice.toFixed(2)}</p>
+                    <p>Total: $${articleTotal.toFixed(2)}</p>
+                </div>
+            `;
+        });
+
+        orderSummaryHTML += `
+            <div>
+                <h3>Total Cost: $${totalCost.toFixed(2)}</h3>
+            </div>
+        `;
+        orderSummaryBody.innerHTML = orderSummaryHTML;
+    } else {
+        console.error('Error: Could not find orderSummaryBody element in the DOM.');
+    }
+});
+
+document.querySelector('.finalize').addEventListener('click', function(event) {
+    event.preventDefault(); 
+    // console.log('hey')
+    fetch('/basket/empty', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+
+            // alert('Your basket has been emptied successfully.');
+            const modal = document.querySelector('#default-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+            }
+            location.reload();
+        } else {
+            console.error('Error emptying the basket:', data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+
 </script>

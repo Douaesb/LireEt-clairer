@@ -51,7 +51,7 @@
                     @else
                         <div
                             class="border-amber-400 border-2 rounded-lg h-[100px] flex flex-col justify-center items-center">
-                            <div class="flex gap-2">
+                            <div class="flex flex-wrap gap-2">
                                 <svg width="30px" viewBox="0 0 1024 1024" class="icon" version="1.1"
                                     xmlns="http://www.w3.org/2000/svg" fill="#000000">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -69,7 +69,7 @@
                                     </g>
                                 </svg>
 
-                                <div class="text-white text-xl  overflow-hidden whitespace-nowrap break-all">
+                                <div class="text-white text-xl  overflow-hidden whitespace-nowrap break-all ">
                                     {{ $user->name }}
                                 </div>
                             </div>
