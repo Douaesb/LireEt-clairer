@@ -159,7 +159,7 @@
                         class="border-2 border-gray-200 p-2">
                     <span class="font-normal text-gray-400">S’abonnez à notre newsletter, restez à jour !</span>
                 </div>
-                <button class="bg-amber-300 text-yellow-900 p-4 md:w-full w-3/5 font-semibold font-[cardo] ml-10 mb-4">Envoyer message</button>
+                <button class="bg-amber-300 text-yellow-900 p-4 md:w-full w-3/5 font-semibold font-[cardo] md:ml-0 ml-10 mb-4">Envoyer message</button>
             </div>
         </div>
     </section>
