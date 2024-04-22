@@ -3,10 +3,10 @@
     <section class="newsletter  w-full h-[250px] flex justify-center items-center">
         <div class=" w-9/12 flex flex-col h-3/5 ">
             <div class="flex justify-center items-center flex-col gap-6">
-                <h2 class=" text-white text-4xl font-semibold font-[cardo] ">Notre Magasin de livres</h2>
+                <h2 class=" text-white text-4xl font-semibold font-[cardo] text-center">Notre Magasin de livres</h2>
                 <hr class="border-2 border-amber-300 w-1/5">
-                <p class="text-slate-300 text-lg w-3/6 text-center">There are many variations of passages of Lorem Ipsum
-                    available, have suffered alteration in some form.</p>
+                <p class="text-slate-300 text-lg md:w-3/6 text-center">There are many variations of passages of Lorem Ipsum
+                    available.</p>
             </div>
         </div>
     </section>
@@ -31,7 +31,7 @@
                 @endif
             @endauth
 
-            <div class=" books grid grid-cols-3 w-4/5 m-auto gap-8 pt-20">
+            <div class=" books grid  grid-cols-1 sm:grid-cols-1  md:grid-cols-2 2xl:grid-cols-3 w-full md:w-4/5 m-auto gap-8 pt-20">
                 {{-- @dd($bookData) --}}
 
                 <div id="crud-modal" tabIndex="-1" aria-hidden="true"
@@ -319,7 +319,7 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between">
+                            <div class="flex justify-between gap-3">
                                 @auth
                                     @if ($book->pdf_url)
                                         <a href="{{ $book->pdf_url }}" class="border-2 border-amber-300 px-8 p-2 w-fit"

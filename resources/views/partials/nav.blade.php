@@ -17,10 +17,10 @@
             </button>
         </div>
         <!-- End of Burger menu -->
-        <div id="nav-links" class="hidden lg:flex md:bg-yellow-900 bg-black p-3 md:mt-0 mt-36 ">
-            <ul class="lg:flex gap-6 text-white list-none ">
+        <div id="nav-links" class="hidden absolute end-4 top-12 md:relative flex md:flex-row md:top-0 flex-col lg:flex md:bg-yellow-900 bg-amber-400 p-3 md:mt-0 text-white md:gap-6 justfiy-center rounded-lg border-2 border-yellow-900">
                 @guest
                 <a href="{{ route('accessoires') }}">Accessoires</a>
+                <hr class="mt-2 border-yellow-900"> 
                 <a href="{{ route('books') }}">Livres</a>     
                 @endguest
                 @auth
@@ -57,7 +57,6 @@
                         </li>
                     @endif
                 @endauth
-            </ul>
         </div>
 
         <div class="hidden lg:flex gap-4">
@@ -83,3 +82,21 @@
         </div>
     </nav>
 </header>
+<script>
+
+// Get the burger menu button and navigation links container
+const burgerMenuButton = document.getElementById('burger-menu');
+const navLinks = document.getElementById('nav-links');
+
+// Function to toggle the visibility of the navigation links
+function toggleNavLinks() {
+    // Toggle the 'hidden' class on the navigation links container
+    navLinks.classList.toggle('hidden');
+}
+
+// Add an event listener to the burger menu button
+burgerMenuButton.addEventListener('click', function() {
+    toggleNavLinks();
+});
+</script>
+

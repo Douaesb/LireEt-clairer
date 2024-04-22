@@ -1,5 +1,5 @@
-<footer>
-    <div class="flex justify-evenly justify-center items-start h-[350px] pt-8">
+<footer class=" ml-4 flex justify-center flex-col">
+    <div class="flex md:flex-row flex-col justify-evenly justify-center items-start h-[350px] pt-8">
         <div class="flex flex-col">
 
             <div class="flex items-center gap-4">
@@ -59,7 +59,7 @@
             </div>
         </div>
         <div>
-            <div class="text-2xl text-white font-['Inter']">Explorer</div>
+            <div class="text-2xl text-white font-['Inter'] pt-4">Explorer</div>
             <div class="flex flex-col gap-3">
                 <div class="flex items-center gap-1 pt-6">
                     <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
@@ -89,14 +89,13 @@
                     <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
                     <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
                     <div class="w-2 h-2 border-2 border-amber-400 rounded-full "></div>
-                    <a href=""
-                        class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Contactez-nous</a>
+                    <a href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">Contactez-nous</a>
                 </div>
             </div>
         </div>
         <div>
 
-            <div class="text-2xl text-white font-['Inter']">Restez en contact !</div>
+            <div class="text-2xl text-white font-['Inter'] pt-4">Restez en contact !</div>
             <div class="flex flex-col gap-3">
                 <div class="flex items-start gap-1 pt-6">
                     <span class=" text-white text-xl font-normal font-['Inter'] ml-4"> Adresse : </span>
@@ -109,7 +108,7 @@
                     <span href=""
                         class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">support@books.com</span>
                 </div>
-                <div class="flex items-center gap-1">
+                <div class="flex items-center gap-1 mb-4">
                     <span class=" text-white text-xl font-normal font-['Inter'] ml-4"> Tel : </span>
 
                     <span href="" class=" text-slate-300 text-xl font-normal font-['Inter'] ml-4">(+22) 123
@@ -120,9 +119,8 @@
         </div>
 
     </div>
-    <div class="flex flex-col justify-center items-center mx-auto">
+    <div class="hidden md:flex flex-col justify-center items-center mx-auto">
         <hr class="w-full border-slate-400">
         <span class="text-slate-300 text-lg font-normal font-['Inter'] p-4">© All rigths reserved</span>
     </div>
-
 </footer>
