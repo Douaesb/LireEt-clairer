@@ -55,7 +55,7 @@
                                                     <li class="flex py-6" data-article-id="{{ $article->id }}">
 
                                                         <div
-                                                            class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                                            class="picture h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                                             @if ($article->photo && filter_var($article->photo, FILTER_VALIDATE_URL))
                                                                 <img src="{{ $article->photo }}" alt="article Image"
                                                                     class="h-full w-full object-cover object-center">
@@ -144,10 +144,10 @@
   <!-- Main modal -->
   <div id="default-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
       <div class="relative p-4 w-full max-w-2xl max-h-full">
-          <div class="  relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div class="  relative bg-white rounded-lg shadow dark:bg-gray-700 pb-2">
               <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
                   <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                     Checkout 
+                     Summary of your order 
                   </h3>
                   <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="default-modal">
                       <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -159,9 +159,14 @@
               <div id="orderSummaryBody" class="modal-body">
                 <!-- Order summary details will be populated here -->
             </div>
-              <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                <button type="button" class="finalize text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Finaliser ma commande</button>
+            <div class="flex justify-center w-full"> 
+
+              <div class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-14 text-black w-fit py-2 ml-4 gap-2"> Check out with  
+                <svg width="20px" height="30px" viewBox="-23 0 302 302" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146" fill="#002c8a"> </path> <path d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z" fill="#002c8a"> </path> <path d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z" fill="#009be1"> </path> <path d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783" fill="#001f6b"> </path> </g> </g></svg>
+                 <button type="button" class="finalize  text-xl text-center text-blue-700 font-bold "> Pay<span class="text-sky-600">Pal</span></button>
             </div>
+        </div>
+
           </div>
       </div>
   </div>
@@ -291,16 +296,26 @@
         });
     });
 
-document.querySelector('.checkoutButton').addEventListener('click', function(event) {
+    document.querySelector('.checkoutButton').addEventListener('click', function(event) {
     event.preventDefault();
-    
-    // Get the order summary body element
     const orderSummaryBody = document.getElementById('orderSummaryBody');
     
     if (orderSummaryBody) {
-        // Element exists, continue with the function
         const articles = document.querySelectorAll('#panier li');
-        let orderSummaryHTML = '';
+        let tableHTML = `
+            <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+                <table class="w-full">
+                    <thead>
+                        <tr>
+                            <th class="text-left font-semibold">Product</th>
+                            <th class="text-left font-semibold">Price</th>
+                            <th class="text-left font-semibold">Quantity</th>
+                            <th class="text-left font-semibold">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+        `;
+
         let totalCost = 0;
 
         articles.forEach(article => {
@@ -309,51 +324,44 @@ document.querySelector('.checkoutButton').addEventListener('click', function(eve
             const articlePrice = parseFloat(article.querySelector('.article-price').textContent.trim().replace('$', ''));
             const articleTotal = articleQuantity * articlePrice;
             totalCost += articleTotal;
+            const imageElement = article.querySelector('.picture img');
+            // console.log(imageElement);
+            let imageURL = '';
+            if (imageElement) {
+                imageURL = imageElement.src; 
+            }
 
-            orderSummaryHTML += `
-                <div>
-                    <p>Title: ${articleTitle}</p>
-                    <p>Quantity: ${articleQuantity}</p>
-                    <p>Price per piece: $${articlePrice.toFixed(2)}</p>
-                    <p>Total: $${articleTotal.toFixed(2)}</p>
-                </div>
+            tableHTML += `
+                <tr>
+                    <td class="py-4">
+                        <div class="flex items-center">
+                            <img class="h-16 w-16 mr-4" src="${imageURL}" alt="image">
+                            <span class="font-semibold">${articleTitle}</span>
+                        </div>
+                    </td>
+                    <td class="py-4">$${articlePrice.toFixed(2)}</td>
+                    <td class="py-4">
+                        <div class="flex items-center">
+                            <span class="text-center w-8">${articleQuantity}</span>
+                        </div>
+                    </td>
+                    <td class="py-4">$${articleTotal.toFixed(2)}</td>
+                </tr>
             `;
         });
 
-        orderSummaryHTML += `
-            <div>
-                <h3>Total Cost: $${totalCost.toFixed(2)}</h3>
+        tableHTML += `
+                    </tbody>
+                </table>
             </div>
         `;
-        orderSummaryBody.innerHTML = orderSummaryHTML;
+
+        orderSummaryBody.innerHTML = tableHTML;
     } else {
         console.error('Error: Could not find orderSummaryBody element in the DOM.');
     }
 });
 
-// document.querySelector('.finalize').addEventListener('click', function(event) {
-//     event.preventDefault(); 
-//     // console.log('hey')
-//     fetch('/payment/response', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(data => {
-//         if (data.success) {
-//             window.location.href = data.paypal_approval_url;
-
-//         } else {
-//             console.error('Error initiating payment:', data.error);
-//         }
-//     })
-//     .catch(error => {
-//         console.error('Error:', error);
-//     });
-// });
 
 document.querySelector('.finalize').addEventListener('click', function(event) {
     event.preventDefault();
