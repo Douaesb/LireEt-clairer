@@ -91,8 +91,21 @@ Route::post('basket/add',[BasketController::class, 'add'])->name('basket.add');
 Route::post('/basket/update', [BasketController::class, 'update'])->name('basket.update');
 Route::post('basket/remove',[BasketController::class, 'remove'])->name('basket.remove');
 Route::get('/basket/checkout', [BasketController::class, 'checkout'])->name('basket.checkout');
-Route::post('/basket/empty', [BasketController::class, 'emptyBasket'])->name('basket.empty');
+// Route::post('/basket/empty', [BasketController::class, 'emptyBasket'])->name('basket.empty');
 
 
 
 Route::get('/filter-books/{categoryId}', [BookController::class, 'filterBooks']);
+
+Route::post('/payment/initialize', [BasketController::class, 'initializePayment'])->name('payment.initialize');
+Route::get('/payment/response', [BasketController::class, 'handlePaymentResponse'])->name('payment.response');
+Route::get('/payment/cancel', [BasketController::class, 'paymentCancel'])->name('payment.cancel');
+
+
+Route::get('/order/success', function () {
+    return view('order');
+})->name('order.success');
+
+// Route::post('/checkout', [BasketController::class, 'checkoutt'])->name('checkout');
+// Route::get('/payment/response', [BasketController::class, 'paymentResponse'])->name('basket.empty');
+
