@@ -299,7 +299,7 @@
     document.querySelector('.checkoutButton').addEventListener('click', function(event) {
     event.preventDefault();
     const orderSummaryBody = document.getElementById('orderSummaryBody');
-    
+    const totalCost = document.querySelector('total-cost');    
     if (orderSummaryBody) {
         const articles = document.querySelectorAll('#panier li');
         let tableHTML = `
@@ -318,7 +318,7 @@
 
         let totalCost = 0;
 
-        articles.forEach(article => {
+        articles.forEach(article => {            
             const articleTitle = article.querySelector('h3 a').textContent;
             const articleQuantity = parseInt(article.querySelector('.quantity-value').textContent);
             const articlePrice = parseFloat(article.querySelector('.article-price').textContent.trim().replace('$', ''));
@@ -344,8 +344,8 @@
                         <div class="flex items-center">
                             <span class="text-center w-8">${articleQuantity}</span>
                         </div>
+                        <td class="py-4">$${articleTotal.toFixed(2)}</td>
                     </td>
-                    <td class="py-4">$${articleTotal.toFixed(2)}</td>
                 </tr>
             `;
         });
@@ -353,6 +353,11 @@
         tableHTML += `
                     </tbody>
                 </table>
+                <div class="flex justify-end items-end mr-8">
+                    <p class=" text-xl font-bold">Total : </p>
+                    
+                    <p class=" text-xl font-bold ml-4"> ${totalCost}$</p>
+</div>
             </div>
         `;
 
