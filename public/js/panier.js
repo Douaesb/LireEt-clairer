@@ -195,7 +195,15 @@
     });
 
 
+    document.querySelector('.finalise').addEventListener('click', function(event) {
+        event.preventDefault();
+        initiatePayPalPayment();
+    });
     document.querySelector('.finalize').addEventListener('click', function(event) {
+        event.preventDefault();
+        initiatePayPalPayment();
+    });
+    document.querySelector('.final').addEventListener('click', function(event) {
         event.preventDefault();
         initiatePayPalPayment();
     });
@@ -211,6 +219,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    console.log('paypal')
                     window.location.href = data.paypal_approval_url;
                 } else {
                     console.error('Error initiating payment:', data.error);
