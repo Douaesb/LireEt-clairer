@@ -294,42 +294,73 @@
                         </div>
                     </div>
                 </div>
- <!-- Main modal -->
- <div id="timeline-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-    <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="  relative bg-white rounded-lg shadow dark:bg-gray-700 pb-2">
-            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                   Summary of your order 
-                </h3>
-                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="timeline-modal">
-                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                    </svg>
-                    <span class="sr-only">Close modal</span>
-                </button>
-            </div>
-            <div id="summaryContainer" class="modal-body">
-              <!-- Order summary details will be populated here -->
-          </div>
-          <div class="flex justify-center w-full"> 
+                <!-- Main modal -->
+                <div id="timeline-modal" tabindex="-1" aria-hidden="true"
+                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                        <div class="  relative bg-white rounded-lg shadow dark:bg-gray-700 pb-2">
+                            <div
+                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                                    Summary of your order
+                                </h3>
+                                <button type="button"
+                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                                    data-modal-hide="timeline-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                        fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                            </div>
+                            <div id="summaryContainer" class="modal-body">
+                                <!-- Order summary details will be populated here -->
+                            </div>
+                            <div class="flex justify-center w-full">
 
-            <div class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-14 text-black w-fit py-2 ml-4 gap-2 mt-4"> Check out with  
-              <svg width="20px" height="30px" viewBox="-23 0 302 302" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146" fill="#002c8a"> </path> <path d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z" fill="#002c8a"> </path> <path d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z" fill="#009be1"> </path> <path d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783" fill="#001f6b"> </path> </g> </g></svg>
-               <button type="button" class="finalize  text-xl text-center text-blue-700 font-bold "> Pay<span class="text-sky-600">Pal</span></button>
-          </div>
-      </div>
+                                <div
+                                    class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-14 text-black w-fit py-2 ml-4 gap-2 mt-4">
+                                    Check out with
+                                    <svg width="20px" height="30px" viewBox="-23 0 302 302" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        preserveAspectRatio="xMidYMid" fill="#000000">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g>
+                                                <path
+                                                    d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146"
+                                                    fill="#002c8a"> </path>
+                                                <path
+                                                    d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z"
+                                                    fill="#002c8a"> </path>
+                                                <path
+                                                    d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z"
+                                                    fill="#009be1"> </path>
+                                                <path
+                                                    d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783"
+                                                    fill="#001f6b"> </path>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                    <button type="button" class="finalize  text-xl text-center text-blue-700 font-bold ">
+                                        Pay<span class="text-sky-600">Pal</span></button>
+                                </div>
+                            </div>
 
-        </div>
-    </div>
-</div>
+                        </div>
+                    </div>
+                </div>
                 @foreach ($bookData as $book)
-                    <div class="article-container card shadow-lg flex flex-col w-4/5 justify-evenly items-center pb-4 gap-6">
+                    <div
+                        class="article-container card shadow-lg flex flex-col w-4/5 justify-evenly items-center pb-4 gap-6">
                         <div class="picture bg-slate-100 w-full flex justify-center">
                             @if ($book->photo && filter_var($book->photo, FILTER_VALIDATE_URL))
-                                <img src="{{ $book->photo }}" alt="Book Image">
+                                <img class="pic" src="{{ $book->photo }}" alt="Book Image">
                             @elseif($book->photo && !filter_var($book->photo, FILTER_VALIDATE_URL))
-                                <img src="{{ asset('storage/' . $book->photo) }}" alt="Book Image">
+                                <img class="pic" src="{{ asset('storage/' . $book->photo) }}" alt="Book Image">
                             @else
                                 <p>No Image Available</p>
                             @endif
@@ -413,38 +444,42 @@
 
                                 </a>
                             </div>
-                            <div class="flex flex-end h-full items-end justify-center w-full">
-
-                                <div
-                                    class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-10 text-black w-fit py-1">
-                                    <svg width="25px" height="30px" viewBox="-23 0 302 302" version="1.1"
-                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                        preserveAspectRatio="xMidYMid" fill="#000000">
-                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                                        <g id="SVGRepo_iconCarrier">
-                                            <g>
-                                                <path
-                                                    d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146"
-                                                    fill="#002c8a"> </path>
-                                                <path
-                                                    d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z"
-                                                    fill="#002c8a"> </path>
-                                                <path
-                                                    d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z"
-                                                    fill="#009be1"> </path>
-                                                <path
-                                                    d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783"
-                                                    fill="#001f6b"> </path>
-                                            </g>
-                                        </g>
-                                    </svg>
-                                    <button  data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
-                                        class="buyOneButton text-yellow-900 font-bold text-lg bg-amber-300 p-2 px-8 rounded-lg ">buy
-                                        now</button>
-                                </div>
-                            </div>
                             @auth
+
+                                <div class="flex flex-end h-full items-end justify-center w-full">
+
+                                    <div
+                                        class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-10 text-black w-fit py-1">
+                                        <svg width="25px" height="30px" viewBox="-23 0 302 302" version="1.1"
+                                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                            preserveAspectRatio="xMidYMid" fill="#000000">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <g>
+                                                    <path
+                                                        d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146"
+                                                        fill="#002c8a"> </path>
+                                                    <path
+                                                        d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z"
+                                                        fill="#002c8a"> </path>
+                                                    <path
+                                                        d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z"
+                                                        fill="#009be1"> </path>
+                                                    <path
+                                                        d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783"
+                                                        fill="#001f6b"> </path>
+                                                </g>
+                                            </g>
+                                        </svg>
+                                        <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
+                                            class="buyOneButton text-yellow-900 font-bold text-lg bg-amber-300 p-2 px-8 rounded-lg ">buy
+                                            now</button>
+                                            {{-- <button data-modal-target="progress-modal" data-modal-toggle="progress-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  Toggle modal
+</button> --}}
+                                    </div>
+                                </div>
                                 @if (auth()->user()->role == 'admin')
                                     <hr class="flex justify-self-center border-yellow-900 mt-2">
 
@@ -553,28 +588,29 @@
 
     <script>
         document.querySelectorAll('.buyOneButton').forEach(button => {
-    button.addEventListener('click', function(event) {
-        event.preventDefault();
-        const articleContainer = this.closest('.article-container');
-        if (!articleContainer) {
-            console.error('Error: Could not find article container.');
-            return;
-        }
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const articleContainer = this.closest('.article-container');
+                if (!articleContainer) {
+                    console.error('Error: Could not find article container.');
+                    return;
+                }
 
-        const imageElement = articleContainer.querySelector('.picture img');
-            // console.log(imageElement);
-            let imageURL = '';
-            if (imageElement) {
-                imageURL = imageElement.src; 
-            }
-        const articleTitle = articleContainer.querySelector('.article-title').textContent;
-        const quantityInput = articleContainer.querySelector('.quantity-input');
-        const articleQuantity = parseInt(quantityInput.value);
-        const articlePricePerPiece = parseFloat(articleContainer.querySelector('.article-price').textContent.replace('$', ''));
-        
-        const articleTotal = articleQuantity * articlePricePerPiece;
+                const imageElement = articleContainer.querySelector('.picture img');
+                // console.log(imageElement);
+                let imageURL = '';
+                if (imageElement) {
+                    imageURL = imageElement.src;
+                }
+                const articleTitle = articleContainer.querySelector('.article-title').textContent;
+                const quantityInput = articleContainer.querySelector('.quantity-input');
+                const articleQuantity = parseInt(quantityInput.value);
+                const articlePricePerPiece = parseFloat(articleContainer.querySelector('.article-price')
+                    .textContent.replace('$', ''));
 
-        const summaryHTML = `
+                const articleTotal = articleQuantity * articlePricePerPiece;
+
+                const summaryHTML = `
             <div class="summary-container bg-white rounded-lg shadow-md p-6">
                 <table class="w-full">
                     <thead>
@@ -607,15 +643,15 @@
             </div>
 
         `;
-        const summaryContainer = document.getElementById('summaryContainer');
-        if (summaryContainer) {
-            summaryContainer.innerHTML = summaryHTML;
-            summaryContainer.classList.remove('hidden'); 
-        } else {
-            console.error('Error: Could not find summaryContainer element in the DOM.');
-        }
-    });
-});
+                const summaryContainer = document.getElementById('summaryContainer');
+                if (summaryContainer) {
+                    summaryContainer.innerHTML = summaryHTML;
+                    summaryContainer.classList.remove('hidden');
+                } else {
+                    console.error('Error: Could not find summaryContainer element in the DOM.');
+                }
+            });
+        });
 
 
         document.querySelectorAll('.popupBtn').forEach(button => {
@@ -847,37 +883,110 @@
         }
 
 
-        // Define the initial page number
+
+        function initializeBuyNowPopUp() {
+        document.querySelectorAll('.buyOneButtonA').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                console.log('start');
+                const articleContainer = this.closest('.article-container');
+                if (!articleContainer) {
+                    console.error('Error: Could not find article container.');
+                    return;
+                }
+
+                // Retrieve article information
+                const articleTitle = articleContainer.querySelector('.article-title').textContent;
+                const quantityInput = articleContainer.querySelector('.quantity-input');
+                const articleQuantity = parseInt(quantityInput.value);
+                const articlePricePerPiece = parseFloat(articleContainer.querySelector('.article-price')
+                    .textContent.replace('$', ''));
+
+                const imageElement2 = articleContainer.querySelector('.picture img');
+                console.log('image',imageElement2)
+                let imageURL = '';
+                if (imageElement2) {
+                    imageURL = imageElement2.src; // Get the image URL
+                }
+
+                // Calculate the total cost
+                const articleTotal = articleQuantity * articlePricePerPiece;
+
+                // Create the summary HTML
+                const summaryHTML2 = `
+                <div class="summary-container2 bg-white rounded-lg shadow-md p-6">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th class="text-left font-semibold">Product</th>
+                                <th class="text-left font-semibold">Price</th>
+                                <th class="text-left font-semibold">Quantity</th>
+                                <th class="text-left font-semibold">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="py-4">
+                                    <div class="flex items-center">
+                                        <img class="h-16 w-16 mr-4" src="${imageURL}" alt="image">
+                                        <span class="font-semibold">${articleTitle}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4">$${articlePricePerPiece.toFixed(2)}</td>
+                                <td class="py-4">
+                                    <div class="flex items-center">
+                                        <span class="text-center w-8">${articleQuantity}</span>
+                                    </div>
+                                </td>
+                                <td class="py-4 text-xl font-bold">$${articleTotal.toFixed(2)}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            `;
+
+                const summaryContainer2 = document.getElementById('summaryContainer2');
+                if (summaryContainer2) {
+                    console.log(summaryContainer2)
+                    summaryContainer2.innerHTML = summaryHTML2;
+                    summaryContainer2.classList.remove('hidden');
+                } else {
+                    console.error('Error: Could not find summaryContainer2 element in the DOM.');
+                }
+                console.log('end');
+            });
+        });
+    }
+
         let currentPage = 1;
 
-        // Function to fetch books for a given category and page
         function fetchBooks(categoryId, page = 1) {
-            // Make an API request with the category ID and page number
             fetch(`/filter-books/${categoryId}?page=${page}`)
                 .then(response => response.json())
                 .then(data => {
-                    // Update the book list
-                    const booksContainer = document.querySelector('.books');
-                    booksContainer.innerHTML = '';
-                    var userRole = null;
+                        const booksContainer = document.querySelector('.books');
+                        booksContainer.innerHTML = '';
+                        var userRole = null;
+                        var userAuth = null;
 
-                    @if (auth()->check())
-                        userRole = "{{ auth()->user()->role }}";
-                    @endif
-                    // Iterate through the books and create book cards
-                    data.books.data.forEach(book => {
-                        // Create a book card element
-                        const bookCard = document.createElement('div');
-                        bookCard.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5',
-                            'justify-center', 'items-center', 'pb-4', 'gap-4');
-                        bookCard.innerHTML = `
-                    <div class="bg-slate-100 w-full flex justify-center">
+
+                        @if (auth()->check())
+                            userRole = "{{ auth()->user()->role }}";
+                        @endif
+                        userAuth = "{{ auth()->check() }}";
+                        data.books.data.forEach(book => {
+                            const bookCard = document.createElement('div');
+                            bookCard.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5',
+                                'article-container',
+                                'justify-center', 'items-center', 'pb-4', 'gap-4');
+                            bookCard.innerHTML = `
+                    <div class="picture bg-slate-100 w-full flex justify-center">
                         ${book.photo ? `<img src="${book.photo}" alt="Book Image">` : '<p>No Image Available</p>'}
                     </div>
                     <div class="w-11/12 gap-3 flex flex-col">
                         <div class="flex justify-between px-2">
-                            <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">${book.titre}</h3>
-                            <span class="text-2xl font-semibold font-[cardp] text-amber-300 text-center"><span>${book.price}</span>$</span>
+                            <h3 class="article-title text-3xl font-semibold font-[cardo] text-yellow-900">${book.titre}</h3>
+                            <span class="article-price text-2xl font-semibold font-[cardp] text-amber-300 text-center"><span>${book.price}</span>$</span>
                         </div>
                         <p class="text-slate-400 text-lg p-2">${book.description.slice(0, 150)}...</p>
                         <div class="flex gap-2">
@@ -888,22 +997,22 @@
                         </div>
                         <div class="flex justify-between">
                             ${book.pdf_url ? `
-                                    <a href="${book.pdf_url}" class="border-2 border-amber-300 px-8 p-2 w-fit" download>
-                                        Download PDF
-                                    </a>
-                                ` : `
-                                    <form method="post" action="{{ route('basket.add') }}">
-                                        @csrf
-                                        <input type="hidden" name="article_id" value="${book.id}">
-                                        <input type="number" name="quantity" value="1" min="1" class="w-[70px] border-yellow-900">
-                                        <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
-                                            icon: 'success',
-                                            title: 'Added to cart successfully',
-                                            showConfirmButton: false,
-                                            timer: 1500
-                                        });">Add to cart</button>
-                                    </form>
-                                `}
+                                            <a href="${book.pdf_url}" class="border-2 border-amber-300 px-8 p-2 w-fit" download>
+                                                Download PDF
+                                            </a>
+                                        ` : `
+                                            <form method="post" action="{{ route('basket.add') }}">
+                                                @csrf
+                                                <input type="hidden" name="article_id" value="${book.id}">
+                                                <input type="number" name="quantity" value="1" min="1" class="quantity-input w-[50px] border-yellow-900">
+                                                <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
+                                                    icon: 'success',
+                                                    title: 'Added to cart successfully',
+                                                    showConfirmButton: false,
+                                                    timer: 1500
+                                                });">Add to cart</button>
+                                            </form>
+                                        `}
                         </div>
                         <a href="{{ url('books') }}/${book.id}" class="flex">
                             <svg width="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -919,29 +1028,29 @@
                         </a>
                     </div>
                 `;
-                        const hr = document.createElement('hr');
-                        hr.classList.add('flex', 'justify-self-center', 'border-yellow-900', 'mt-2',
-                            'w-[200px]');
-                        if (userRole == 'admin') {
+                            const hr = document.createElement('hr');
+                            hr.classList.add('flex', 'justify-self-center', 'border-yellow-900', 'mt-2',
+                                'w-[200px]');
+                            if (userRole == 'admin') {
 
-                            bookCard.appendChild(hr);
-                        }
-                        const buttonContainer = document.createElement('div');
-                        buttonContainer.classList.add('flex', 'justify-between', 'gap-3', 'w-1/5');
+                                bookCard.appendChild(hr);
+                            }
+                            const buttonContainer = document.createElement('div');
+                            buttonContainer.classList.add('flex', 'justify-between', 'gap-3', 'w-1/5');
 
 
-                        const popupButton = document.createElement('button');
-                        popupButton.classList.add('popupBtn');
-                        popupButton.dataset.modalTarget = 'popup-modal';
-                        popupButton.dataset.modalToggle = 'popup-modal';
-                        popupButton.type = 'button';
-                        popupButton.dataset.bookId = book.id;
-                        popupButton.dataset.bookPhoto = book.photo;
-                        popupButton.dataset.categorieId = book.categorie_id;
-                        popupButton.dataset.bookTitre = book.titre;
-                        popupButton.dataset.bookDescription = book.description;
-                        popupButton.dataset.bookPrice = book.price;
-                        popupButton.innerHTML = `<svg width="25px"
+                            const popupButton = document.createElement('button');
+                            popupButton.classList.add('popupBtn');
+                            popupButton.dataset.modalTarget = 'popup-modal';
+                            popupButton.dataset.modalToggle = 'popup-modal';
+                            popupButton.type = 'button';
+                            popupButton.dataset.bookId = book.id;
+                            popupButton.dataset.bookPhoto = book.photo;
+                            popupButton.dataset.categorieId = book.categorie_id;
+                            popupButton.dataset.bookTitre = book.titre;
+                            popupButton.dataset.bookDescription = book.description;
+                            popupButton.dataset.bookPrice = book.price;
+                            popupButton.innerHTML = `<svg width="25px"
                                         viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
@@ -959,24 +1068,24 @@
                                     </svg>`;
 
 
-                        const deleteForm = document.createElement('form');
-                        deleteForm.action = `{{ route('accessoires.delete', ':bookId') }}`.replace(':bookId',
-                            book.id);
-                        deleteForm.method = 'POST';
+                            const deleteForm = document.createElement('form');
+                            deleteForm.action = `{{ route('accessoires.delete', ':bookId') }}`.replace(':bookId',
+                                book.id);
+                            deleteForm.method = 'POST';
 
-                        const csrfToken = document.createElement('input');
-                        csrfToken.type = 'hidden';
-                        csrfToken.name = '_token';
-                        csrfToken.value = '{{ csrf_token() }}';
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = '_token';
+                            csrfToken.value = '{{ csrf_token() }}';
 
-                        const deleteMethod = document.createElement('input');
-                        deleteMethod.type = 'hidden';
-                        deleteMethod.name = '_method';
-                        deleteMethod.value = 'delete';
+                            const deleteMethod = document.createElement('input');
+                            deleteMethod.type = 'hidden';
+                            deleteMethod.name = '_method';
+                            deleteMethod.value = 'delete';
 
-                        const deleteButton = document.createElement('button');
-                        deleteButton.type = 'submit';
-                        deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
+                            const deleteButton = document.createElement('button');
+                            deleteButton.type = 'submit';
+                            deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
@@ -1000,31 +1109,82 @@
                                         </svg>`;
 
 
-                        deleteForm.appendChild(csrfToken);
-                        deleteForm.appendChild(deleteMethod);
-                        deleteForm.appendChild(deleteButton);
+                            deleteForm.appendChild(csrfToken);
+                            deleteForm.appendChild(deleteMethod);
+                            deleteForm.appendChild(deleteButton);
 
-                        buttonContainer.appendChild(popupButton);
-                        buttonContainer.appendChild(deleteForm);
-                        if (userRole == 'admin') {
+                            buttonContainer.appendChild(popupButton);
+                            buttonContainer.appendChild(deleteForm);
 
-                            bookCard.appendChild(buttonContainer);
-                        }
-                        const popupBtn = bookCard.querySelector('.popupBtn');
-                        if (popupBtn) {
-                            popupBtn.addEventListener('click', () => {
-                                showProductPopup(book);
-                            });
-                        }
-                        booksContainer.appendChild(bookCard);
-                    });
+                            if (userRole == 'admin') {
 
-                    const paginationContainer = document.querySelector('.pagination');
-                    paginationContainer.innerHTML = '';
-                    if (data.books.prev_page_url) {
-                        const prevButton = document.createElement('button');
-                        prevButton.textContent = 'Previous';
-                        prevButton.innerHTML = `
+                                bookCard.appendChild(buttonContainer);
+                            }
+                            const popupBtn = bookCard.querySelector('.popupBtn');
+                            if (popupBtn) {
+                                popupBtn.addEventListener('click', () => {
+                                    showProductPopup(book);
+                                });
+                            }
+                            const buyNowButton = document.createElement('button');
+
+                            buyNowButton.classList.add('buyOneButtonA', 'text-yellow-900', 'font-bold', 'text-lg',
+                                'bg-amber-300', 'rounded-lg', 'px-8', 'p-2', 'flex');
+                            buyNowButton.dataset.modalTarget = 'progress-modal';
+                            buyNowButton.dataset.modalToggle = 'progress-modal';
+                            buyNowButton.type = 'button';
+
+                            buyNowButton.innerHTML = `
+                            <svg width="25px" height="30px" viewBox="-23 0 302 302" version="1.1"
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        preserveAspectRatio="xMidYMid" fill="#000000">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <g>
+                                                <path
+                                                    d="M217.168476,23.5070146 C203.234077,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.3030619,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.076601 C-0.637664968,263.946149 3.13311322,268.357876 8.06925331,268.357876 L65.804612,268.357876 L80.3050438,176.385849 L79.8555471,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.46841,167.970272 C174.366398,167.970272 216.569147,146.078116 228.897012,82.7490197 C229.263268,80.8761167 229.579581,79.0531577 229.854273,77.2718188 C228.297683,76.4477414 228.297683,76.4477414 229.854273,77.2718188 C233.525163,53.8646924 229.829301,37.9325302 217.168476,23.5070146"
+                                                    fill="#002c8a"> </path>
+                                                <path
+                                                    d="M102.396976,68.8395929 C103.936919,68.1070797 105.651665,67.699203 107.449652,67.699203 L180.767565,67.699203 C189.449511,67.699203 197.548776,68.265236 204.948824,69.4555699 C207.071448,69.7968545 209.127479,70.1880831 211.125242,70.6375799 C213.123006,71.0787526 215.062501,71.5781934 216.943728,72.1275783 C217.884341,72.4022708 218.808307,72.6852872 219.715624,72.9849517 C223.353218,74.2002577 226.741092,75.61534 229.854273,77.2718188 C233.525163,53.8563683 229.829301,37.9325302 217.168476,23.5070146 C203.225753,7.62479651 178.045612,0.815753338 145.823355,0.815753338 L52.2947379,0.815753338 C45.7104431,0.815753338 40.1083819,5.6103852 39.0762042,12.1114399 L0.136468302,259.068277 C-0.637664968,263.946149 3.13311322,268.349552 8.0609293,268.349552 L65.804612,268.349552 L95.8875974,77.5798073 C96.5035744,73.6675208 99.0174265,70.4627756 102.396976,68.8395929 Z"
+                                                    fill="#002c8a"> </path>
+                                                <path
+                                                    d="M228.897012,82.7490197 C216.569147,146.069792 174.366398,167.970272 120.46841,167.970272 L93.0241367,167.970272 C86.4398419,167.970272 80.8794007,172.764903 79.8555471,179.265958 L61.8174095,293.621258 C61.1431644,297.883153 64.4394738,301.745495 68.7513129,301.745495 L117.421821,301.745495 C123.182038,301.745495 128.084882,297.550192 128.983876,291.864891 L129.458344,289.384335 L138.631407,231.249423 L139.222412,228.036354 C140.121406,222.351053 145.02425,218.15575 150.784467,218.15575 L158.067979,218.15575 C205.215193,218.15575 242.132193,199.002194 252.920115,143.605884 C257.423406,120.456802 255.092683,101.128442 243.181019,87.5519756 C239.568397,83.4399129 235.081754,80.0437153 229.854273,77.2718188 C229.571257,79.0614817 229.263268,80.8761167 228.897012,82.7490197 L228.897012,82.7490197 Z"
+                                                    fill="#009be1"> </path>
+                                                <path
+                                                    d="M216.952052,72.1275783 C215.070825,71.5781934 213.13133,71.0787526 211.133566,70.6375799 C209.135803,70.1964071 207.071448,69.8051785 204.957148,69.4638939 C197.548776,68.265236 189.457835,67.699203 180.767565,67.699203 L107.457976,67.699203 C105.651665,67.699203 103.936919,68.1070797 102.4053,68.8479169 C99.0174265,70.4710996 96.5118984,73.6675208 95.8959214,77.5881313 L80.3133678,176.385849 L79.8638711,179.265958 C80.8877248,172.764903 86.4481659,167.970272 93.0324607,167.970272 L120.476734,167.970272 C174.374722,167.970272 216.577471,146.078116 228.905336,82.7490197 C229.271592,80.8761167 229.579581,79.0614817 229.862597,77.2718188 C226.741092,75.623664 223.361542,74.2002577 219.723948,72.9932757 C218.816631,72.6936112 217.892665,72.4022708 216.952052,72.1275783"
+                                                    fill="#001f6b"> </path>
+                                            </g>
+                                        </g>
+                                    </svg> buy now `;
+                            if (userAuth) {
+                                bookCard.appendChild(buyNowButton);
+                            }
+                            const popupBtnA = bookCard.querySelector('.buyOneButtonA');
+                            const progress = document.querySelector('.progress');
+                            const hideModal = document.querySelector('.hideModal');
+
+
+                            if (popupBtnA) {
+                                popupBtnA.addEventListener('click', () => {
+                                    initializeBuyNowPopUp();
+                                    progress.classList.remove('hidden');
+                                });
+                            }
+
+                            hideModal.addEventListener('click', () => {
+                                    progress.classList.add('hidden');
+                                });
+                            booksContainer.appendChild(bookCard);
+                        });
+
+                            // 
+                            const paginationContainer = document.querySelector('.pagination'); paginationContainer
+                            .innerHTML = '';
+                            if (data.books.prev_page_url) {
+                                const prevButton = document.createElement('button');
+                                prevButton.textContent = 'Previous';
+                                prevButton.innerHTML = `
                 <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
                 <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
@@ -1040,17 +1200,17 @@
 
     </div>
                         `;
-                        prevButton.addEventListener('click', () => {
-                            currentPage--;
-                            fetchBooks(categoryId, currentPage);
-                        });
-                        paginationContainer.appendChild(prevButton);
-                    }
+                                prevButton.addEventListener('click', () => {
+                                    currentPage--;
+                                    fetchBooks(categoryId, currentPage);
+                                });
+                                paginationContainer.appendChild(prevButton);
+                            }
 
-                    if (data.books.next_page_url) {
-                        const nextButton = document.createElement('button');
-                        nextButton.textContent = 'Next';
-                        nextButton.innerHTML = `
+                            if (data.books.next_page_url) {
+                                const nextButton = document.createElement('button');
+                                nextButton.textContent = 'Next';
+                                nextButton.innerHTML = `
                 <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
                     Next
 
@@ -1065,22 +1225,22 @@
                             </g>
                         </svg>
                         </div>`
-                        nextButton.addEventListener('click', () => {
-                            currentPage++;
-                            fetchBooks(categoryId, currentPage);
-                        });
-                        paginationContainer.appendChild(nextButton);
-                    }
-                })
-                .catch(error => console.error('Error fetching books:', error));
-        }
+                                nextButton.addEventListener('click', () => {
+                                    currentPage++;
+                                    fetchBooks(categoryId, currentPage);
+                                });
+                                paginationContainer.appendChild(nextButton);
+                            }
+                        })
+                    .catch(error => console.error('Error fetching books:', error));
+                }
 
-        document.querySelectorAll('.category-button, #all-category').forEach(button => {
-            button.addEventListener('click', function() {
-                let categoryId = this.id === 'all-category' ? 'all' : this.id.split('-')[1];
-                currentPage = 1;
-                fetchBooks(categoryId, currentPage);
+            document.querySelectorAll('.category-button, #all-category').forEach(button => {
+                button.addEventListener('click', function() {
+                    let categoryId = this.id === 'all-category' ? 'all' : this.id.split('-')[1];
+                    currentPage = 1;
+                    fetchBooks(categoryId, currentPage);
+                });
             });
-        });
     </script>
 @endsection
