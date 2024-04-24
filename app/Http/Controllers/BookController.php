@@ -6,6 +6,7 @@ use App\Models\Article;
 use App\Models\Book;
 use App\Models\Categorie;
 use App\Services\GoogleBooksService;
+use Exception;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
@@ -106,11 +107,22 @@ class BookController extends Controller
         }
     }
 
-    public function show($id)
+    public function show($articleId)
     {
-        $book = Article::findOrFail($id);
-        return view('oneBook', ['book' => $book]);
+        try {
+            $book = Article::findOrFail($articleId);
+            $comments = $book->comments()->with('user')->get();
+            return view('oneBook', compact('book','comments'));
+        } catch (Exception $e) {
+            return  $e->getMessage();
+        }
     }
+
+    // public function show($id)
+    // {
+    //     $book = Article::findOrFail($id);
+    //     return view('oneBook', ['book' => $book]);
+    // }
 
     public function store(Request $request)
     {

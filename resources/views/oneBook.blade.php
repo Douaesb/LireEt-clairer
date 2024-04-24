@@ -117,34 +117,43 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-wrap md:flex-nowrap justify-center items-center  w-4/5">
-            <div class="flex flex-col gap-10 justify-center pt-10">
-                <div class="text-slate-200 font-xl font-[cardo] bg-yellow-900 w-fit p-4 self-end mr-4  px-16">PRODUCT
-                    DESCRIPTION</div>
-                <div>
-                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Do you offer discounts for
-                        education?
-                    </h3>
-                    <p class="text-slate-400 text-lg p-2 w-4/5">
-                        There are many variations of passages of Lorem Ipsum available, but the majority have suffered
-                        alteration in some form, bypassed injected humour, or randomised words which don't look even
-                        slightly believable.
-                    </p>
-                </div>
-            </div>
-            <div class="flex flex-col gap-10 justify-center">
-                <div class="bg-slate-200 font-xl font-[cardo] text-yellow-900 w-fit p-4 self-start px-16 mt-10">
-                    ADDITIONAL INFO</div>
+        <div
+            class=" mt-4 flex flex-col items-center justify-center bg-white gap-2 rounded-2xl px-10 shadow-lg hover:shadow-2xl transition duration-500 w-">
 
-                <div>
-                    <h3 class="text-3xl font-semibold font-[cardo] text-yellow-900">Is this book for me?
-                    </h3>
-                    <p class="text-slate-400 text-lg p-2 w-4/5">
-                        If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything
-                        embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend
-                        to repeat predefined chunks as necessary.
-                    </p>
-                </div>
+            <h1 class="text-lg text-gray-700 font-semibold hover:underline cursor-pointer mb-4">Product
+                Reviews</h1>
+            <div class="grid grid-cols-4 mb-4 w-full gap-4 ">
+                @if ($comments->isEmpty())
+                    <p>Aucun commentaire pour cet article.</p>
+                @else
+                    @foreach ($comments as $comment)
+                        <div class="flex flex-col card comment border-yellow-900 border-2 p-3">
+
+                            <div class="mt-4 flex items-center space-x-4 py-2">
+                                <div class="">
+                                    <img class="w-12 h-12 rounded-full"
+                                        src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1036&q=80"
+                                        alt="" />
+                                </div>
+                                <div class="text-sm font-semibold">{{ $comment->user->name }} • <span class="font-normal">
+                                    </span></div>
+                            </div>
+                            <div class="flex ml-16">
+
+                                @for ($i = 1; $i <= 5; $i++)
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-6 w-6 @if ($i <= $comment->rating) text-yellow-400 @else text-gray-400 @endif"
+                                        viewBox="0 0 20 20" fill="currentColor">
+                                        <path
+                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                @endfor
+                            </div>
+                            <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
+                        </div>
+                    @endforeach
+                @endif
+
             </div>
         </div>
     </section>
