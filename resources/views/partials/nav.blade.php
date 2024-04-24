@@ -46,13 +46,12 @@
                 @else
                     <a href="{{ route('welcome') }}">Home</a>
                     <hr class="mt-2 border-yellow-900">
-
                     <a href="{{ route('accessoires') }}">Accessoires</a>
                     <hr class="mt-2 border-yellow-900">
-
                     <a href="{{ route('books') }}">Livres</a>
                     <hr class="mt-2 border-yellow-900">
-
+                    <a href="{{ route('client.commands') }}">Mes commandes</a>
+                    <hr class="mt-2 border-yellow-900">
                     <a href="{{ route('contact') }}">Contactez-nous</a>
                     {{-- <li>A propos</li> --}}
                     <li>
@@ -101,17 +100,11 @@
     </nav>
 </header>
 <script>
-    // Get the burger menu button and navigation links container
     const burgerMenuButton = document.getElementById('burger-menu');
     const navLinks = document.getElementById('nav-links');
-
-    // Function to toggle the visibility of the navigation links
     function toggleNavLinks() {
-        // Toggle the 'hidden' class on the navigation links container
         navLinks.classList.toggle('hidden');
     }
-
-    // Add an event listener to the burger menu button
     burgerMenuButton.addEventListener('click', function() {
         toggleNavLinks();
     });

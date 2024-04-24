@@ -32,6 +32,8 @@
         @yield('contact')
         @yield('books')
         @yield('accessoires')
+        @yield('commandes')
+
 
 
 

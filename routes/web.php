@@ -5,6 +5,8 @@ use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\BasketController;
+use App\Http\Controllers\CommandController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -106,6 +108,12 @@ Route::get('/order/success', function () {
     return view('order');
 })->name('order.success');
 
-// Route::post('/checkout', [BasketController::class, 'checkoutt'])->name('checkout');
-// Route::get('/payment/response', [BasketController::class, 'paymentResponse'])->name('basket.empty');
+
+Route::get('/mes-commandes', [CommandController::class, 'showUserFinalizedCommands'])->name('client.commands');
+
+Route::get('/article/{articleId}/comments', [CommentController::class, 'showComments'])->name('article.comments');
+Route::post('/article/{id}/comment', [CommentController::class, 'addComment'])->name('article.addComment');
+Route::post('/comment/{commentId}/update', [CommentController::class, 'updateComment'])->name('comment.update');
+Route::post('/comment/{commentId}/delete', [CommentController::class, 'deleteComment'])->name('comment.delete');
+
 

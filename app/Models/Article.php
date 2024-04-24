@@ -32,4 +32,8 @@ class Article extends Model
                 ->withPivot('quantity')
                 ->withTimestamps();
 }
+public function comments()
+{
+    return $this->hasMany(Comment::class);
+}
 }
