@@ -32,7 +32,7 @@ class AppServiceProvider extends ServiceProvider
                 $basket = $user->panier;
 
                 if ($basket) {
-                    $articles = $basket->articles;
+                    $articles = $basket->articles()->where('etat', 'Pending')->get();
                     $numProductsInBasket = $articles->count();
                     foreach ($articles as $article) {
                         $articleCost = $article->pivot->quantity * $article->price;

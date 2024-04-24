@@ -190,30 +190,34 @@ protected $payPalService;
         }
     }
     public function handlePaymentResponse(Request $request)
-{
-    $paymentId = $request->get('paymentId');
-    $payerId = $request->get('PayerID');
-
-    $payment = Payment::get($paymentId, $this->payPalService->getApiContext());
-    $execution = new PaymentExecution();
-    $execution->setPayerId($payerId);
-
-    try {
-        $payment->execute($execution, $this->payPalService->getApiContext());
-        $paymentState = $payment->getState();
-
-        if ($paymentState == 'approved') {
-            $user = auth()->user();
-            $basket = $user->panier;
-            $basket->articles()->detach();
-            return redirect()->route('order.success')->with('success', 'Payment successful. Your order has been placed.');
-        } else {
-            return redirect()->back()->withErrors(['error' => 'Payment not approved']);
+    {
+        $paymentId = $request->get('paymentId');
+        $payerId = $request->get('PayerID');
+    
+        $payment = Payment::get($paymentId, $this->payPalService->getApiContext());
+        $execution = new PaymentExecution();
+        $execution->setPayerId($payerId);
+    
+        try {
+            $payment->execute($execution, $this->payPalService->getApiContext());
+            $paymentState = $payment->getState();
+    
+            if ($paymentState == 'approved') {
+                $user = auth()->user();
+                $basket = $user->panier;
+                    foreach ($basket->articles as $article) {
+                    $command = $article->pivot;
+                    $command->etat = 'Finalized';
+                    $command->save();
+                }
+                return redirect()->route('order.success')->with('success', 'Payment successful. Your order has been finalized.');
+            } else {
+                return redirect()->back()->withErrors(['error' => 'Payment not approved']);
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Payment error: ' . $e->getMessage()]);
         }
-    } catch (\Exception $e) {
-        return redirect()->back()->withErrors(['error' => 'Payment error: ' . $e->getMessage()]);
     }
-}
 public function paymentCancel()
 {
     return redirect()->route('welcome')->with('error', 'Payment was cancelled.');
