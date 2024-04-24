@@ -475,7 +475,7 @@
                                         <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
                                             class="buyOneButton text-yellow-900 font-bold text-lg bg-amber-300 p-2 px-8 rounded-lg ">buy
                                             now</button>
-                                            {{-- <button data-modal-target="progress-modal" data-modal-toggle="progress-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                                        {{-- <button data-modal-target="progress-modal" data-modal-toggle="progress-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
   Toggle modal
 </button> --}}
                                     </div>
@@ -885,35 +885,31 @@
 
 
         function initializeBuyNowPopUp() {
-        document.querySelectorAll('.buyOneButtonA').forEach(button => {
-            button.addEventListener('click', function(event) {
-                event.preventDefault();
-                console.log('start');
-                const articleContainer = this.closest('.article-container');
-                if (!articleContainer) {
-                    console.error('Error: Could not find article container.');
-                    return;
-                }
+            document.querySelectorAll('.buyOneButtonA').forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    console.log('start');
+                    const articleContainer = this.closest('.article-container');
+                    if (!articleContainer) {
+                        console.error('Error: Could not find article container.');
+                        return;
+                    }
+                    const articleTitle = articleContainer.querySelector('.article-title').textContent;
+                    const quantityInput = articleContainer.querySelector('.quantity-input');
+                    const articleQuantity = parseInt(quantityInput.value);
+                    const articlePricePerPiece = parseFloat(articleContainer.querySelector('.article-price')
+                        .textContent.replace('$', ''));
 
-                // Retrieve article information
-                const articleTitle = articleContainer.querySelector('.article-title').textContent;
-                const quantityInput = articleContainer.querySelector('.quantity-input');
-                const articleQuantity = parseInt(quantityInput.value);
-                const articlePricePerPiece = parseFloat(articleContainer.querySelector('.article-price')
-                    .textContent.replace('$', ''));
+                    const imageElement2 = articleContainer.querySelector('.picture img');
+                    console.log('image', imageElement2)
+                    let imageURL = '';
+                    if (imageElement2) {
+                        imageURL = imageElement2.src; // Get the image URL
+                    }
+                    const articleTotal = articleQuantity * articlePricePerPiece;
 
-                const imageElement2 = articleContainer.querySelector('.picture img');
-                console.log('image',imageElement2)
-                let imageURL = '';
-                if (imageElement2) {
-                    imageURL = imageElement2.src; // Get the image URL
-                }
-
-                // Calculate the total cost
-                const articleTotal = articleQuantity * articlePricePerPiece;
-
-                // Create the summary HTML
-                const summaryHTML2 = `
+                    // Create the summary HTML
+                    const summaryHTML2 = `
                 <div class="summary-container2 bg-white rounded-lg shadow-md p-6">
                     <table class="w-full">
                         <thead>
@@ -944,19 +940,24 @@
                     </table>
                 </div>
             `;
-
-                const summaryContainer2 = document.getElementById('summaryContainer2');
-                if (summaryContainer2) {
-                    console.log(summaryContainer2)
-                    summaryContainer2.innerHTML = summaryHTML2;
-                    summaryContainer2.classList.remove('hidden');
-                } else {
-                    console.error('Error: Could not find summaryContainer2 element in the DOM.');
-                }
-                console.log('end');
+                    const progress = document.querySelector('.progress');
+                    const hideModal = document.querySelector('.hideModal');
+                    progress.classList.remove('hidden');
+                    hideModal.addEventListener('click', () => {
+                            progress.classList.add('hidden');
+                        });
+                    const summaryContainer2 = document.getElementById('summaryContainer2');
+                    if (summaryContainer2) {
+                        console.log(summaryContainer2)
+                        summaryContainer2.innerHTML = summaryHTML2;
+                        summaryContainer2.classList.remove('hidden');
+                    } else {
+                        console.error('Error: Could not find summaryContainer2 element in the DOM.');
+                    }
+                    console.log('end');
+                });
             });
-        });
-    }
+        }
 
         let currentPage = 1;
 
@@ -964,22 +965,22 @@
             fetch(`/filter-books/${categoryId}?page=${page}`)
                 .then(response => response.json())
                 .then(data => {
-                        const booksContainer = document.querySelector('.books');
-                        booksContainer.innerHTML = '';
-                        var userRole = null;
-                        var userAuth = null;
+                    const booksContainer = document.querySelector('.books');
+                    booksContainer.innerHTML = '';
+                    var userRole = null;
+                    var userAuth = null;
 
 
-                        @if (auth()->check())
-                            userRole = "{{ auth()->user()->role }}";
-                        @endif
-                        userAuth = "{{ auth()->check() }}";
-                        data.books.data.forEach(book => {
-                            const bookCard = document.createElement('div');
-                            bookCard.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5',
-                                'article-container',
-                                'justify-center', 'items-center', 'pb-4', 'gap-4');
-                            bookCard.innerHTML = `
+                    @if (auth()->check())
+                        userRole = "{{ auth()->user()->role }}";
+                    @endif
+                    userAuth = "{{ auth()->check() }}";
+                    data.books.data.forEach(book => {
+                        const bookCard = document.createElement('div');
+                        bookCard.classList.add('card', 'shadow-lg', 'flex', 'flex-col', 'w-4/5',
+                            'article-container',
+                            'justify-center', 'items-center', 'pb-4', 'gap-4');
+                        bookCard.innerHTML = `
                     <div class="picture bg-slate-100 w-full flex justify-center">
                         ${book.photo ? `<img src="${book.photo}" alt="Book Image">` : '<p>No Image Available</p>'}
                     </div>
@@ -997,22 +998,22 @@
                         </div>
                         <div class="flex justify-between">
                             ${book.pdf_url ? `
-                                            <a href="${book.pdf_url}" class="border-2 border-amber-300 px-8 p-2 w-fit" download>
-                                                Download PDF
-                                            </a>
-                                        ` : `
-                                            <form method="post" action="{{ route('basket.add') }}">
-                                                @csrf
-                                                <input type="hidden" name="article_id" value="${book.id}">
-                                                <input type="number" name="quantity" value="1" min="1" class="quantity-input w-[50px] border-yellow-900">
-                                                <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
-                                                    icon: 'success',
-                                                    title: 'Added to cart successfully',
-                                                    showConfirmButton: false,
-                                                    timer: 1500
-                                                });">Add to cart</button>
-                                            </form>
-                                        `}
+                                                <a href="${book.pdf_url}" class="border-2 border-amber-300 px-8 p-2 w-fit" download>
+                                                    Download PDF
+                                                </a>
+                                            ` : `
+                                                <form method="post" action="{{ route('basket.add') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="article_id" value="${book.id}">
+                                                    <input type="number" name="quantity" value="1" min="1" class="quantity-input w-[50px] border-yellow-900">
+                                                    <button type="submit" class="border-2 border-amber-300 px-8 p-2 w-fit" onclick="Swal.fire({
+                                                        icon: 'success',
+                                                        title: 'Added to cart successfully',
+                                                        showConfirmButton: false,
+                                                        timer: 1500
+                                                    });">Add to cart</button>
+                                                </form>
+                                            `}
                         </div>
                         <a href="{{ url('books') }}/${book.id}" class="flex">
                             <svg width="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1028,29 +1029,29 @@
                         </a>
                     </div>
                 `;
-                            const hr = document.createElement('hr');
-                            hr.classList.add('flex', 'justify-self-center', 'border-yellow-900', 'mt-2',
-                                'w-[200px]');
-                            if (userRole == 'admin') {
+                        const hr = document.createElement('hr');
+                        hr.classList.add('flex', 'justify-self-center', 'border-yellow-900', 'mt-2',
+                            'w-[200px]');
+                        if (userRole == 'admin') {
 
-                                bookCard.appendChild(hr);
-                            }
-                            const buttonContainer = document.createElement('div');
-                            buttonContainer.classList.add('flex', 'justify-between', 'gap-3', 'w-1/5');
+                            bookCard.appendChild(hr);
+                        }
+                        const buttonContainer = document.createElement('div');
+                        buttonContainer.classList.add('flex', 'justify-between', 'gap-3', 'w-1/5');
 
 
-                            const popupButton = document.createElement('button');
-                            popupButton.classList.add('popupBtn');
-                            popupButton.dataset.modalTarget = 'popup-modal';
-                            popupButton.dataset.modalToggle = 'popup-modal';
-                            popupButton.type = 'button';
-                            popupButton.dataset.bookId = book.id;
-                            popupButton.dataset.bookPhoto = book.photo;
-                            popupButton.dataset.categorieId = book.categorie_id;
-                            popupButton.dataset.bookTitre = book.titre;
-                            popupButton.dataset.bookDescription = book.description;
-                            popupButton.dataset.bookPrice = book.price;
-                            popupButton.innerHTML = `<svg width="25px"
+                        const popupButton = document.createElement('button');
+                        popupButton.classList.add('popupBtn');
+                        popupButton.dataset.modalTarget = 'popup-modal';
+                        popupButton.dataset.modalToggle = 'popup-modal';
+                        popupButton.type = 'button';
+                        popupButton.dataset.bookId = book.id;
+                        popupButton.dataset.bookPhoto = book.photo;
+                        popupButton.dataset.categorieId = book.categorie_id;
+                        popupButton.dataset.bookTitre = book.titre;
+                        popupButton.dataset.bookDescription = book.description;
+                        popupButton.dataset.bookPrice = book.price;
+                        popupButton.innerHTML = `<svg width="25px"
                                         viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                         <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round">
@@ -1068,24 +1069,24 @@
                                     </svg>`;
 
 
-                            const deleteForm = document.createElement('form');
-                            deleteForm.action = `{{ route('accessoires.delete', ':bookId') }}`.replace(':bookId',
-                                book.id);
-                            deleteForm.method = 'POST';
+                        const deleteForm = document.createElement('form');
+                        deleteForm.action = `{{ route('accessoires.delete', ':bookId') }}`.replace(':bookId',
+                            book.id);
+                        deleteForm.method = 'POST';
 
-                            const csrfToken = document.createElement('input');
-                            csrfToken.type = 'hidden';
-                            csrfToken.name = '_token';
-                            csrfToken.value = '{{ csrf_token() }}';
+                        const csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = '_token';
+                        csrfToken.value = '{{ csrf_token() }}';
 
-                            const deleteMethod = document.createElement('input');
-                            deleteMethod.type = 'hidden';
-                            deleteMethod.name = '_method';
-                            deleteMethod.value = 'delete';
+                        const deleteMethod = document.createElement('input');
+                        deleteMethod.type = 'hidden';
+                        deleteMethod.name = '_method';
+                        deleteMethod.value = 'delete';
 
-                            const deleteButton = document.createElement('button');
-                            deleteButton.type = 'submit';
-                            deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
+                        const deleteButton = document.createElement('button');
+                        deleteButton.type = 'submit';
+                        deleteButton.innerHTML = `<svg width="32px" viewBox="0 0 24 24" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
                                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round"
@@ -1109,32 +1110,32 @@
                                         </svg>`;
 
 
-                            deleteForm.appendChild(csrfToken);
-                            deleteForm.appendChild(deleteMethod);
-                            deleteForm.appendChild(deleteButton);
+                        deleteForm.appendChild(csrfToken);
+                        deleteForm.appendChild(deleteMethod);
+                        deleteForm.appendChild(deleteButton);
 
-                            buttonContainer.appendChild(popupButton);
-                            buttonContainer.appendChild(deleteForm);
+                        buttonContainer.appendChild(popupButton);
+                        buttonContainer.appendChild(deleteForm);
 
-                            if (userRole == 'admin') {
+                        if (userRole == 'admin') {
 
-                                bookCard.appendChild(buttonContainer);
-                            }
-                            const popupBtn = bookCard.querySelector('.popupBtn');
-                            if (popupBtn) {
-                                popupBtn.addEventListener('click', () => {
-                                    showProductPopup(book);
-                                });
-                            }
-                            const buyNowButton = document.createElement('button');
+                            bookCard.appendChild(buttonContainer);
+                        }
+                        const popupBtn = bookCard.querySelector('.popupBtn');
+                        if (popupBtn) {
+                            popupBtn.addEventListener('click', () => {
+                                showProductPopup(book);
+                            });
+                        }
+                        const buyNowButton = document.createElement('button');
 
-                            buyNowButton.classList.add('buyOneButtonA', 'text-yellow-900', 'font-bold', 'text-lg',
-                                'bg-amber-300', 'rounded-lg', 'px-8', 'p-2', 'flex');
-                            buyNowButton.dataset.modalTarget = 'progress-modal';
-                            buyNowButton.dataset.modalToggle = 'progress-modal';
-                            buyNowButton.type = 'button';
+                        buyNowButton.classList.add('buyOneButtonA', 'text-yellow-900', 'font-bold', 'text-lg',
+                            'bg-amber-300', 'rounded-lg', 'px-8', 'p-2', 'flex');
+                        buyNowButton.dataset.modalTarget = 'progress-modal';
+                        buyNowButton.dataset.modalToggle = 'progress-modal';
+                        buyNowButton.type = 'button';
 
-                            buyNowButton.innerHTML = `
+                        buyNowButton.innerHTML = `
                             <svg width="25px" height="30px" viewBox="-23 0 302 302" version="1.1"
                                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                         preserveAspectRatio="xMidYMid" fill="#000000">
@@ -1157,34 +1158,28 @@
                                             </g>
                                         </g>
                                     </svg> buy now `;
-                            if (userAuth) {
-                                bookCard.appendChild(buyNowButton);
-                            }
-                            const popupBtnA = bookCard.querySelector('.buyOneButtonA');
-                            const progress = document.querySelector('.progress');
-                            const hideModal = document.querySelector('.hideModal');
+                        if (userAuth) {
+                            bookCard.appendChild(buyNowButton);
+                        }
+                        const popupBtnA = bookCard.querySelector('.buyOneButtonA');
 
 
-                            if (popupBtnA) {
-                                popupBtnA.addEventListener('click', () => {
-                                    initializeBuyNowPopUp();
-                                    progress.classList.remove('hidden');
-                                });
-                            }
+                        if (popupBtnA) {
+                            popupBtnA.addEventListener('click', () => {
+                                initializeBuyNowPopUp();
+                            });
+                        }
+                        booksContainer.appendChild(bookCard);
+                    });
 
-                            hideModal.addEventListener('click', () => {
-                                    progress.classList.add('hidden');
-                                });
-                            booksContainer.appendChild(bookCard);
-                        });
-
-                            // 
-                            const paginationContainer = document.querySelector('.pagination'); paginationContainer
-                            .innerHTML = '';
-                            if (data.books.prev_page_url) {
-                                const prevButton = document.createElement('button');
-                                prevButton.textContent = 'Previous';
-                                prevButton.innerHTML = `
+                    // 
+                    const paginationContainer = document.querySelector('.pagination');
+                    paginationContainer
+                        .innerHTML = '';
+                    if (data.books.prev_page_url) {
+                        const prevButton = document.createElement('button');
+                        prevButton.textContent = 'Previous';
+                        prevButton.innerHTML = `
                 <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
                 <svg width="30px" fill="#FFCA42" viewBox="0 0 32 32" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" stroke="#FFCA42" transform="rotate(180)">
@@ -1200,17 +1195,17 @@
 
     </div>
                         `;
-                                prevButton.addEventListener('click', () => {
-                                    currentPage--;
-                                    fetchBooks(categoryId, currentPage);
-                                });
-                                paginationContainer.appendChild(prevButton);
-                            }
+                        prevButton.addEventListener('click', () => {
+                            currentPage--;
+                            fetchBooks(categoryId, currentPage);
+                        });
+                        paginationContainer.appendChild(prevButton);
+                    }
 
-                            if (data.books.next_page_url) {
-                                const nextButton = document.createElement('button');
-                                nextButton.textContent = 'Next';
-                                nextButton.innerHTML = `
+                    if (data.books.next_page_url) {
+                        const nextButton = document.createElement('button');
+                        nextButton.textContent = 'Next';
+                        nextButton.innerHTML = `
                 <div class="flex text-center text-yellow-900 text-xl font-bold font-[inter]">
                     Next
 
@@ -1225,22 +1220,22 @@
                             </g>
                         </svg>
                         </div>`
-                                nextButton.addEventListener('click', () => {
-                                    currentPage++;
-                                    fetchBooks(categoryId, currentPage);
-                                });
-                                paginationContainer.appendChild(nextButton);
-                            }
-                        })
-                    .catch(error => console.error('Error fetching books:', error));
-                }
+                        nextButton.addEventListener('click', () => {
+                            currentPage++;
+                            fetchBooks(categoryId, currentPage);
+                        });
+                        paginationContainer.appendChild(nextButton);
+                    }
+                })
+                .catch(error => console.error('Error fetching books:', error));
+        }
 
-            document.querySelectorAll('.category-button, #all-category').forEach(button => {
-                button.addEventListener('click', function() {
-                    let categoryId = this.id === 'all-category' ? 'all' : this.id.split('-')[1];
-                    currentPage = 1;
-                    fetchBooks(categoryId, currentPage);
-                });
+        document.querySelectorAll('.category-button, #all-category').forEach(button => {
+            button.addEventListener('click', function() {
+                let categoryId = this.id === 'all-category' ? 'all' : this.id.split('-')[1];
+                currentPage = 1;
+                fetchBooks(categoryId, currentPage);
             });
+        });
     </script>
 @endsection
