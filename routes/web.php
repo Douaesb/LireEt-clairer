@@ -113,7 +113,7 @@ Route::get('/mes-commandes', [CommandController::class, 'showUserFinalizedComman
 
 Route::get('/article/{articleId}/comments', [CommentController::class, 'showComments'])->name('article.comments');
 Route::post('/article/{id}/comment', [CommentController::class, 'addComment'])->name('article.addComment');
-Route::post('/comment/{commentId}/update', [CommentController::class, 'updateComment'])->name('comment.update');
+Route::put('/comment/{commentId}/update', [CommentController::class, 'updateComment'])->name('comment.update');
 Route::post('/comment/{commentId}/delete', [CommentController::class, 'deleteComment'])->name('comment.delete');
 
 

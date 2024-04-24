@@ -13,44 +13,44 @@ class CommentController extends Controller
     {
         $request->validate([
             'description' => 'required',
-            'rating' => 'required|integer', 
+            'rating' => 'required|integer',
         ]);
-    
+
         $user = auth()->user();
         $article = Article::findOrFail($id);
-    
+
         $comment = new Comment();
         $comment->description = $request->input('description');
         $comment->rating = $request->input('rating');
         $comment->user_id = $user->id;
         $comment->article_id = $article->id;
-    
+
         $comment->save();
-    
+
         return redirect()->route('article.comments', $id)
-                         ->with('success', 'Comment and rating added successfully.');
+            ->with('success', 'Comment and rating added successfully.');
     }
-    
+
 
     public function updateComment(Request $request, $commentId)
     {
         try {
             $request->validate([
                 'description' => 'required',
+                'rating' => 'required|integer',
             ]);
-
+    
             $comment = Comment::findOrFail($commentId);
             $comment->description = $request->input('description');
-
+            $comment->rating = $request->input('rating');
             $comment->save();
-
-            return redirect()->route('article.comments', $comment->article_id)
-                ->with('success', 'Comment updated successfully.');
-        } catch (Exception $e) {
+    
+            return redirect()->back()->with('success', 'Comment updated successfully.');
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-
+    
     public function deleteComment($commentId)
     {
         try {

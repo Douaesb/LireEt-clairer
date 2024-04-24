@@ -120,7 +120,42 @@
                                         <div
                                             class="p-6 bg-yellow-400 rounded-full h-4 w-4 flex items-center justify-center text-2xl text-white mt-2 shadow-lg cursor-pointer">
                                             +</div>
+                                        <button
+                                            class="edit-comment-button ml-16 mt-2 bg-blue-500 text-white px-3 py-2 rounded-lg"
+                                            data-comment-id="{{ $comment->id }}">
+                                            Modifier
+                                        </button>
                                     </div>
+                                    <form id="edit-form-{{ $comment->id }}"
+                                        action="{{ route('comment.update', $comment->id) }}" method="POST"
+                                        class="mt-4 hidden">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="star-rating flex mb-3">
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                <div class="star cursor-pointer" data-rating="{{ $i }}">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-6 w-6 @if ($i <= $comment->rating) text-yellow-400 @else text-gray-400 @endif"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path
+                                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                                    </svg>
+                                                </div>
+                                            @endfor
+                                        </div>
+
+                                        <input type="hidden" name="rating" id="rating-{{ $comment->id }}"
+                                            value="{{ $comment->rating }}">
+                                        <div class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
+                                            <label for="description" class="sr-only">Your comment</label>
+                                            <textarea rows=2 name="description" class="px-0 w-full text-lg text-semibold text-gray-900 border-0 focus:ring-0">{{ $comment->description }}</textarea>
+
+                                        </div>
+                                        <button type="submit"
+                                            class="bg-green-500 text-white px-3 py-2 rounded-lg">Save</button>
+                                    </form>
+                                    <form action="{{route('comment.delete')}}">
+                                    </form>
                                 @endforeach
                             @endif
 
@@ -133,23 +168,53 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const stars = document.querySelectorAll('.star');
-            const ratingInput = document.getElementById('rating');
+            function initializeStarRating(form, ratingInput) {
+                const stars = form.querySelectorAll('.star');
 
-            stars.forEach(star => {
-                star.addEventListener('click', function() {
-                    const rating = this.getAttribute('data-rating');
-                    ratingInput.value = rating;
-                    stars.forEach(star => {
-                        const starRating = star.getAttribute('data-rating');
-                        if (starRating <= rating) {
-                            star.querySelector('svg').classList.remove('text-gray-400');
-                            star.querySelector('svg').classList.add('text-yellow-400');
-                        } else {
-                            star.querySelector('svg').classList.remove('text-yellow-400');
-                            star.querySelector('svg').classList.add('text-gray-400');
-                        }
+                stars.forEach(star => {
+                    star.addEventListener('click', function() {
+                        const rating = this.getAttribute('data-rating');
+                        ratingInput.value = rating;
+
+                        stars.forEach(star => {
+                            const starRating = star.getAttribute('data-rating');
+                            if (starRating <= rating) {
+                                star.querySelector('svg').classList.add('text-yellow-400');
+                                star.querySelector('svg').classList.remove('text-gray-400');
+                            } else {
+                                star.querySelector('svg').classList.add('text-gray-400');
+                                star.querySelector('svg').classList.remove(
+                                    'text-yellow-400');
+                            }
+                        });
                     });
+                });
+
+                const initialRating = parseInt(ratingInput.value);
+                stars.forEach(star => {
+                    const starRating = star.getAttribute('data-rating');
+                    if (starRating <= initialRating) {
+                        star.querySelector('svg').classList.add('text-yellow-400');
+                        star.querySelector('svg').classList.remove('text-gray-400');
+                    } else {
+                        star.querySelector('svg').classList.add('text-gray-400');
+                        star.querySelector('svg').classList.remove('text-yellow-400');
+                    }
+                });
+            }
+
+            document.querySelectorAll('.star-rating').forEach(starRating => {
+                const form = starRating.closest('form');
+                const ratingInput = form.querySelector('[name="rating"]');
+                initializeStarRating(form, ratingInput);
+            });
+
+            // Toggle edit form visibility when clicking the edit comment button
+            document.querySelectorAll('.edit-comment-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const commentId = this.getAttribute('data-comment-id');
+                    const form = document.getElementById('edit-form-' + commentId);
+                    form.classList.toggle('hidden');
                 });
             });
         });
