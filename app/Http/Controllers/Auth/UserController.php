@@ -94,57 +94,65 @@ class UserController extends Controller
     }
 
     public function dashboard()
-{
-    $numberOfUsers = User::where('role', '!=', 'admin')->count();
+    {
+        $numberOfUsers = User::where('role', '!=', 'admin')->count();
 
-    $numberOfBooks = Article::whereHas('categorie', function ($query) {
-        $query->where('name', '!=', 'accessoire');
-    })->count();
+        $numberOfBooks = Article::whereHas('categorie', function ($query) {
+            $query->where('name', '!=', 'accessoire');
+        })->count();
 
-    $numberOfAccessoires = Article::whereHas('categorie', function ($query) {
-        $query->where('name', '=', 'accessoire');
-    })->count();
+        $numberOfAccessoires = Article::whereHas('categorie', function ($query) {
+            $query->where('name', '=', 'accessoire');
+        })->count();
 
-    $numberOfSuccessfulCommands = Commande::where('etat', 'Finalized')->count();
+        $numberOfSuccessfulCommands = Commande::where('etat', 'Finalized')->count();
 
         $mostPopularBook = Commande::join('articles', 'commandes.article_id', '=', 'articles.id')
-        ->whereHas('article', function ($query) {
-            $query->whereHas('categorie', function ($query) {
-                $query->where('name', '!=', 'accessoire');
-            });
-        })
-        ->select('articles.titre', DB::raw('count(*) as total'))
-        ->groupBy('articles.titre')
-        ->orderBy('total', 'desc')
-        ->value('articles.titre');
+            ->whereHas('article', function ($query) {
+                $query->whereHas('categorie', function ($query) {
+                    $query->where('name', '!=', 'accessoire');
+                });
+            })
+            ->select('articles.titre', DB::raw('count(*) as total'))
+            ->groupBy('articles.titre')
+            ->orderBy('total', 'desc')
+            ->value('articles.titre');
 
-$mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=', 'articles.id')
-    ->whereHas('article', function ($query) {
-        $query->whereHas('categorie', function ($query) {
-            $query->where('name', '=', 'accessoire');
-        });
-    })
-    ->select('articles.titre', DB::raw('count(*) as total'))
-    ->groupBy('articles.titre')
-    ->orderBy('total', 'desc')
-    ->value('articles.titre');
+        $mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=', 'articles.id')
+            ->whereHas('article', function ($query) {
+                $query->whereHas('categorie', function ($query) {
+                    $query->where('name', '=', 'accessoire');
+                });
+            })
+            ->select('articles.titre', DB::raw('count(*) as total'))
+            ->groupBy('articles.titre')
+            ->orderBy('total', 'desc')
+            ->value('articles.titre');
 
-    $articleWithBestRating = Article::whereHas('comments')
-        ->select('id', 'titre')
-        ->withAvg('comments', 'rating')
-        ->orderByDesc('comments_avg_rating')
-        ->value('titre');
+        $articleWithBestRating = Article::whereHas('comments')
+            ->select('id', 'titre')
+            ->withAvg('comments', 'rating')
+            ->orderByDesc('comments_avg_rating')
+            ->value('titre');
 
         $topUser = Commande::join('paniers', 'commandes.panier_id', '=', 'paniers.id')
-        ->join('users', 'paniers.user_id', '=', 'users.id')
-        ->select('users.id', 'users.name', DB::raw('COUNT(commandes.id) as total_commands'))
-        ->groupBy('users.id', 'users.name') 
-        ->orderBy('total_commands', 'desc')
-        ->value('users.name');
+            ->join('users', 'paniers.user_id', '=', 'users.id')
+            ->select('users.id', 'users.name', DB::raw('COUNT(commandes.id) as total_commands'))
+            ->groupBy('users.id', 'users.name')
+            ->orderBy('total_commands', 'desc')
+            ->value('users.name');
 
-        return view('admin.dashboard',compact('numberOfUsers','numberOfBooks','numberOfAccessoires','numberOfSuccessfulCommands','mostPopularBook'
-    ,'mostPopularAccessoire','articleWithBestRating','topUser'));
-}
+        return view('admin.dashboard', compact(
+            'numberOfUsers',
+            'numberOfBooks',
+            'numberOfAccessoires',
+            'numberOfSuccessfulCommands',
+            'mostPopularBook',
+            'mostPopularAccessoire',
+            'articleWithBestRating',
+            'topUser'
+        ));
+    }
 
     public function users()
     {
@@ -186,30 +194,28 @@ $mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=',
     }
 
     public function subscribe(Request $request)
-   {
-
-       if(!Newsletter::isSubscribed($request->email)){
-        Newsletter::subscribe($request->email);
-    }
-    return redirect()->back();
-   }
-   
-   public function sendMessage(Request $request)
     {
-try{
-        $data = $request->validate([
-            'name' => 'required|string|min:3',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'message' => 'required|min:5, max:200',
-        ]);
 
-        Mail::to('douae.sb411@gmail.com')->send(new ContactFormMail($data));
-        return redirect()->back()->with('success', 'Message sent successfully!');
-    }catch(\Exception $e){
-return $e->getMessage();
-    }
+        if (!Newsletter::isSubscribed($request->email)) {
+            Newsletter::subscribe($request->email);
+        }
+        return redirect()->back();
     }
 
+    public function sendMessage(Request $request)
+    {
+        try {
+            $data = $request->validate([
+                'name' => 'required|string|min:3',
+                'email' => 'required|email',
+                'phone' => 'required',
+                'message' => 'required|min:5, max:200',
+            ]);
 
+            Mail::to('douae.sb411@gmail.com')->send(new ContactFormMail($data));
+            return redirect()->back()->with('success', 'Message sent successfully!');
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
 }

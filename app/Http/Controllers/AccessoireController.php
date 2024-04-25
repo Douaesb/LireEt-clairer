@@ -71,21 +71,21 @@ class AccessoireController extends Controller
     {
         $user = auth()->user();
         $basket = null; // Initialize the basket to null
-        
+
         // Check if the user is authenticated
         if ($user) {
             // If the user is authenticated, retrieve their basket
             $basket = $user->panier;
         }
-        
+
         $totalCost = 0;
         $numProductsInBasket = 0;
         $articles = collect(); // Initialize an empty collection
-        
+
         if ($basket) {
             $numProductsInBasket = $basket->articles->count();
             $articles = $basket->articles;
-            
+
             if ($articles !== null) {
                 foreach ($articles as $article) {
                     $articleCost = $article->pivot->quantity * $article->price;
@@ -93,10 +93,10 @@ class AccessoireController extends Controller
                 }
             }
         }
-        
+
         $categories = Categorie::all();
         $category = Categorie::where('name', 'accessoire')->first();
-        
+
         if ($category) {
             $products = Article::where('categorie_id', $category->id)->paginate(6);
             return view('accessoires', [
@@ -111,15 +111,15 @@ class AccessoireController extends Controller
             return view('accessoires')->with('error', 'Category "accessoire" not found.');
         }
     }
-    
 
-    
+
+
     public function show($id)
     {
         try {
             $accessoire = Article::findOrFail($id);
             $comments = $accessoire->comments()->with('user')->get();
-            return view('oneAccessoire', compact('accessoire','comments'));
+            return view('oneAccessoire', compact('accessoire', 'comments'));
         } catch (Exception $e) {
             return  $e->getMessage();
         }
@@ -184,21 +184,6 @@ class AccessoireController extends Controller
         $accessoire->delete();
         return redirect()->back();
     }
-
-
-    // public function search(Request $request)
-    // {
-    //     try {
-    //         $searchTerm = $request->query('titre');
-    //         $accessories = Accessoire::where('titre', 'like', '%' . $searchTerm . '%')
-    //             ->join('categories', 'accessoires.categorie_id', '=', 'categories.id')
-    //             ->where('categories.name', 'accessoirre')
-    //             ->get();
-    //         return response()->json($accessories);
-    //     } catch (\Exception $e) {
-    //         return response()->json(['error' => 'An error occurred while searching for accessories.'], 500);
-    //     }
-    // }
 
     public function search(Request $request)
     {

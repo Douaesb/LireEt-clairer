@@ -132,20 +132,20 @@ class BasketController extends Controller
     }
 
     public function emptyBasket()
-{
-    $user = auth()->user();
-    if (!$user) {
-        return response()->json(['error' => 'You must be logged in to empty the basket.'], 401);
+    {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'You must be logged in to empty the basket.'], 401);
+        }
+        $basket = $user->panier;
+        if (!$basket) {
+            return response()->json(['error' => 'Basket not found.'], 404);
+        }
+        $basket->articles()->detach();
+        return response()->json(['success' => true, 'message' => 'The basket has been emptied successfully.']);
     }
-    $basket = $user->panier;
-    if (!$basket) {
-        return response()->json(['error' => 'Basket not found.'], 404);
-    }
-    $basket->articles()->detach();
-    return response()->json(['success' => true, 'message' => 'The basket has been emptied successfully.']);
-}
 
-protected $payPalService;
+    protected $payPalService;
 
     public function __construct(PayPalService $payPalService)
     {
@@ -165,20 +165,20 @@ protected $payPalService;
         $payer->setPaymentMethod('paypal');
         $amount = new Amount();
         $amount->setCurrency('USD')
-               ->setTotal($totalCost);
+            ->setTotal($totalCost);
 
         $transaction = new Transaction();
         $transaction->setAmount($amount)
-                    ->setDescription('Payment for your order')
-                    ->setInvoiceNumber(uniqid());
+            ->setDescription('Payment for your order')
+            ->setInvoiceNumber(uniqid());
         $redirectUrls = new RedirectUrls();
         $redirectUrls->setReturnUrl(route('payment.response'))
-                     ->setCancelUrl(route('payment.cancel'));
+            ->setCancelUrl(route('payment.cancel'));
         $payment = new Payment();
         $payment->setIntent('sale')
-                ->setPayer($payer)
-                ->setTransactions([$transaction])
-                ->setRedirectUrls($redirectUrls);
+            ->setPayer($payer)
+            ->setTransactions([$transaction])
+            ->setRedirectUrls($redirectUrls);
 
         try {
             $payment->create($this->payPalService->getApiContext());
@@ -193,19 +193,19 @@ protected $payPalService;
     {
         $paymentId = $request->get('paymentId');
         $payerId = $request->get('PayerID');
-    
+
         $payment = Payment::get($paymentId, $this->payPalService->getApiContext());
         $execution = new PaymentExecution();
         $execution->setPayerId($payerId);
-    
+
         try {
             $payment->execute($execution, $this->payPalService->getApiContext());
             $paymentState = $payment->getState();
-    
+
             if ($paymentState == 'approved') {
                 $user = auth()->user();
                 $basket = $user->panier;
-                    foreach ($basket->articles as $article) {
+                foreach ($basket->articles as $article) {
                     $command = $article->pivot;
                     $command->etat = 'Finalized';
                     $command->save();
@@ -218,11 +218,8 @@ protected $payPalService;
             return redirect()->back()->withErrors(['error' => 'Payment error: ' . $e->getMessage()]);
         }
     }
-public function paymentCancel()
-{
-    return redirect()->route('welcome')->with('error', 'Payment was cancelled.');
-}
-
- 
-
+    public function paymentCancel()
+    {
+        return redirect()->route('welcome')->with('error', 'Payment was cancelled.');
+    }
 }
