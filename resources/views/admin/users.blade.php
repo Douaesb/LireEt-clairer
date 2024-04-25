@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('users')
     
-    <section class=" px-4 lg:px-20 py-9 m-auto h-[90vh] w-3/5">
+    <section class=" px-4 lg:px-20 py-9 w-full md:m-auto h-[90vh] md:w-3/5">
         <div class="border-2 border-amber-400 h-full flex rounded-3xl flex-col">
             <div class="flex justify-center w-full pt-4 pb-4 ">
                 <h2 class="font-semibold font-[inter] text-4xl text-amber-400">
@@ -9,7 +9,7 @@
                 </h2>
             </div>
             <hr class="mx-auto border-2 border-amber-400 w-4/5">
-            <div class="grid grid-cols-4 p-10 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-10 gap-4  overflow-auto">
                 @foreach ($users as $user)
                     @if ($user->ban)
                         <div
