@@ -122,6 +122,9 @@
 
             <h1 class="text-lg text-gray-700 font-semibold hover:underline cursor-pointer mb-4">Product
                 Reviews</h1>
+                @if ($comments->isEmpty())
+                <p>Aucun commentaire pour cet article.</p>
+            @else
             @if (count($comments) == 1)
                 <div class="grid grid-cols-1 justify-items-center gap-4">
             @elseif(count($comments) == 2)
@@ -129,9 +132,7 @@
             @else
                 <div class="grid grid-cols-4 mb-4 w-full gap-4 justify-center ">
             @endif
-            @if ($comments->isEmpty())
-                <p>Aucun commentaire pour cet article.</p>
-            @else
+            
                 @foreach ($comments as $comment)
                     <div class="flex flex-col card comment border-yellow-900 border-2 p-3">
 

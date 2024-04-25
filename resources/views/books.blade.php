@@ -475,9 +475,6 @@
                                         <button data-modal-target="timeline-modal" data-modal-toggle="timeline-modal"
                                             class="buyOneButton text-yellow-900 font-bold text-lg bg-amber-300 p-2 px-8 rounded-lg ">buy
                                             now</button>
-                                        {{-- <button data-modal-target="progress-modal" data-modal-toggle="progress-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-  Toggle modal
-</button> --}}
                                     </div>
                                 </div>
                                 @if (auth()->user()->role == 'admin')

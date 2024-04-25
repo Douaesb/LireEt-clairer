@@ -6,6 +6,7 @@ use App\Models\Accessoire;
 use App\Models\Article;
 use App\Models\Categorie;
 use Carbon\Carbon;
+use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -111,12 +112,17 @@ class AccessoireController extends Controller
         }
     }
     
-    
 
+    
     public function show($id)
     {
-        $accessoire = Article::findOrFail($id);
-        return view('oneAccessoire', ['accessoire' => $accessoire]);
+        try {
+            $accessoire = Article::findOrFail($id);
+            $comments = $accessoire->comments()->with('user')->get();
+            return view('oneAccessoire', compact('accessoire','comments'));
+        } catch (Exception $e) {
+            return  $e->getMessage();
+        }
     }
 
     public function store(Request $request)
