@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Commande;
 use App\Models\Panier;
 use App\Services\PayPalService;
 use Carbon\Carbon;
@@ -37,6 +38,7 @@ class BasketController extends Controller
         if (!$user) {
             return redirect()->route('login')->with('error', 'You must be logged in to add items to the basket.');
         }
+    
         $basket = $user->panier;
         if (!$basket) {
             $basket = new Panier();
@@ -44,8 +46,31 @@ class BasketController extends Controller
             $basket->date_creation = Carbon::now();
             $basket->save();
         }
+    
         $articleId = $request->input('article_id');
         $quantity = $request->input('quantity', 1);
+    
+        $commandeInProgress = Commande::where('panier_id', $basket->id)
+            ->where('article_id', $articleId)
+            ->where('etat', 'Pending')
+            ->first();
+    
+        if ($commandeInProgress) {
+            $commandeInProgress->quantity += $quantity;
+            $commandeInProgress->save();
+            return redirect()->back()->with('success', 'Quantité mise à jour avec succès dans le panier');
+        }
+    
+        $commandeFinalized = Commande::where('panier_id', $basket->id)
+            ->where('article_id', $articleId)
+            ->where('etat', 'Finalized')
+            ->first();
+    
+        if ($commandeFinalized || !$commandeInProgress) {
+            $basket->articles()->attach($articleId, ['quantity' => $quantity]);
+            return redirect()->back()->with('success', 'Article ajouté au panier');
+        }
+    
         $commande = $basket->articles()->where('article_id', $articleId)->first();
         if ($commande) {
             $commande->pivot->quantity += $quantity;
@@ -53,8 +78,10 @@ class BasketController extends Controller
         } else {
             $basket->articles()->attach($articleId, ['quantity' => $quantity]);
         }
-        return redirect()->back()->with('success', 'added to card successfully');
+    
+        return redirect()->back()->with('success', 'Article ajouté au panier avec succès');
     }
+    
 
     public function update(Request $request)
     {

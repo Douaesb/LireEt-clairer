@@ -327,6 +327,7 @@
                                 </a>
                             </div>
                             <div class="flex flex-end h-full items-end justify-center w-full">
+                                @auth
 
                                 <div
                                     class="bg-amber-300  items-center justify-center h-fit font-semibold text-lh flex px-10 text-black w-fit py-1">
@@ -352,10 +353,13 @@
                                             </g>
                                         </g>
                                     </svg>
+                                        
                                     <button data-modal-target="select-modal" data-modal-toggle="select-modal"
                                         class="buyOneButtonA text-yellow-900 font-bold text-lg bg-amber-300 p-2 px-8 rounded-lg ">buy
                                         now</button>
-                                </div>
+                                        
+                                    </div>
+                                    @endauth
                             </div>
                             @auth
                                 @if (auth()->user()->role == 'admin')
