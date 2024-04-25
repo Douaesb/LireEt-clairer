@@ -445,6 +445,7 @@
                                 </a>
                             </div>
                             @auth
+                            @if (!$book->pdf_url)
 
                                 <div class="flex flex-end h-full items-end justify-center w-full">
 
@@ -477,6 +478,8 @@
                                             now</button>
                                     </div>
                                 </div>
+                                @endif
+
                                 @if (auth()->user()->role == 'admin')
                                     <hr class="flex justify-self-center border-yellow-900 mt-2">
 

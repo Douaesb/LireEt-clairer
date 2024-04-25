@@ -11,7 +11,11 @@
             </div>
         </section>
         @if ($commands->isEmpty())
+        <div class="bg-white rounded-lg shadow-md p-6 mb-4">
+
             <p>Vous n'avez pas de commandes finalisées.</p>
+        </div>
+
         @else
             @foreach ($commands as $command)
                 {{-- @dd($command) --}}
@@ -31,8 +35,14 @@
                             <tr>
                                 <td class="py-4">
                                     <div class="flex items-center">
-                                        <img src="{{ $command->article->photo }}" alt="Product image"
-                                            class="h-16 w-16 mr-4">
+                                        @if ($command->article->photo && filter_var($command->article->photo, FILTER_VALIDATE_URL))
+                                        <img src="{{ $command->article->photo }}" alt="Book Image" class=" pic h-16 w-16 mr-4">
+                                    @elseif($command->article->photo && !filter_var($command->article->photo, FILTER_VALIDATE_URL))
+                                        <img src="{{ asset('storage/' . $command->article->photo) }}" alt="Book Image" class="pic h-16 w-16 mr-4">
+                                    @else
+                                        <p>No Image Available</p>
+                                    @endif
+                                        
                                         <span class="font-semibold w-4/5">{{ $command->article->titre }}</span>
                                     </div>
                                 </td>

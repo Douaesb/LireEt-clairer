@@ -98,7 +98,7 @@ class AccessoireController extends Controller
         $category = Categorie::where('name', 'accessoire')->first();
 
         if ($category) {
-            $products = Article::where('categorie_id', $category->id)->paginate(6);
+            $products = Article::where('categorie_id', $category->id)->orderBy('created_at', 'desc')->paginate(6);
             return view('accessoires', [
                 'products' => $products,
                 'categories' => $categories,
