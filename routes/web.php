@@ -119,3 +119,4 @@ Route::delete('/comment/{commentId}/delete', [CommentController::class, 'deleteC
 Route::delete('/comments/{commentId}/archive', [CommentController::class, 'archiveComment'])->name('comments.archive');
 
 
+Route::post('/article/newsletter', [UserController::class, 'subscribe'])->name('subscribe');

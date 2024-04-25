@@ -54,9 +54,11 @@
             <div class="hidden md:flex justify-center">
                 <div class="w-full max-w-md h-[480px] bg-white border-8 border-zinc-200">
                     <div class="flex justify-center mt-4 ">
-                        <h1 class="text-3xl w-3/5 font-bold font-[Inter] text-center">Vast shop of books and accessories</h1>
+                        <h1 class="text-3xl w-3/5 font-bold font-[Inter] text-center">Vast shop of books and accessories
+                        </h1>
                     </div>
-                    <img src="./img/booksyellow.png" alt="" class="w-4/5 h-4/5 object-cover flex justify-center m-auto">
+                    <img src="./img/booksyellow.png" alt=""
+                        class="w-4/5 h-4/5 object-cover flex justify-center m-auto">
                 </div>
             </div>
         </div>
@@ -64,14 +66,24 @@
     <section class="newsletter bg-white w-full md:h-[480px] flex justify-center items-center">
         <div class="bg-amber-300 w-9/12 flex  flex-col h-fit  md:h-3/5 ">
             <div class="flex justify-center items-center flex-col gap-6">
-                <h2 class=" text-yellow-900 text-4xl font-semibold font-[cardo] pt-8 text-center">Abonnez-vous à notre newsletter</h2>
+                <h2 class=" text-yellow-900 text-4xl font-semibold font-[cardo] pt-8 text-center">Abonnez-vous à notre
+                    newsletter</h2>
                 <hr class="border-2 border-yellow-900 w-1/5">
                 <p class="text-yellow-900 text-lg md:w-3/6 text-center">Recevez les nouvelles collections de livres,
                     accessoires, restez à jour et profitez des réductions de notre plateforme.</p>
-                <div class="flex flex-col md:flex-row gap-3">
-                    <input type="email" name="email" id="" placeholder="Votre Email ..." class="p-2 md:p-4 md:w-[450px]">
-                    <button class="bg-yellow-900 text-white px-14 mb-4 md:mb-0 py-2">S’abonnez !</button>
-                </div>
+                <form action="{{ route('subscribe') }}" method="POST">
+                    @csrf
+                    <div class="flex flex-col md:flex-row gap-3">
+                        <input type="email" name="email" id="" placeholder="Votre Email ..."
+                            class="p-2 md:p-4 md:w-[450px]">
+                            <button type="submit" onclick='Swal.fire({
+                                icon: "success",
+                                title: "Thank you for your subscription",
+                                showConfirmButton: false,
+                                timer: 2000
+                              });' class="bg-yellow-900 text-white px-14 mb-4 md:mb-0 py-2">S’abonnez !</button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>

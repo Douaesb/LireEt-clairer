@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Newsletter\Facades\Newsletter;
 
 class UserController extends Controller
 {
@@ -181,4 +182,14 @@ $mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=',
         }
         return redirect()->route('admin.users')->with('error', 'User not found.');
     }
+
+    public function subscribe(Request $request)
+   {
+
+       if(!Newsletter::isSubscribed($request->email)){
+        Newsletter::subscribe($request->email);
+    }
+    return redirect()->back();
+   }
+   
 }
