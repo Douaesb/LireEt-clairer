@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Article;
+use App\Models\Commande;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -88,9 +91,57 @@ class UserController extends Controller
     }
 
     public function dashboard()
-    {
-        return view('admin.dashboard');
-    }
+{
+    $numberOfUsers = User::where('role', '!=', 'admin')->count();
+
+    $numberOfBooks = Article::whereHas('categorie', function ($query) {
+        $query->where('name', '!=', 'accessoire');
+    })->count();
+
+    $numberOfAccessoires = Article::whereHas('categorie', function ($query) {
+        $query->where('name', '=', 'accessoire');
+    })->count();
+
+    $numberOfSuccessfulCommands = Commande::where('etat', 'Finalized')->count();
+
+        $mostPopularBook = Commande::join('articles', 'commandes.article_id', '=', 'articles.id')
+        ->whereHas('article', function ($query) {
+            $query->whereHas('categorie', function ($query) {
+                $query->where('name', '!=', 'accessoire');
+            });
+        })
+        ->select('articles.titre', DB::raw('count(*) as total'))
+        ->groupBy('articles.titre')
+        ->orderBy('total', 'desc')
+        ->value('articles.titre');
+
+$mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=', 'articles.id')
+    ->whereHas('article', function ($query) {
+        $query->whereHas('categorie', function ($query) {
+            $query->where('name', '=', 'accessoire');
+        });
+    })
+    ->select('articles.titre', DB::raw('count(*) as total'))
+    ->groupBy('articles.titre')
+    ->orderBy('total', 'desc')
+    ->value('articles.titre');
+
+    $articleWithBestRating = Article::whereHas('comments')
+        ->select('id', 'titre')
+        ->withAvg('comments', 'rating')
+        ->orderByDesc('comments_avg_rating')
+        ->value('titre');
+
+        $topUser = Commande::join('paniers', 'commandes.panier_id', '=', 'paniers.id')
+        ->join('users', 'paniers.user_id', '=', 'users.id')
+        ->select('users.id', 'users.name', DB::raw('COUNT(commandes.id) as total_commands'))
+        ->groupBy('users.id', 'users.name') 
+        ->orderBy('total_commands', 'desc')
+        ->value('users.name');
+
+        return view('admin.dashboard',compact('numberOfUsers','numberOfBooks','numberOfAccessoires','numberOfSuccessfulCommands','mostPopularBook'
+    ,'mostPopularAccessoire','articleWithBestRating','topUser'));
+}
 
     public function users()
     {
