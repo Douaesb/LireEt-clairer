@@ -120,3 +120,4 @@ Route::delete('/comments/{commentId}/archive', [CommentController::class, 'archi
 
 
 Route::post('/article/newsletter', [UserController::class, 'subscribe'])->name('subscribe');
+Route::post('/article/contact-us', [UserController::class, 'sendMessage'])->name('sendMessage');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactFormMail;
 use App\Models\Article;
 use App\Models\Commande;
 use App\Models\User;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Newsletter\Facades\Newsletter;
 
 class UserController extends Controller
@@ -192,4 +194,22 @@ $mostPopularAccessoire = Commande::join('articles', 'commandes.article_id', '=',
     return redirect()->back();
    }
    
+   public function sendMessage(Request $request)
+    {
+try{
+        $data = $request->validate([
+            'name' => 'required|string|min:3',
+            'email' => 'required|email',
+            'phone' => 'required',
+            'message' => 'required|min:5, max:200',
+        ]);
+
+        Mail::to('douae.sb411@gmail.com')->send(new ContactFormMail($data));
+        return redirect()->back()->with('success', 'Message sent successfully!');
+    }catch(\Exception $e){
+return $e->getMessage();
+    }
+    }
+
+
 }
