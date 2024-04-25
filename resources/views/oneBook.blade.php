@@ -166,6 +166,8 @@
                         </div>
                         <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
                     </div>
+                    @auth
+                        
                     @if (auth()->user()->role == 'admin')
                     
                 <form action="{{ route('comments.archive', $comment->id) }}" method="POST" class="flex  justify-end w-full" >
@@ -180,6 +182,8 @@
                       });'>Archive</button>
                 </form>
                 @endif
+                @endauth
+
                 @endforeach
             @endif
 
