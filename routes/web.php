@@ -116,4 +116,6 @@ Route::post('/article/{id}/comment', [CommentController::class, 'addComment'])->
 Route::put('/comment/{commentId}/update', [CommentController::class, 'updateComment'])->name('comment.update');
 Route::delete('/comment/{commentId}/delete', [CommentController::class, 'deleteComment'])->name('comment.delete');
 
+Route::delete('/comments/{commentId}/archive', [CommentController::class, 'archiveComment'])->name('comments.archive');
+
 

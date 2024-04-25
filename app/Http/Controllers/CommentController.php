@@ -39,18 +39,18 @@ class CommentController extends Controller
                 'description' => 'required',
                 'rating' => 'required|integer',
             ]);
-    
+
             $comment = Comment::findOrFail($commentId);
             $comment->description = $request->input('description');
             $comment->rating = $request->input('rating');
             $comment->save();
-    
+
             return redirect()->back()->with('success', 'Comment updated successfully.');
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
         }
     }
-    
+
     public function deleteComment($commentId)
     {
         try {
@@ -74,6 +74,17 @@ class CommentController extends Controller
             return view('article.comments', compact('comments', 'article'));
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => $e->getMessage()]);
+        }
+    }
+
+    public function archiveComment($commentId)
+    {
+        $comment = Comment::find($commentId);
+        if ($comment) {
+            $comment->delete();
+            return redirect()->back()->with('success', 'Comment archived successfully.');
+        } else {
+            return redirect()->back()->with('error', 'Comment not found.');
         }
     }
 }

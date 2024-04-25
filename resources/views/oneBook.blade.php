@@ -166,6 +166,20 @@
                         </div>
                         <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
                     </div>
+                    @if (auth()->user()->role == 'admin')
+                    
+                <form action="{{ route('comments.archive', $comment->id) }}" method="POST" class="flex  justify-end w-full" >
+                    @csrf
+                    @method('DELETE')
+                    <svg width="35px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M6.24223 4.5H17.7578L19.5 8.85556V18L18.75 18.75H5.25L4.5 18V8.85556L6.24223 4.5ZM7.25777 6L6.35777 8.25H17.6422L16.7422 6H7.25777ZM18 9.75H6V17.25H18V9.75ZM9.59473 13.6553L10.6554 12.5946L11.25 13.1892V11.25H12.75V13.1894L13.3447 12.5946L14.4054 13.6553L12.0001 16.0606L9.59473 13.6553Z" fill="#713f12"></path> </g></svg>
+                    <button type="submit" class="font-semibold text-md flex text-center mt-1" onclick='Swal.fire({
+                        icon: "success",
+                        title: "Archived successfully",
+                        showConfirmButton: false,
+                        timer: 1500
+                      });'>Archive</button>
+                </form>
+                @endif
                 @endforeach
             @endif
 
