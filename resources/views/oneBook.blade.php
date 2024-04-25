@@ -122,39 +122,53 @@
 
             <h1 class="text-lg text-gray-700 font-semibold hover:underline cursor-pointer mb-4">Product
                 Reviews</h1>
-            <div class="grid grid-cols-4 mb-4 w-full gap-4 ">
-                @if ($comments->isEmpty())
-                    <p>Aucun commentaire pour cet article.</p>
-                @else
-                    @foreach ($comments as $comment)
-                        <div class="flex flex-col card comment border-yellow-900 border-2 p-3">
+            @if (count($comments) == 1)
+                <div class="grid grid-cols-1 justify-items-center gap-4">
+            @elseif(count($comments) == 2)
+                <div class="grid grid-cols-2  gap-4">
+            @else
+                <div class="grid grid-cols-4 mb-4 w-full gap-4 justify-center ">
+            @endif
+            @if ($comments->isEmpty())
+                <p>Aucun commentaire pour cet article.</p>
+            @else
+                @foreach ($comments as $comment)
+                    <div class="flex flex-col card comment border-yellow-900 border-2 p-3">
 
-                            <div class="mt-4 flex items-center space-x-4 py-2">
-                                <div class="">
-                                    <img class="w-12 h-12 rounded-full"
-                                        src="https://images.unsplash.com/photo-1593104547489-5cfb3839a3b5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1036&q=80"
-                                        alt="" />
-                                </div>
-                                <div class="text-sm font-semibold">{{ $comment->user->name }} • <span class="font-normal">
-                                    </span></div>
+                        <div class="mt-4 flex items-center space-x-4 py-2">
+                            <div class="">
+                                <div class="w-12 h-12 rounded-full"><svg viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                        <g id="SVGRepo_iconCarrier">
+                                            <path
+                                                d="M4 21C4 17.4735 6.60771 14.5561 10 14.0709M16.4976 16.2119C15.7978 15.4328 14.6309 15.2232 13.7541 15.9367C12.8774 16.6501 12.7539 17.843 13.4425 18.6868C13.8312 19.1632 14.7548 19.9983 15.4854 20.6353C15.8319 20.9374 16.0051 21.0885 16.2147 21.1503C16.3934 21.203 16.6018 21.203 16.7805 21.1503C16.9901 21.0885 17.1633 20.9374 17.5098 20.6353C18.2404 19.9983 19.164 19.1632 19.5527 18.6868C20.2413 17.843 20.1329 16.6426 19.2411 15.9367C18.3492 15.2307 17.1974 15.4328 16.4976 16.2119ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z"
+                                                stroke="#fbbf24" stroke-width="2" stroke-linecap="round"
+                                                stroke-linejoin="round"></path>
+                                        </g>
+                                    </svg></div>
                             </div>
-                            <div class="flex ml-16">
-
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-6 w-6 @if ($i <= $comment->rating) text-yellow-400 @else text-gray-400 @endif"
-                                        viewBox="0 0 20 20" fill="currentColor">
-                                        <path
-                                            d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                    </svg>
-                                @endfor
-                            </div>
-                            <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
+                            <div class="text-lg font-semibold"> • {{ $comment->user->name }}<span class="font-normal">
+                                </span></div>
                         </div>
-                    @endforeach
-                @endif
+                        <div class="flex ml-16">
 
-            </div>
+                            @for ($i = 1; $i <= 5; $i++)
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                    class="h-6 w-6 @if ($i <= $comment->rating) text-yellow-400 @else text-gray-400 @endif"
+                                    viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                            @endfor
+                        </div>
+                        <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
+                    </div>
+                @endforeach
+            @endif
+
+        </div>
         </div>
     </section>
 
