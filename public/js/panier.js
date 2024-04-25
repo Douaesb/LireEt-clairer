@@ -42,8 +42,9 @@
     document.querySelectorAll('.quantity-increase, .quantity-decrease').forEach(button => {
         button.addEventListener('click', function() {
             const listItem = this.closest('li');
-            const articleId = listItem.getAttribute('data-article-id');
+            const commandeId = listItem.getAttribute('data-commande-id');
             const quantitySpan = listItem.querySelector('.quantity-value');
+            console.log(commandeId);
             let quantity = parseInt(quantitySpan.textContent);
             if (this.classList.contains('quantity-increase')) {
                 if (quantity < 10) {
@@ -68,7 +69,7 @@
                             .getAttribute('content')
                     },
                     body: JSON.stringify({
-                        article_id: articleId,
+                        commande_id: commandeId,
                         quantity: quantity
                     })
                 })
@@ -91,7 +92,7 @@
         button.addEventListener('click', function() {
             event.preventDefault();
             const listItem = this.closest('li');
-            const articleId = listItem.getAttribute('data-article-id');
+            const commandeId = listItem.getAttribute('data-commande-id');
             fetch('/basket/remove', {
                     method: 'POST',
                     headers: {
@@ -100,7 +101,7 @@
                             .getAttribute('content')
                     },
                     body: JSON.stringify({
-                        article_id: articleId
+                        commande_id: commandeId
                     })
                 })
                 .then(response => response.json())

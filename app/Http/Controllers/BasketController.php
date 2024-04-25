@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Commande;
 use App\Models\Panier;
 use App\Services\PayPalService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use PayPal\Api\Amount;
 use PayPal\Api\Payer;
 use PayPal\Api\RedirectUrls;
@@ -17,17 +17,11 @@ use PayPal\Exception\PayPalConnectionException;
 
 class BasketController extends Controller
 {
-    // Display the basket contents
     public function index()
     {
-        // Get the user's basket
         $user = auth()->user();
         $basket = $user->panier;
-
-        // Get the articles in the basket with quantities
         $articles = $basket->articles()->get();
-
-        // Return the view with the basket contents
         return view('basket.index', ['basket' => $basket, 'articles' => $articles]);
     }
 
@@ -38,7 +32,6 @@ class BasketController extends Controller
         if (!$user) {
             return redirect()->route('login')->with('error', 'You must be logged in to add items to the basket.');
         }
-    
         $basket = $user->panier;
         if (!$basket) {
             $basket = new Panier();
@@ -46,45 +39,23 @@ class BasketController extends Controller
             $basket->date_creation = Carbon::now();
             $basket->save();
         }
-    
         $articleId = $request->input('article_id');
         $quantity = $request->input('quantity', 1);
-    
-        $commandeInProgress = Commande::where('panier_id', $basket->id)
-            ->where('article_id', $articleId)
-            ->where('etat', 'Pending')
-            ->first();
-    
-        if ($commandeInProgress) {
-            $commandeInProgress->quantity += $quantity;
-            $commandeInProgress->save();
-            return redirect()->back()->with('success', 'Quantité mise à jour avec succès dans le panier');
-        }
-    
-        $commandeFinalized = Commande::where('panier_id', $basket->id)
-            ->where('article_id', $articleId)
-            ->where('etat', 'Finalized')
-            ->first();
-    
-        if ($commandeFinalized || !$commandeInProgress) {
-            $basket->articles()->attach($articleId, ['quantity' => $quantity]);
-            return redirect()->back()->with('success', 'Article ajouté au panier');
-        }
-    
-        $commande = $basket->articles()->where('article_id', $articleId)->first();
+        $commande = $basket->commandes()->where('article_id', $articleId)->where('etat','Pending')->first();
+// dd($commande);
         if ($commande) {
-            $commande->pivot->quantity += $quantity;
-            $commande->pivot->save();
+            $commande->quantity += $quantity;
+            $commande->save();
         } else {
             $basket->articles()->attach($articleId, ['quantity' => $quantity]);
         }
-    
-        return redirect()->back()->with('success', 'Article ajouté au panier avec succès');
+        return redirect()->back()->with('success', 'added to card successfully');
     }
-    
 
     public function update(Request $request)
     {
+        try{
+
         $user = auth()->user();
         if (!$user) {
             return response()->json(['error' => 'You must be logged in to update the basket.'], 401);
@@ -94,21 +65,28 @@ class BasketController extends Controller
             return response()->json(['error' => 'Basket not found.'], 404);
         }
         $articleId = $request->input('article_id');
+        $commandeId = $request->input('commande_id');
         $newQuantity = $request->input('quantity');
         if (!is_numeric($newQuantity) || $newQuantity < 0 || $newQuantity > 10) {
             return response()->json(['error' => 'Invalid quantity.'], 400);
         }
-        $articleInBasket = $basket->articles()->where('article_id', $articleId)->first();
+        $articleInBasket = $basket->articles()->where('commandes.id', $commandeId)->where('etat','Pending')->first();
 
         if (!$articleInBasket) {
             return response()->json(['error' => 'Article not found in basket.'], 404);
         }
         if ($newQuantity == 0) {
-            $basket->articles()->detach($articleId);
+            DB::table('commandes')->where('id', $commandeId)->delete();
         } else {
-            $basket->articles()->updateExistingPivot($articleId, ['quantity' => $newQuantity]);
-        }
-        return response()->json(['success' => true, 'new_quantity' => $newQuantity, 'article_id' => $articleId]);
+            $updatedRows = DB::table('commandes')
+            ->where('id', $commandeId)
+            ->update(['quantity' => $newQuantity]);        }
+        return response()->json(['success' => true, 'new_quantity' => $newQuantity, 'commande_id' => $commandeId]);
+    }catch(\Exception $e){
+        return response()->json(['error' => 'update panier error: ' . $e->getMessage()], 500);
+
+    }
+
     }
 
 
@@ -123,13 +101,17 @@ class BasketController extends Controller
             return response()->json(['error' => 'Basket not found.'], 404);
         }
         $articleId = $request->input('article_id');
-        $articleInBasket = $basket->articles()->where('article_id', $articleId)->first();
+        $commandeId = $request->input('commande_id');
+
+        $articleInBasket = $basket->articles()->where('commandes.id', $commandeId)->first();
         if (!$articleInBasket) {
             return response()->json(['error' => 'Article not found in basket.'], 404);
         }
-        $basket->articles()->detach($articleId);
+        DB::table('commandes')->where('id', $commandeId)->delete();
         return response()->json(['success' => true]);
     }
+
+
     public function checkout()
     {
         $user = auth()->user();

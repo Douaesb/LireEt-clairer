@@ -52,7 +52,7 @@
                                         @else
                                             <ul role="list" class="-my-6 divide-y divide-gray-200">
                                                 @foreach ($articles as $article)
-                                                    <li class="flex py-6" data-article-id="{{ $article->id }}">
+                                                    <li class="flex py-6" data-commande-id="{{ $article->pivot->id }}">
 
                                                         <div
                                                             class="picture h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">

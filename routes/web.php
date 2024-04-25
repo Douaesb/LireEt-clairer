@@ -24,6 +24,10 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
+
 Route::get('/login',[UserController::class, 'loginV'])->name('login');
 Route::get('/register',[UserController::class, 'registerV'])->name('register');
 Route::post('/login',[UserController::class, 'login'])->name('loginP');

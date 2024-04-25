@@ -20,9 +20,14 @@ class Panier extends Model
     }
 
     public function articles()
+{
+    return $this->belongsToMany(Article::class, 'commandes')
+                ->withPivot(['quantity', 'id', 'etat'])
+                ->withTimestamps();
+}
+
+    public function commandes()
     {
-        return $this->belongsToMany(Article::class, 'commandes')
-            ->withPivot('quantity')
-            ->withTimestamps();
+        return $this->hasMany(Commande::class);
     }
 }
