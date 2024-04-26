@@ -140,7 +140,7 @@
                     </div>
                     <p class="mt-4 text-md text-gray-600 ml-16 w-4/5">{{ $comment->description }}</p>
                 </div>
-                @if (auth()->user()->role == 'admin')
+                @if (auth()->check() && auth()->user()->role == 'admin')
                     
                 <form action="{{ route('comments.archive', $comment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to archive this comment?');">
                     @csrf

@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categorie;
+use App\Http\Requests\CategorieRequest;
+use App\Repositories\CategorieRepositoryInterface;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
-    public function categories(){
-        $categories = Categorie::orderBy('created_at','desc')->get();
+    protected $categorieRepository;
+
+    public function __construct(CategorieRepositoryInterface $categorieRepository)
+    {
+        $this->categorieRepository = $categorieRepository;
+    }
+
+    public function categories()
+    {
+        $categories = $this->categorieRepository->getAllCategories();
         return view('admin.categories', compact('categories'));
     }
 
-    public function store(Request $request)
+    public function store(CategorieRequest $request)
     {
-        $request->validate([
-            'name' => 'required|unique:categories|max:255',
-        ]);
-        Categorie::create([
-            'name' => $request->name,
-        ]);
+        $this->categorieRepository->store($request->validated());
         return redirect()->route('admin.categories')->with('success', 'Category created successfully.');
     }
 
@@ -28,18 +32,15 @@ class CategorieController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
         ]); 
-        $id = $request->CategoryId;
-        $categorie = Categorie::findOrFail($id);
-        $categorie->update([
+        $this->categorieRepository->update($request->CategoryId, [
             'name' => $request->name,
         ]);
-        return redirect()->route('admin.categories')->with('success', 'Category created successfully.');
+        return redirect()->route('admin.categories')->with('success', 'Category updated successfully.');
     }
 
-    public function destroy($id){
-        $categorie = Categorie::find($id);
-        $categorie->delete();
+    public function destroy(int $id)
+    {
+        $this->categorieRepository->delete($id);
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully.');
     }
-
 }
